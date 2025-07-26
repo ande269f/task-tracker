@@ -9,7 +9,6 @@ interface input {
 }
 
 const TextInput = () => {
-  const userInput = useSelector((state: RootState) => state.form.textInput);
   const dispatch: AppDispatch = useDispatch();
 
   const [localInput, setLocalInput] = useState("");
@@ -25,7 +24,6 @@ const TextInput = () => {
         </Button>
       </Group>
     </form>
-    <div> user input; {userInput} </div>
     </>
   )
 }
