@@ -5,17 +5,14 @@ interface inputState {
     taskState: boolean;
 }
 
-const initialState: inputState = {
-    taskText: "",
-    taskState: false,
-};
+const initialState: inputState[] = [];
 
 const inputSlice = createSlice({
     name: "textInput",
     initialState,
     reducers: {
-        setTextInput: (state, action: PayloadAction<string>) => {
-            state.taskText = action.payload;
+        setTextInput: (state, action: PayloadAction<inputState>) => {
+            state.push(action.payload);
         },
     },
 })

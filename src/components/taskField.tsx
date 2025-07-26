@@ -4,8 +4,11 @@ import { AppDispatch, RootState } from "../store";
 const taskField = () => {
       const userInput = useSelector((state: RootState) => state.form);
       return (
-        <div> {userInput.taskText}, {userInput.taskState ? "hej" : "nej"} </div>
-      )
+        //printer alle inputs
+        userInput.map((input) => <div> {userInput[0] 
+            ? `${ input.taskText}, ${input.taskState ? "hej" : "nej"}` : "ingen tekst fundet"} 
+        </div>
+        ))
 }
 
 export default taskField;
