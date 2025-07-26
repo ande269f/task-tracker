@@ -1,12 +1,15 @@
 
 import './App.scss';
 import { Provider } from "./components/ui/provider";
+import InputField from "./components/InputField";
 function App() {
     return (
         <Provider>
             <div className="App">
-                <h1 style={{textAlign: 'center'}}>Hello world</h1>
             </div>
+
+            <InputField/>
+
         </Provider>
 
     );
