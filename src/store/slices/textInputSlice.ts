@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface inputState {
-    textInput: string;
+    taskText: string;
+    taskState: boolean;
 }
 
 const initialState: inputState = {
-    textInput: "",
+    taskText: "",
+    taskState: false,
 };
 
 const inputSlice = createSlice({
@@ -13,7 +15,7 @@ const inputSlice = createSlice({
     initialState,
     reducers: {
         setTextInput: (state, action: PayloadAction<string>) => {
-            state.textInput = action.payload;
+            state.taskText = action.payload;
         },
     },
 })
