@@ -14,7 +14,7 @@ const TextInput = () => {
 
   const duplicateDetected = (duplicateDetected: Boolean = false) => {
     userInput.forEach(element => {
-      if (element.taskText == localInput) {
+      if (element.taskText == localInput && element.taskDeleted === false) {
         duplicateDetected =  true;
       }
     }); return duplicateDetected
@@ -24,7 +24,7 @@ const TextInput = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); 
       const submitTask = () => {
-        dispatch(setTextInput({taskText: localInput, taskState: false, date: new Date(), uuid: uuid()}))
+        dispatch(setTextInput({taskText: localInput, taskCompleted: false, date: new Date(), uuid: uuid(), taskDeleted: false}))
       } 
 
       if (localInput.trim() === "") {

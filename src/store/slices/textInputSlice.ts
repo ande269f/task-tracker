@@ -5,7 +5,8 @@ interface inputState {
     date: Date
     uuid: UUIDTypes;
     taskText: string;
-    taskState: boolean;
+    taskCompleted: boolean;
+    taskDeleted: boolean;
 }
 
 const initialState: inputState[] = [];
@@ -17,8 +18,15 @@ const inputSlice = createSlice({
         setTextInput: (state, action: PayloadAction<inputState>) => {
             state.push(action.payload);
         },
+        setTaskDeleted: (state, action: PayloadAction<{uuid: UUIDTypes; taskDeleted: boolean}>) => {
+            const findTask = state.find(t => t.uuid === action.payload.uuid);
+                if (findTask) {
+                    findTask.taskDeleted = action.payload.taskDeleted
+                }
+        },
     },
 })
 
-export const { setTextInput } = inputSlice.actions;
+
+export const { setTextInput, setTaskDeleted } = inputSlice.actions;
 export default inputSlice.reducer;
