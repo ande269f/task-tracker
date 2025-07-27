@@ -1,31 +1,18 @@
-import { Button, Group, Input } from "@chakra-ui/react"
+import { Button, Group, Input, JsxElement } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/textInputSlice";
 import { useState } from "react";
-import { Alert } from "@chakra-ui/react"
 import {v4 as uuid} from 'uuid';
+import { Toaster, toaster } from "./ui/toaster"
 
-const AlertUser = (title: string, description: string) => {
-  return (
-    <Alert.Root status="error">
-      <Alert.Indicator />
-      <Alert.Content>
-        <Alert.Title>{title}</Alert.Title>
-        <Alert.Description>
-          {description}
-        </Alert.Description>
-      </Alert.Content>
-    </Alert.Root>
-  )
-}
 
 const TextInput = () => {
   const dispatch: AppDispatch = useDispatch();
   const [localInput, setLocalInput] = useState<string>("");
   const userInput = useSelector((state: RootState) => state.form);
 
-  const duplicatesDetected = (duplicateDetected: Boolean = false) => {
+  const duplicateDetected = (duplicateDetected: Boolean = false) => {
     userInput.forEach(element => {
       if (element.taskText == localInput) {
         duplicateDetected =  true;
@@ -41,19 +28,25 @@ const TextInput = () => {
       } 
 
       if (localInput.trim() === "") {
-        AlertUser("Mangler tekst", "Dit input mangler en tekst")
-      } else if (!duplicatesDetected()){
-        submitTask()
-      } else if (duplicatesDetected()) {
 
+      } else if (!duplicateDetected()){
+        submitTask()
+      } else if (duplicateDetected()) {
+          toaster.create({
+            description: "Den indtastede task findes allerede",
+            type: "warning",
+          })
       } else {
 
       }
   }
 
 
+
+
   return (
     <> 
+    <Toaster/>
     <form onSubmit={handleSubmit}>
       <Group attached w="full" maxW="sm">
         <Input flex="1" placeholder="Indtast en todo" onChange={(e) => setLocalInput(e.target.value)} />
