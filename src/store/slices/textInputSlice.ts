@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { UUIDTypes } from "uuid";
 
 interface inputState {
     date: Date
-    id: number;
+    uuid: UUIDTypes;
     taskText: string;
     taskState: boolean;
 }

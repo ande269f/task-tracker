@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/textInputSlice";
 import { useState } from "react";
 import { Alert } from "@chakra-ui/react"
+import {v4 as uuid} from 'uuid';
 
 const AlertUser = (title: string, description: string) => {
   return (
@@ -36,7 +37,7 @@ const TextInput = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); 
       const submitTask = () => {
-        dispatch(setTextInput({taskText: localInput, taskState: false, date: new Date() }))
+        dispatch(setTextInput({taskText: localInput, taskState: false, date: new Date(), uuid: uuid()}))
       } 
 
       if (localInput.trim() === "") {
