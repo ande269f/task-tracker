@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface inputState {
+    date: Date
+    id: number;
     taskText: string;
     taskState: boolean;
 }

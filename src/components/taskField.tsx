@@ -5,7 +5,7 @@ const taskField = () => {
       const userInput = useSelector((state: RootState) => state.form);
       return (
         //printer alle inputs
-        userInput.map((input) => <div> {userInput[0] 
+        userInput.map((input) => <div key=""> {userInput[0] 
             ? `${ input.taskText}, ${input.taskState ? "hej" : "nej"}` : "ingen tekst fundet"} 
         </div>
         ))
