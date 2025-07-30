@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { UUIDTypes } from "uuid";
 
-interface inputState {
+export interface inputState {
     date: Date
     uuid: UUIDTypes;
     taskText: string;
@@ -24,9 +24,15 @@ const inputSlice = createSlice({
                     findTask.taskDeleted = action.payload.taskDeleted
                 }
         },
+        setTaskCompleted: (state, action: PayloadAction<{uuid: UUIDTypes; taskCompleted: boolean}>) => {
+            const findTask = state.find(t => t.uuid === action.payload.uuid);
+                if (findTask) {
+                    findTask.taskCompleted = action.payload.taskCompleted
+                }
+        },
     },
 })
 
 
-export const { setTextInput, setTaskDeleted } = inputSlice.actions;
+export const { setTextInput, setTaskDeleted, setTaskCompleted } = inputSlice.actions;
 export default inputSlice.reducer;

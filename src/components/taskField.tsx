@@ -2,21 +2,15 @@ import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { Card, Checkbox, IconButton  } from "@chakra-ui/react"
 import { MdDelete } from "react-icons/md";
-import { UUIDTypes } from "uuid";
-import { setTaskDeleted } from "../store/slices/textInputSlice";
+import { setTaskDeleted, setTaskCompleted, inputState } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
 
-interface cardMakerProps {
-    date: Date;
-    uuid: UUIDTypes;
-    taskText: string;
-    taskCompleted: boolean;
-    taskDeleted: boolean;
-}
 
-const CheckboxMaker = () => {
+interface cardMakerProps extends inputState {}
+
+const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
     return (
-        <Checkbox.Root>
+        <Checkbox.Root readOnly checked={taskCompleted}>
             <Checkbox.HiddenInput />
                 <Checkbox.Control>
                     <Checkbox.Indicator />
@@ -26,9 +20,10 @@ const CheckboxMaker = () => {
     )
 }
 
-const DeleteButtonMaker = ({handleDelete}: {handleDelete: () => void}) => {
+
+const DeleteButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
     return (
-        <IconButton aria-label="Search database" onClick={handleDelete}>
+        <IconButton aria-label="Search database" onClick={(e) => {e.stopPropagation(); handleDelete();}}>
             <MdDelete />
         </IconButton>
     )
@@ -39,10 +34,13 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
     const handleDelete = () => {
         dispatch(setTaskDeleted({uuid: item.uuid, taskDeleted: true}))
     }
+    const handleComplete = () => {
+        dispatch(setTaskCompleted({uuid: item.uuid, taskCompleted: !item.taskCompleted}))
+    }
 
     if (!item.taskDeleted) {
             return (
-        <Card.Root>
+        <Card.Root onClick={handleComplete}>
             <Card.Header />
                 <Card.Body> 
                     <Card.Description>
@@ -50,7 +48,7 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
                     </Card.Description>
                 </Card.Body>
             <Card.Footer>
-                <CheckboxMaker/>
+                <CheckboxMaker taskCompleted={item.taskCompleted}/>
                 <DeleteButtonMaker handleDelete={handleDelete}/>
             </Card.Footer>
         </Card.Root>
