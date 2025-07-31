@@ -18,6 +18,12 @@ const inputSlice = createSlice({
         setTextInput: (state, action: PayloadAction<inputState>) => {
             state.push(action.payload);
         },
+        setTaskText: (state, action: PayloadAction<{uuid: UUIDTypes; taskText: string}>) => {
+            const findTask = state.find(t => t.uuid === action.payload.uuid);
+                if (findTask) {
+                    findTask.taskText = action.payload.taskText
+                }
+        },
         setTaskDeleted: (state, action: PayloadAction<{uuid: UUIDTypes; taskDeleted: boolean}>) => {
             const findTask = state.find(t => t.uuid === action.payload.uuid);
                 if (findTask) {
@@ -34,5 +40,5 @@ const inputSlice = createSlice({
 })
 
 
-export const { setTextInput, setTaskDeleted, setTaskCompleted } = inputSlice.actions;
+export const { setTextInput, setTaskDeleted, setTaskCompleted, setTaskText } = inputSlice.actions;
 export default inputSlice.reducer;

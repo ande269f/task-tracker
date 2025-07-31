@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { Card, Checkbox, IconButton  } from "@chakra-ui/react"
-import { MdDelete } from "react-icons/md";
-import { setTaskDeleted, setTaskCompleted, inputState } from "../store/slices/textInputSlice";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import { setTaskDeleted, setTaskCompleted, inputState, setTaskText } from "../store/slices/textInputSlice";
+import { setTextInput } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
+import { useState, useRef } from "react";
 
 
 interface cardMakerProps extends inputState {}
@@ -29,14 +31,33 @@ const DeleteButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
     )
 }
 
+const EditTaskButtonMaker = ({handleEdit}: {handleEdit: Function}) => {
+    return (
+        <IconButton aria-label="Edit Task" onClick={(e) => {e.stopPropagation(); handleEdit();}}>
+            <MdModeEdit />
+        </IconButton>
+    )
+}
+
 const CardMaker = ({item}: {item: cardMakerProps}) => {
+    const [readOnly, setReadOnly] = useState<boolean>(true);
+    const inputRef = useRef(null);
     const dispatch = useDispatch<AppDispatch>();
+
+
     const handleDelete = () => {
         dispatch(setTaskDeleted({uuid: item.uuid, taskDeleted: true}))
     }
     const handleComplete = () => {
         dispatch(setTaskCompleted({uuid: item.uuid, taskCompleted: !item.taskCompleted}))
     }
+    const handleEdit = () => {
+        setReadOnly(false)
+    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setTaskText({uuid: item.uuid, taskText: e.target.value}))
+    }
+
 
     if (!item.taskDeleted) {
             return (
@@ -44,10 +65,11 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
             <Card.Header />
                 <Card.Body> 
                     <Card.Description>
-                        {item.taskText}
+                        <input value={item.taskText} onChange={handleChange} readOnly={readOnly} ref={inputRef}/>
                     </Card.Description>
                 </Card.Body>
             <Card.Footer>
+                <EditTaskButtonMaker handleEdit={handleEdit}/>
                 <CheckboxMaker taskCompleted={item.taskCompleted}/>
                 <DeleteButtonMaker handleDelete={handleDelete}/>
             </Card.Footer>
