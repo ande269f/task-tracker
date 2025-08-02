@@ -41,7 +41,7 @@ const EditTaskButtonMaker = ({handleEdit}: {handleEdit: Function}) => {
 
 const CardMaker = ({item}: {item: cardMakerProps}) => {
     const [readOnly, setReadOnly] = useState<boolean>(true);
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<AppDispatch>();
 
 
@@ -53,6 +53,8 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
     }
     const handleEdit = () => {
         setReadOnly(false)
+        inputRef.current?.focus()
+
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setTaskText({uuid: item.uuid, taskText: e.target.value}))
