@@ -66,18 +66,22 @@ const CardMaker = ({item}: {item: taskObject}) => {
         dispatch(setTaskText({uuid: item.uuid, taskText: e.target.value}))
     }
     const logChanges = () => {
+
         if (!loggedTask) return;
+        
         //hvis der er sket en ændring, så log
         const hasChanged =
             loggedTask.taskText !== item.taskText ||
             loggedTask.taskCompleted !== item.taskCompleted ||
             loggedTask.taskDeleted !== item.taskDeleted;
         if (hasChanged) {
+            console.log(item)
             dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted}}))
         }
     }
     const logTask = () => {
         setLoggedTask(item)
+
     }
 
     const showDetails = () => {
@@ -88,7 +92,7 @@ const CardMaker = ({item}: {item: taskObject}) => {
     if (!item.taskDeleted) {
             return (
         <div >
-            <Card.Root onClick={handleComplete}>
+            <Card.Root onClick={() => {handleComplete(); logTask();}}>
                 <Card.Header />
                     <Card.Body> 
                         <Card.Description>
@@ -98,14 +102,13 @@ const CardMaker = ({item}: {item: taskObject}) => {
                                 readOnly={isEditOff} 
                                 ref={inputRef} 
                                 onBlur={logChanges}
-                                onFocus={logTask}
                             />
                         </Card.Description>
                     </Card.Body>
                 <Card.Footer>
-                    <EditTaskButtonMaker handleEdit={handleEdit}/>
+                    <EditTaskButtonMaker handleEdit={() => {handleEdit(); logChanges();}}/>
                     <CheckboxMaker taskCompleted={item.taskCompleted}/>
-                    <DeleteButtonMaker handleDelete={handleDelete}/>
+                    <DeleteButtonMaker handleDelete={() => {handleDelete(); logChanges();}}/>
                     <DetailsButtonMaker showDetails={showDetails}/>
                 </Card.Footer>
             </Card.Root>
