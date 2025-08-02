@@ -2,13 +2,10 @@ import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { Card, Checkbox, IconButton  } from "@chakra-ui/react"
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { setTaskDeleted, setTaskCompleted, inputState, setTaskText } from "../store/slices/textInputSlice";
-import { setTextInput } from "../store/slices/textInputSlice";
+import { setTaskDeleted, setTaskCompleted, taskObject, setTaskText, setTaskEditsLog } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
-import { useState, useRef } from "react";
-
-
-interface cardMakerProps extends inputState {}
+import { useState, useRef, useEffect } from "react";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
     return (
@@ -20,6 +17,13 @@ const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
             <Checkbox.Label />
         </Checkbox.Root>
     )
+}
+
+const DetailsButtonMaker = ({showDetails}: {showDetails: Function}) => {
+    return (
+        <HiDotsHorizontal onClick={(e) => {e.stopPropagation(); showDetails();}}/>
+    )
+
 }
 
 
@@ -39,10 +43,11 @@ const EditTaskButtonMaker = ({handleEdit}: {handleEdit: Function}) => {
     )
 }
 
-const CardMaker = ({item}: {item: cardMakerProps}) => {
+const CardMaker = ({item}: {item: taskObject}) => {
     const [isEditOff, setIsEditOff] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<AppDispatch>();
+    const [loggedTask, setLoggedTask] = useState<taskObject>()
 
 
     const handleDelete = () => {
@@ -54,23 +59,36 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
         }
     }
     const handleEdit = () => {
-        setIsEditOff(false)
-        inputRef.current?.focus()
-        console.log("handleEdit " + isEditOff)
-    }
-    const removeEdit = () => {
-        setIsEditOff(true)
-        console.log("removeEdit " +isEditOff)
+        setIsEditOff(!isEditOff)
+        isEditOff ? inputRef.current?.focus() : inputRef.current?.blur()
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setTaskText({uuid: item.uuid, taskText: e.target.value}))
+    }
+    const logChanges = () => {
+        if (!loggedTask) return;
+        //hvis der er sket en ændring, så log
+        const hasChanged =
+            loggedTask.taskText !== item.taskText ||
+            loggedTask.taskCompleted !== item.taskCompleted ||
+            loggedTask.taskDeleted !== item.taskDeleted;
+        if (hasChanged) {
+            dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted}}))
+        }
+    }
+    const logTask = () => {
+        setLoggedTask(item)
+    }
+
+    const showDetails = () => {
+        console.log("hej")
     }
 
 
     if (!item.taskDeleted) {
             return (
         <div >
-            <Card.Root tabIndex={0} onClick={handleComplete} onBlur={removeEdit}>
+            <Card.Root onClick={handleComplete}>
                 <Card.Header />
                     <Card.Body> 
                         <Card.Description>
@@ -79,7 +97,8 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
                                 onChange={handleChange} 
                                 readOnly={isEditOff} 
                                 ref={inputRef} 
-                                
+                                onBlur={logChanges}
+                                onFocus={logTask}
                             />
                         </Card.Description>
                     </Card.Body>
@@ -87,6 +106,7 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
                     <EditTaskButtonMaker handleEdit={handleEdit}/>
                     <CheckboxMaker taskCompleted={item.taskCompleted}/>
                     <DeleteButtonMaker handleDelete={handleDelete}/>
+                    <DetailsButtonMaker showDetails={showDetails}/>
                 </Card.Footer>
             </Card.Root>
         </div>

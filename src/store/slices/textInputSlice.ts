@@ -1,21 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { UUIDTypes } from "uuid";
 
-export interface inputState {
-    date: Date
+export interface taskObject {
+    dateCreated: Date
     uuid: UUIDTypes;
     taskText: string;
     taskCompleted: boolean;
     taskDeleted: boolean;
+    taskEditsLog: {
+        dateEdited: Date;
+        taskText: string;
+        taskCompleted: boolean;
+        taskDeleted: boolean;
+    }[];
 }
 
-const initialState: inputState[] = [];
+const initialState: taskObject[] = [];
 
 const inputSlice = createSlice({
     name: "textInput",
     initialState,
     reducers: {
-        setTextInput: (state, action: PayloadAction<inputState>) => {
+        setTextInput: (state, action: PayloadAction<taskObject>) => {
             state.push(action.payload);
         },
         setTaskText: (state, action: PayloadAction<{uuid: UUIDTypes; taskText: string}>) => {
@@ -36,9 +42,16 @@ const inputSlice = createSlice({
                     findTask.taskCompleted = action.payload.taskCompleted
                 }
         },
+        setTaskEditsLog: (state, action: PayloadAction<{uuid: UUIDTypes; taskEditsLog: {dateEdited: Date; taskText: string; taskCompleted: boolean; taskDeleted: boolean}}>) => {
+            const findTask = state.find(t => t.uuid === action.payload.uuid);
+            if (findTask) {
+                findTask.taskEditsLog.push(action.payload.taskEditsLog)
+            }
+        }
+
     },
 })
 
 
-export const { setTextInput, setTaskDeleted, setTaskCompleted, setTaskText } = inputSlice.actions;
+export const { setTextInput, setTaskDeleted, setTaskCompleted, setTaskText, setTaskEditsLog } = inputSlice.actions;
 export default inputSlice.reducer;
