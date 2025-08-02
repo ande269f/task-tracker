@@ -40,7 +40,7 @@ const EditTaskButtonMaker = ({handleEdit}: {handleEdit: Function}) => {
 }
 
 const CardMaker = ({item}: {item: cardMakerProps}) => {
-    const [readOnly, setReadOnly] = useState<boolean>(true);
+    const [isEditOff, setIsEditOff] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -49,12 +49,18 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
         dispatch(setTaskDeleted({uuid: item.uuid, taskDeleted: true}))
     }
     const handleComplete = () => {
-        dispatch(setTaskCompleted({uuid: item.uuid, taskCompleted: !item.taskCompleted}))
+        if (isEditOff) {
+            dispatch(setTaskCompleted({uuid: item.uuid, taskCompleted: !item.taskCompleted}))
+        }
     }
     const handleEdit = () => {
-        setReadOnly(false)
+        setIsEditOff(false)
         inputRef.current?.focus()
-
+        console.log("handleEdit " + isEditOff)
+    }
+    const removeEdit = () => {
+        setIsEditOff(true)
+        console.log("removeEdit " +isEditOff)
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setTaskText({uuid: item.uuid, taskText: e.target.value}))
@@ -63,19 +69,27 @@ const CardMaker = ({item}: {item: cardMakerProps}) => {
 
     if (!item.taskDeleted) {
             return (
-        <Card.Root onClick={handleComplete}>
-            <Card.Header />
-                <Card.Body> 
-                    <Card.Description>
-                        <input value={item.taskText} onChange={handleChange} readOnly={readOnly} ref={inputRef}/>
-                    </Card.Description>
-                </Card.Body>
-            <Card.Footer>
-                <EditTaskButtonMaker handleEdit={handleEdit}/>
-                <CheckboxMaker taskCompleted={item.taskCompleted}/>
-                <DeleteButtonMaker handleDelete={handleDelete}/>
-            </Card.Footer>
-        </Card.Root>
+        <div >
+            <Card.Root tabIndex={0} onClick={handleComplete} onBlur={removeEdit}>
+                <Card.Header />
+                    <Card.Body> 
+                        <Card.Description>
+                            <input 
+                                value={item.taskText} 
+                                onChange={handleChange} 
+                                readOnly={isEditOff} 
+                                ref={inputRef} 
+                                
+                            />
+                        </Card.Description>
+                    </Card.Body>
+                <Card.Footer>
+                    <EditTaskButtonMaker handleEdit={handleEdit}/>
+                    <CheckboxMaker taskCompleted={item.taskCompleted}/>
+                    <DeleteButtonMaker handleDelete={handleDelete}/>
+                </Card.Footer>
+            </Card.Root>
+        </div>
     )
     }
 }
