@@ -3,7 +3,7 @@ import { Card, Checkbox, IconButton  } from "@chakra-ui/react"
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { setTaskDeleted, setTaskCompleted, taskObject, setTaskText, setTaskEditsLog } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import useTaskChangeLogger from "../hooks/taskChangesLogger"
 
@@ -49,8 +49,6 @@ const TaskCardMaker = ({item}: {item: taskObject}) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<AppDispatch>();
 
-
-
     const handleDelete = () => {
         dispatch(setTaskDeleted({uuid: item.uuid, taskDeleted: true}))
     }
@@ -71,6 +69,10 @@ const TaskCardMaker = ({item}: {item: taskObject}) => {
         console.log("hej")
     }
 
+    useEffect(() => {
+        logChanges();
+    }, [item.taskCompleted, item.taskDeleted]);
+
 
     if (!item.taskDeleted) {
             return (
@@ -84,14 +86,14 @@ const TaskCardMaker = ({item}: {item: taskObject}) => {
                                 onChange={handleChange} 
                                 readOnly={isEditOff} 
                                 ref={inputRef} 
-                                onBlur={logChanges}
+                                onBlur={logChanges} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
                             />
                         </Card.Description>
                     </Card.Body>
                 <Card.Footer>
-                    <EditTaskButtonMaker handleEdit={() => {handleEdit()}}/>
+                    <EditTaskButtonMaker handleEdit={handleEdit}/>
                     <CheckboxMaker taskCompleted={item.taskCompleted}/>
-                    <DeleteButtonMaker handleDelete={() => {handleDelete(); logChanges();}}/>
+                    <DeleteButtonMaker handleDelete={handleDelete}/>
                     <DetailsButtonMaker showDetails={showDetails}/>
                 </Card.Footer>
             </Card.Root>
