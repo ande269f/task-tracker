@@ -20,17 +20,12 @@ const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
     )
 }
 
-const DialogMaker = ({item}: {item: taskObject}) => {
-    const [open, setOpen] = useState(false)
+const DialogMaker = ({item, displayDialog, setDisplayDialog}: {item: taskObject, displayDialog: boolean, setDisplayDialog: (val: boolean) => void;
+}) => {
     return (
- <Dialog.Root lazyMount  key={"sm"} size={"sm"} open={open} onOpenChange={(e) => setOpen(e.open)}>
+ <Dialog.Root  key={"sm"} size={"sm"} open={displayDialog} onOpenChange={() => setDisplayDialog(!displayDialog)}>
             <Dialog.Trigger asChild>
-                <Button
-                aria-label="Open details"
-                onClick={(e) => { e.stopPropagation(); }}
-                variant="ghost"
-                >
-                    <HiDotsHorizontal />
+                <Button style={{ display: "none" }}>
                 </Button>
             </Dialog.Trigger>
             <Portal>
@@ -49,7 +44,7 @@ const DialogMaker = ({item}: {item: taskObject}) => {
                   </Dialog.Body>
                   <Dialog.Footer>
                     <Dialog.ActionTrigger asChild>
-                      <Button onClick={(e) => { e.stopPropagation(); }} variant="outline">Cancel</Button>
+                      <Button onClick={(e) => { e.stopPropagation(); setDisplayDialog(!displayDialog)}} variant="outline">Cancel</Button>
                     </Dialog.ActionTrigger>
                   </Dialog.Footer>
                   <Dialog.CloseTrigger asChild>
@@ -62,18 +57,21 @@ const DialogMaker = ({item}: {item: taskObject}) => {
     )
 }
 
-const DetailsButtonMaker = () => {
+const DetailsButtonMaker = ({item}: {item: taskObject}) => {
+    const [displayDialog, setDisplayDialog] = useState<boolean>(false)
   return (
-    <Button
-    aria-label="Open details"
-    //onClick={(e) => { e.stopPropagation(); }}
-    variant="ghost"
-    >
-        
-    </Button>
+    <div>
+        <Button
+        aria-label="Open details"
+        onClick={(e) => { e.stopPropagation(); setDisplayDialog(!displayDialog)}}
+        variant="ghost"
+        >
+            <HiDotsHorizontal />
+        </Button>
+        <DialogMaker item={item} displayDialog={displayDialog} setDisplayDialog={setDisplayDialog} />
+    </div>
   );
 }
-    //<HiDotsHorizontal />
 
 
 const DeleteButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
@@ -140,7 +138,7 @@ const TaskCardMaker = ({item}: {item: taskObject}) => {
                     <EditTaskButtonMaker handleEdit={handleEdit}/>
                     <CheckboxMaker taskCompleted={item.taskCompleted}/>
                     <DeleteButtonMaker handleDelete={handleDelete}/>
-                    <DialogMaker item={item}/>
+                    <DetailsButtonMaker item={item}/>
                 </Card.Footer>
             </Card.Root>
         </div>

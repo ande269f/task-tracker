@@ -2,7 +2,8 @@
 import './App.scss';
 import { Provider } from "./components/ui/provider";
 import InputField from "./components/InputField";
-import TaskField from "./components/taskField";
+import TaskField from "./components/TaskField";
+
 
 function App() {
     return (
@@ -13,7 +14,7 @@ function App() {
             <InputField/>
             <TaskField/>
 
-            
+
         </Provider>
 
     );
