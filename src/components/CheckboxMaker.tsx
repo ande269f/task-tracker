@@ -2,7 +2,7 @@ import { Checkbox } from "@chakra-ui/react"
 
 const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
     return (
-        <Checkbox.Root readOnly checked={taskCompleted}>
+        <Checkbox.Root onClick={() => {handleComplete()} } checked={taskCompleted}>
             <Checkbox.HiddenInput />
                 <Checkbox.Control>
                     <Checkbox.Indicator />
