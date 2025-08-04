@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { setTaskEditsLog, taskObject } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import {v4 as uuid} from 'uuid';
 
 export default function useTaskChangeLogger(item: taskObject) {
         const loggedTask = useRef<taskObject>()
@@ -23,7 +24,7 @@ export default function useTaskChangeLogger(item: taskObject) {
             console.log(item)
             //console.log("loggedTask: ")
             console.log(loggedTask)
-            dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted}}))
+            dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted, uuid: uuid()}}))
             logTask()
         }
     }

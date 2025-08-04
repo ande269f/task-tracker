@@ -7,7 +7,7 @@ import {v4 as uuid} from 'uuid';
 import { Toaster, toaster } from "./ui/toaster"
 
 
-const TextInput = () => {
+const InputField = () => {
   const dispatch: AppDispatch = useDispatch();
   const [localInput, setLocalInput] = useState<string>("");
   const userInput = useSelector((state: RootState) => state.form);
@@ -24,11 +24,9 @@ const TextInput = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); 
       const submitTask = () => {
-        dispatch(setTextInput({taskText: localInput, taskCompleted: false, dateCreated: new Date(), uuid: uuid(), taskDeleted: false, taskEditsLog: [{taskText: localInput, dateEdited: new Date(), taskCompleted: false, taskDeleted: false}]}))
+        dispatch(setTextInput({taskText: localInput, taskCompleted: false, dateCreated: new Date(), uuid: uuid(), taskDeleted: false, taskEditsLog: [{taskText: localInput, dateEdited: new Date(), taskCompleted: false, taskDeleted: false, uuid: uuid()}]}))
         setLocalInput("")
       } 
-
-      
 
       if (localInput.trim() === "") {
 
@@ -45,9 +43,6 @@ const TextInput = () => {
       }
   }
 
-
-
-
   return (
     <> 
     <Toaster/>
@@ -63,4 +58,4 @@ const TextInput = () => {
   )
 }
 
-export default TextInput;
+export default InputField;

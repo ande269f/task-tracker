@@ -6,6 +6,7 @@ export interface taskEditsLog {
         taskText: string;
         taskCompleted: boolean;
         taskDeleted: boolean;
+        uuid: UUIDTypes;
     }
 
 export interface taskObject {
@@ -14,7 +15,7 @@ export interface taskObject {
     taskText: string;
     taskCompleted: boolean;
     taskDeleted: boolean;
-    taskEditsLog: [];
+    taskEditsLog: taskEditsLog[];
 }
 
 const initialState: taskObject[] = [];
@@ -44,7 +45,7 @@ const inputSlice = createSlice({
                     findTask.taskCompleted = action.payload.taskCompleted
                 }
         },
-        setTaskEditsLog: (state, action: PayloadAction<{uuid: UUIDTypes; taskEditsLog: {dateEdited: Date; taskText: string; taskCompleted: boolean; taskDeleted: boolean}}>) => {
+        setTaskEditsLog: (state, action: PayloadAction<{uuid: UUIDTypes; taskEditsLog: {dateEdited: Date; taskText: string; taskCompleted: boolean; taskDeleted: boolean, uuid: UUIDTypes}}>) => {
             const findTask = state.find(t => t.uuid === action.payload.uuid);
             if (findTask) {
                 findTask.taskEditsLog.push(action.payload.taskEditsLog)
