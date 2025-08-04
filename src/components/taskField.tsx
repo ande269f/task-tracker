@@ -8,7 +8,7 @@ const TaskField = () => {
         //printer alle inputs
         userInput.map((input) => 
         <div key={input.uuid.toString()}> {
-            <TaskCardMaker item={input}/>
+            <TaskCardMaker task={input}/>
         } 
         </div>
         ))
