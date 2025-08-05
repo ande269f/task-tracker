@@ -3,6 +3,7 @@ import './App.scss';
 import { Provider } from "./components/ui/provider";
 import InputField from "./components/InputField";
 import TaskField from "./components/TaskField";
+import DialogMaker from './components/DialogMaker';
 
 
 function App() {
@@ -13,6 +14,9 @@ function App() {
 
             <InputField/>
             <TaskField/>
+            <DialogMaker/>
+            
+            
 
 
         </Provider>

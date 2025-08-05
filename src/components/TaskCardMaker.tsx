@@ -68,7 +68,6 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     }
 
     const handleDetailsButtonMaker = () => {
-        console.log("hej")
         dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true}))
     }
 

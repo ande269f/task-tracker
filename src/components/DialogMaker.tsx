@@ -1,7 +1,7 @@
 import { Dialog, Button, Portal, CloseButton, Card } from "@chakra-ui/react";
 import { taskEditsLog, taskObject } from "../store/slices/textInputSlice";
 import CheckboxMaker from "./CheckboxMaker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
@@ -44,7 +44,7 @@ const DialogMaker = () => {
     const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
     const dispatch = useDispatch<AppDispatch>();
 
-    console.log("DialogMaker on")
+    
 
     return (
  <Dialog.Root  key={"sm"} size={"sm"} open={detailsDialog.dialogboxOpened} onOpenChange={() => dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false}))}>
