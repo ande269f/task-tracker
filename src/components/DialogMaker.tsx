@@ -55,7 +55,7 @@ const DialogMaker = () => {
             <Portal>
               <Dialog.Backdrop />
               <Dialog.Positioner>
-                <Dialog.Content onClick={(e) => { e.stopPropagation();}}>
+                <Dialog.Content>
                   <Dialog.Header>
                     <Dialog.Title>Dialog Title</Dialog.Title>
                   </Dialog.Header>
@@ -64,7 +64,7 @@ const DialogMaker = () => {
                   </Dialog.Body>
                   <Dialog.Footer>
                     <Dialog.ActionTrigger asChild>
-                      <Button onClick={(e) => { e.stopPropagation(); dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false}))}} variant="outline">Cancel</Button>
+                      <Button variant="outline">Cancel</Button>
                     </Dialog.ActionTrigger>
                   </Dialog.Footer>
                   <Dialog.CloseTrigger asChild>

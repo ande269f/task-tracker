@@ -24,7 +24,19 @@ const InputField = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); 
       const submitTask = () => {
-        dispatch(setTextInput({taskText: localInput, taskCompleted: false, dateCreated: new Date(), uuid: uuid(), taskDeleted: false, taskEditsLog: [{taskText: localInput, dateEdited: new Date(), taskCompleted: false, taskDeleted: false, uuid: uuid()}]}))
+        dispatch(setTextInput({
+          taskText: localInput, 
+          taskCompleted: false, 
+          dateCreated: new Date(), 
+          uuid: uuid(), 
+          taskDeleted: false, 
+          manuelSortOrder: 1, 
+          taskEditsLog: [{
+            taskText: localInput, 
+            dateEdited: new Date(), 
+            taskCompleted: false, 
+            taskDeleted: false, 
+            uuid: uuid()}]}))
         setLocalInput("")
       } 
 
