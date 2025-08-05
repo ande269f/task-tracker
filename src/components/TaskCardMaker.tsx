@@ -1,31 +1,30 @@
 import { AppDispatch } from "../store";
-import { Card, Checkbox, IconButton, Button } from "@chakra-ui/react";
+import { Card, IconButton, Button } from "@chakra-ui/react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { setTaskDeleted, setTaskCompleted, taskObject, setTaskText } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import useTaskChangeLogger from "../hooks/taskChangesLogger";
-import DialogMaker from "./DialogMaker";
 import CheckboxMaker from "./CheckboxMaker";
+import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
 
 
 
 
-const DetailsButtonMaker = ({task}: {task: taskObject}) => {
-    const [displayDialog, setDisplayDialog] = useState<boolean>(false)
+const DetailsButtonMaker = ({handleDetailsButtonMaker}: {handleDetailsButtonMaker: Function}) => {
+
   return (
     <div>
         <Button
         aria-label="Open details"
-        onClick={(e) => { e.stopPropagation(); setDisplayDialog(!displayDialog)}}
+        onClick={(e) => { handleDetailsButtonMaker();  e.stopPropagation();}}
         variant="ghost"
         >
             <HiDotsHorizontal />
         </Button>
-        <DialogMaker task={task} displayDialog={displayDialog} setDisplayDialog={setDisplayDialog} />
     </div>
-  );
+  )
 }
 
 
@@ -52,6 +51,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const handleDelete = () => {
+        
         dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: true}))
     }
     const handleComplete = () => {
@@ -65,6 +65,11 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setTaskText({uuid: task.uuid, taskText: e.target.value}))
+    }
+
+    const handleDetailsButtonMaker = () => {
+        console.log("hej")
+        dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true}))
     }
 
     useEffect(() => {
@@ -92,7 +97,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
                     <EditTaskButtonMaker handleEdit={handleEdit}/>
                     <CheckboxMaker taskCompleted={task.taskCompleted}/>
                     <DeleteButtonMaker handleDelete={handleDelete}/>
-                    <DetailsButtonMaker task={task}/>
+                    <DetailsButtonMaker handleDetailsButtonMaker={handleDetailsButtonMaker}/>
                 </Card.Footer>
             </Card.Root>
         </div>

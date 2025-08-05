@@ -1,4 +1,4 @@
-import { Button, Group, Input, JsxElement } from "@chakra-ui/react"
+import { Button, Group, Input } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/textInputSlice";

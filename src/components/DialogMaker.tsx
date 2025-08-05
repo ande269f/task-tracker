@@ -1,6 +1,10 @@
 import { Dialog, Button, Portal, CloseButton, Card } from "@chakra-ui/react";
 import { taskEditsLog, taskObject } from "../store/slices/textInputSlice";
 import CheckboxMaker from "./CheckboxMaker";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
 
 const TaskChange = ({taskEditsLog}: {taskEditsLog: taskEditsLog}) => {
                 return (
@@ -23,7 +27,8 @@ const TaskChange = ({taskEditsLog}: {taskEditsLog: taskEditsLog}) => {
         )
 }
 
-const DisplayTaskChanges = ({task}: {task: taskObject}) => {
+const DisplayTaskChanges = ({task}: {task: taskObject | null}) => {
+    if (task)
       return (
         //printer alle inputs
         task.taskEditsLog.map((taskChanges) => 
@@ -35,11 +40,14 @@ const DisplayTaskChanges = ({task}: {task: taskObject}) => {
 }
 
 
-const DialogMaker = ({task, displayDialog, setDisplayDialog}: {task: taskObject, displayDialog: boolean, setDisplayDialog: (val: boolean) => void;
-}) => {
+const DialogMaker = () => {
+    const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
+    const dispatch = useDispatch<AppDispatch>();
+
+    console.log("DialogMaker on")
 
     return (
- <Dialog.Root  key={"sm"} size={"sm"} open={displayDialog} onOpenChange={() => setDisplayDialog(!displayDialog)}>
+ <Dialog.Root  key={"sm"} size={"sm"} open={detailsDialog.dialogboxOpened} onOpenChange={() => dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false}))}>
             <Dialog.Trigger asChild>
                 <Button style={{ display: "none" }}>
                 </Button>
@@ -52,11 +60,11 @@ const DialogMaker = ({task, displayDialog, setDisplayDialog}: {task: taskObject,
                     <Dialog.Title>Dialog Title</Dialog.Title>
                   </Dialog.Header>
                   <Dialog.Body>
-                    <DisplayTaskChanges task={task}/>
+                    <DisplayTaskChanges task={detailsDialog.taskObject}/>
                   </Dialog.Body>
                   <Dialog.Footer>
                     <Dialog.ActionTrigger asChild>
-                      <Button onClick={(e) => { e.stopPropagation(); setDisplayDialog(!displayDialog)}} variant="outline">Cancel</Button>
+                      <Button onClick={(e) => { e.stopPropagation(); dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false}))}} variant="outline">Cancel</Button>
                     </Dialog.ActionTrigger>
                   </Dialog.Footer>
                   <Dialog.CloseTrigger asChild>
