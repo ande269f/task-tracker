@@ -75,7 +75,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     if (!task.taskDeleted) {
             return (
         <div >
-            <Card.Root onClick={() => {logTask();}}>
+            <Card.Root onClick={() => {handleComplete(); logTask();}}>
                 <Card.Header />
                     <Card.Body> 
                         <Card.Description>
