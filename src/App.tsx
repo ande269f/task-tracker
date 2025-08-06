@@ -4,7 +4,7 @@ import { Provider } from "./components/ui/provider";
 import InputField from "./components/InputField";
 import TaskField from "./components/TaskField";
 import DialogMaker from './components/DialogMaker';
-
+import {Droppable} from "@hello-pangea/dnd"
 
 function App() {
     return (
@@ -13,7 +13,12 @@ function App() {
             </div>
 
             <InputField/>
-            <TaskField/>
+            <Droppable droppableId=''>
+                {() => (
+                    <TaskField/>
+                )}
+            </Droppable>
+
             <DialogMaker/>
             
             

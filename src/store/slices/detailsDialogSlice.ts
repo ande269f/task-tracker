@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { taskObject } from "./textInputSlice";
+import { taskObject } from "../objects/taskObject";
 
 export interface DetailsDialogState {
     taskObject: taskObject | null;

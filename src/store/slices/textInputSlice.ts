@@ -1,23 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { UUIDTypes } from "uuid";
+import { taskObject } from "../objects/taskObject";
 
-export interface taskEditsLog {
-        dateEdited: Date;
-        taskText: string;
-        taskCompleted: boolean;
-        taskDeleted: boolean;
-        uuid: UUIDTypes;
-    }
 
-export interface taskObject {
-    dateCreated: Date
-    uuid: UUIDTypes;
-    taskText: string;
-    taskCompleted: boolean;
-    taskDeleted: boolean;
-    taskEditsLog: taskEditsLog[];
-    manuelSortOrder: number
-}
 
 const initialState: taskObject[] = [];
 

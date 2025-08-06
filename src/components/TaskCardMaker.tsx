@@ -1,13 +1,14 @@
 import { AppDispatch } from "../store";
 import { Card, IconButton, Button } from "@chakra-ui/react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { setTaskDeleted, setTaskCompleted, taskObject, setTaskText } from "../store/slices/textInputSlice";
+import { setTaskDeleted, setTaskCompleted, setTaskText } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import useTaskChangeLogger from "../hooks/taskChangesLogger";
 import CheckboxMaker from "./CheckboxMaker";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
+import { taskObject } from "../store/objects/taskObject";
 
 
 
