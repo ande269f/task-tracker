@@ -1,6 +1,11 @@
 import { UUIDTypes } from "uuid";
 
-export default interface taskOrder {
+export interface interactiveTaskOrder {
     sortOrder: number
-    uuid: UUIDTypes;
+    uuid: UUIDTypes
+}
+
+export interface orderState {
+    orderDirection: string
+    orderingState: string
 }

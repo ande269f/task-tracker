@@ -7,7 +7,7 @@ import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
 import { createContext, useContext } from 'react';
 import { updateSortOrder } from "../store/slices/sortTasksSlice";
-import { interactiveTaskSort } from "../utils/sortManager";
+import { interactiveTaskSort } from "../utils/sortingUtils";
 
 // TaskField printer alle task komponenterne i en liste ved map()
 // TaskField bruger @hello-pangea/dnd til at håndtere brugerens egen ændring i rækkefølge

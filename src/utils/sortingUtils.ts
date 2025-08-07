@@ -1,9 +1,9 @@
 import { taskObject } from "../store/states/taskObjectState"
-import taskOrder from "../store/states/taskOrderState"
+import { interactiveTaskOrder } from "../store/states/taskOrderState"
 
 
 
-export const interactiveTaskSort = (userInput: taskObject[], sortTask: taskOrder[]): taskObject[] => {
+export const interactiveTaskSort = (userInput: taskObject[], sortTask: interactiveTaskOrder[]): taskObject[] => {
       return sortTask.map(taskSorting => (
           userInput.find(task => 
             task.uuid === taskSorting.uuid 

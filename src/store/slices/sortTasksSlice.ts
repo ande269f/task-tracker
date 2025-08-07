@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import taskOrder from "../states/taskOrderState";
+import {interactiveTaskOrder} from "../states/taskOrderState";
 
-const initialState: taskOrder[] = [];
+const initialState: interactiveTaskOrder[] = [];
 
 
 const sortTasks = createSlice({
@@ -10,7 +10,7 @@ const sortTasks = createSlice({
     initialState,
     reducers: {
         setSortOrder: (state, action: PayloadAction<{uuid: UUIDTypes}>) => {
-            const newElement: taskOrder = {
+            const newElement: interactiveTaskOrder = {
                 uuid: action.payload.uuid,
                 sortOrder: state.length
             }
