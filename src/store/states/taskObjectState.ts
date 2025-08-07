@@ -16,5 +16,4 @@ export interface taskObject {
     taskCompleted: boolean;
     taskDeleted: boolean;
     taskEditsLog: taskEditsLog[];
-    manuelSortOrder: number
 }

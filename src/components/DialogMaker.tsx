@@ -1,10 +1,9 @@
 import { Dialog, Button, Portal, CloseButton, Card } from "@chakra-ui/react";
 import CheckboxMaker from "./CheckboxMaker";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { taskObject, taskEditsLog } from "../store/objects/taskObject";
+import { taskObject, taskEditsLog } from "../store/states/taskObjectState";
 
 const TaskChange = ({taskEditsLog}: {taskEditsLog: taskEditsLog}) => {
                 return (

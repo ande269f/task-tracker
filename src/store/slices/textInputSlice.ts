@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { UUIDTypes } from "uuid";
-import { taskObject } from "../objects/taskObject";
+import { taskObject } from "../states/taskObjectState";
 
 
 
@@ -36,7 +36,7 @@ const inputSlice = createSlice({
             if (findTask) {
                 findTask.taskEditsLog.push(action.payload.taskEditsLog)
             }
-        }
+        },
 
     },
 })

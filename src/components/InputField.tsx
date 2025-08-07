@@ -2,8 +2,9 @@ import { Button, Group, Input } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/textInputSlice";
+import { setSortOrder } from "../store/slices/sortTasksSlice";
 import { useState } from "react";
-import {v4 as uuid} from 'uuid';
+import {v4 as uuid, UUIDTypes} from 'uuid';
 import { Toaster, toaster } from "./ui/toaster"
 
 
@@ -23,14 +24,18 @@ const InputField = () => {
   // lav en matching der loader igennem alle states. hvis der er et match, smid en fejl
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault(); 
+
+      //laver ny uuid til taskobjektet og sorteringslisten
+      const newUuid: UUIDTypes = uuid()
+
+      //opdatere taskObjekt og sortOrder
       const submitTask = () => {
         dispatch(setTextInput({
           taskText: localInput, 
           taskCompleted: false, 
           dateCreated: new Date(), 
-          uuid: uuid(), 
+          uuid: newUuid, 
           taskDeleted: false, 
-          manuelSortOrder: 1, 
           taskEditsLog: [{
             taskText: localInput, 
             dateEdited: new Date(), 
@@ -38,7 +43,10 @@ const InputField = () => {
             taskDeleted: false, 
             uuid: uuid()}]}))
         setLocalInput("")
-      } 
+        dispatch(setSortOrder({uuid: newUuid}))
+      }
+      
+      
 
       if (localInput.trim() === "") {
 
