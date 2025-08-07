@@ -20,16 +20,11 @@ const sortTasks = createSlice({
             //flyt elementet
           const updated = [...state]
           console.log(state)
-          const [moved] = updated.splice(action.payload.to, 1)
+          const [moved] = updated.splice(action.payload.from, 1)
           console.log(moved)
-          updated.splice(action.payload.from, 0, moved)  
-            // opdater manuelSortOrder
-          var newManuelSortOrderValue = 0
-          
-          updated.map(task => {
-            task.sortOrder = newManuelSortOrderValue
-            newManuelSortOrderValue++
-          });
+          updated.splice(action.payload.to, 0, moved)  
+
+          return updated
         }
     }
 })

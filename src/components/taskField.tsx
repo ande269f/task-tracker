@@ -5,7 +5,7 @@ import { Droppable, Draggable, DragDropContext, DropResult } from "@hello-pangea
 import { Box } from "@chakra-ui/react";
 import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { updateSortOrder } from "../store/slices/sortTasksSlice";
 import { interactiveTaskSort } from "../utils/sortManager";
 
