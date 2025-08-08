@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import {interactiveTaskOrder} from "../states/taskOrderState";
+import {interactiveTaskOrder} from "../states/interactiveTaskOrderState";
 
 const initialState: interactiveTaskOrder[] = [];
 

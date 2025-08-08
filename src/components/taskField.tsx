@@ -6,8 +6,8 @@ import { Box } from "@chakra-ui/react";
 import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
 import { createContext, useContext } from 'react';
-import { updateSortOrder } from "../store/slices/sortTasksSlice";
-import { interactiveTaskSort } from "../utils/sortingUtils";
+import { updateSortOrder } from "../store/slices/interactiveTaskOrderSlice";
+import { handleSorting } from "../utils/sortingUtils";
 
 // TaskField printer alle task komponenterne i en liste ved map()
 // TaskField bruger @hello-pangea/dnd til at håndtere brugerens egen ændring i rækkefølge
@@ -23,6 +23,7 @@ interface TaskPrinterProps {
 interface TaskContext {
   userInput: RootState["form"]
   sortTask: RootState["sortTasks"]
+  sortState: RootState["sortState"]
   dispatch: AppDispatch
 }
 
@@ -31,6 +32,7 @@ const DataFromStore = createContext<TaskContext | null>(null);
 const TaskField = () => {
   const userInput = useSelector((state: RootState) => state.form);
   const sortTask = useSelector((state: RootState) => state.sortTasks);
+  const sortState = useSelector((state: RootState) => state.sortState);
   const dispatch = useDispatch<AppDispatch>()
 
 
@@ -47,7 +49,7 @@ const TaskField = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <DataFromStore.Provider value={{userInput, sortTask, dispatch}}>
+      <DataFromStore.Provider value={{userInput, sortTask, dispatch, sortState}}>
         <DroppableTaskField/>
       </DataFromStore.Provider>
     </DragDropContext>
@@ -76,8 +78,9 @@ const DraggableTaskPrinter = ({ innerRef, droppableProps, placeholder }: TaskPri
   // snupper userInput fra dataFromStore
   const {userInput} = dataFromStore
   const {sortTask} = dataFromStore
+  const {sortState} = dataFromStore
 
-  const sortedUserInput = interactiveTaskSort(userInput, sortTask)
+  const sortedUserInput = handleSorting({userInput: userInput, sortTask: sortTask, sortingState: sortState})
   
 
   return (

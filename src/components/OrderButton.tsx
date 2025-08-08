@@ -1,18 +1,24 @@
 import { FaSortDown, FaSortUp } from "react-icons/fa6";
-import { Button, Group, IconButton, Input } from "@chakra-ui/react"
+import { IconButton } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { setTextInput } from "../store/slices/textInputSlice";
-import { setSortOrder } from "../store/slices/sortTasksSlice";
-import { useState } from "react";
-import {v4 as uuid, UUIDTypes} from 'uuid';
-import { Toaster, toaster } from "./ui/toaster"
-import { MdDelete } from "react-icons/md";
+import { setSortTaskState } from "../store/slices/sortTaskSlice";
 
 const OrderButton = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const sortState = useSelector((state: RootState) => state.sortState);
+
+    const handleOrder = () => {
+        dispatch(setSortTaskState({sortDirection: !sortState.sortDirection, sortingState: "interactiveOrdering"}))
+    }
+
+    // conditional rendering af knaptype
     return (
-        <IconButton aria-label="Order tasks" onClick={(e) => {e.stopPropagation(); handleOrder();}}>
-            <FaSortDown />
+        <IconButton aria-label="Order tasks" onClick={(e) => {e.stopPropagation(); handleOrder();}} variant="ghost">
+            {sortState.sortDirection ? <FaSortUp /> : <FaSortDown />}  
         </IconButton>
     )
+
 }
+
+export default OrderButton

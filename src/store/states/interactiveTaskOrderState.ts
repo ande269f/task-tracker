@@ -5,7 +5,3 @@ export interface interactiveTaskOrder {
     uuid: UUIDTypes
 }
 
-export interface orderState {
-    orderDirection: string
-    orderingState: string
-}
