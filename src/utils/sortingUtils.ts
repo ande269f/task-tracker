@@ -8,17 +8,24 @@ interface sortingProps {
   sortingState: sortTaskState
 }
 
-
-
 export const handleSorting = (sortingProps: sortingProps): taskObject[] => {
-    switch (sortingProps.sortingState.sortingState) {
+
+  const sortingType = (sortingState: string) => {
+    switch (sortingState) {
       case "interactiveOrdering": 
         return interactiveTaskSort(sortingProps)
       case "dateCreated": 
         return dateTaskSort(sortingProps)
       default:
         return interactiveTaskSort(sortingProps)
+    }
   }
+
+  var sortedTasks = sortingType(sortingProps.sortingState.sortingState)
+  sortedTasks = handleSortingDirection(sortingProps.sortingState.sortDirection, sortedTasks)
+
+  return sortedTasks
+
 }
 
 const handleSortingDirection = (sortingDirection: boolean, userInput: taskObject[]): taskObject[] => {
@@ -27,25 +34,17 @@ const handleSortingDirection = (sortingDirection: boolean, userInput: taskObject
 }
 
 const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
-
-  sortingProps.sortTask.map(taskSorting => (
+  return sortingProps.sortTask.map(taskSorting => (
       sortingProps.userInput.find(task => 
         task.uuid === taskSorting.uuid 
       )
   )).filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
               //læs op på det her
-  const sortedOutput = handleSortingDirection(sortingProps.sortingState.sortDirection, sortingProps.userInput)
-
-  return sortedOutput
 }           
 
 const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
-  sortingProps.userInput.sort((a,b) => 
+  return sortingProps.userInput.sort((a,b) => 
     b.dateCreated.getDate.prototype.getTime() - a.dateCreated.getDate.prototype.getTime())
     //bruger date.prototype.getTime til at omskrive til num værdi
-
-  const sortedOutput = handleSortingDirection(sortingProps.sortingState.sortDirection, sortingProps.userInput)
-
-  return sortedOutput
 } 
 
