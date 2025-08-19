@@ -16,13 +16,26 @@ const sortTasks = createSlice({
             }
             state.push(newElement)
         },
-        updateSortOrder: (state, action: PayloadAction<{from: number; to: number}>) => {
+        updateSortOrder: (state, action: PayloadAction<{from: number; to: number; sortDirection: boolean}>) => {
             //flyt elementet
-          const updated = [...state]
-          console.log(state)
-          const [moved] = updated.splice(action.payload.from, 1)
-          console.log(moved)
-          updated.splice(action.payload.to, 0, moved)  
+          var updated = [...state];
+
+          if (action.payload.sortDirection) {
+            // hvis det er normal rækkefølge (sortDirection = true = asc)
+            console.log(state)
+            const [moved] = updated.splice(action.payload.from, 1)
+            console.log(moved)
+            updated.splice(action.payload.to, 0, moved)  
+          } else {
+            //hvis det ikke er normal rækkefølge, reverse og lav skift
+            updated.reverse()
+            console.log(state)
+            const [moved] = updated.splice(action.payload.from, 1)
+            console.log(moved)
+            updated.splice(action.payload.to, 0, moved)  
+            updated.reverse()
+          }
+
 
           return updated
         }

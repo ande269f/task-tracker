@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { createContext, useContext } from 'react';
 import { updateSortOrder } from "../store/slices/interactiveTaskOrderSlice";
 import { handleSorting } from "../utils/sortingUtils";
+import sortTaskState from "../store/states/sortTaskState";
 
 // TaskField printer alle task komponenterne i en liste ved map()
 // TaskField bruger @hello-pangea/dnd til at håndtere brugerens egen ændring i rækkefølge
@@ -38,13 +39,14 @@ const TaskField = () => {
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
+    const { sortDirection } = sortState;
 
     if (!destination) return; // brugeren droppede udenfor liste
 
     const fromIndex = source.index;
     const toIndex = destination.index;
 
-    dispatch(updateSortOrder({ from: fromIndex, to: toIndex }));
+    dispatch(updateSortOrder({ from: fromIndex, to: toIndex, sortDirection: sortDirection}));
 };
 
   return (
