@@ -10,9 +10,8 @@ const sortTaskSlice = createSlice({
     name: "sortingState",
     initialState,
     reducers: {
-        setSortTaskState: (state, action: PayloadAction<{sortDirection: boolean; sortingState: string}>) => {
+        setSortDirection: (state, action: PayloadAction<{sortDirection: boolean}>) => {
             state.sortDirection = action.payload.sortDirection
-            state.sortingState = action.payload.sortingState
         },
         setSortingState: (state, action: PayloadAction<{sortingState: string |null}>) => {
             if (action.payload.sortingState != null) {
@@ -24,5 +23,5 @@ const sortTaskSlice = createSlice({
     }
 })
 
-export const { setSortTaskState, setSortingState } = sortTaskSlice.actions
+export const { setSortDirection, setSortingState } = sortTaskSlice.actions
 export default sortTaskSlice.reducer

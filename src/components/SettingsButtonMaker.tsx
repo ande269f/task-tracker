@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { setSortingState, setSortTaskState } from "../store/slices/sortTaskSlice";
+import { setSortingState, setSortDirection } from "../store/slices/sortTaskSlice";
 
 export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}) => {
 
@@ -31,12 +31,12 @@ export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}
             case sortingOption1:
                 return "interactiveOrdering"
             case sortingOption2:
-                return "dateOrdering"
+                return "dateCreated"
             case sortingOption3: 
                 return "alfabeticalOrdering"
             case "interactiveOrdering":
                 return sortingOption1
-            case "dateOrdering":
+            case "dateCreated":
                 return sortingOption2
             case "alfabeticalOrdering":
                 return sortingOption3

@@ -9,7 +9,7 @@ interface sortingProps {
 }
 
 export const handleSorting = (sortingProps: sortingProps): taskObject[] => {
-
+  console.log(sortingProps)
   const sortingType = (sortingState: string) => {
     switch (sortingState) {
       case "interactiveOrdering": 
@@ -43,8 +43,9 @@ const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
 }           
 
 const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
-  return sortingProps.userInput.sort((a,b) => 
-    b.dateCreated.getDate.prototype.getTime() - a.dateCreated.getDate.prototype.getTime())
-    //bruger date.prototype.getTime til at omskrive til num værdi
+  const copiedUserInput = [...sortingProps.userInput] // laver en kopi og ændre i den, da værdierne kommer direkte fra redux
+  return copiedUserInput.sort((a,b) => 
+    a.dateCreated.getTime() - b.dateCreated.getTime())
+    //bruger date.getTime til at omskrive til num værdi
 } 
 

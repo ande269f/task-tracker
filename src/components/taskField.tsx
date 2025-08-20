@@ -88,7 +88,11 @@ const DraggableTaskPrinter = ({ innerRef, droppableProps, placeholder }: TaskPri
   return (
     <div ref={innerRef} {...droppableProps}>
       {sortedUserInput.map((input, index) => (
-        <Draggable draggableId={input.uuid.toString()} index={index} key={input.uuid.toString()} >
+        <Draggable 
+        draggableId={input.uuid.toString()} 
+        index={index} 
+        key={input.uuid.toString()} 
+        isDragDisabled={sortState.sortingState == "interactiveOrdering" ? false : true} >
           {(provided) => (
             <Box
               ref={provided.innerRef}

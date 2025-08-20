@@ -3,7 +3,7 @@ import OrderButton from "./OrderButton"
 import { Flex } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { setSortTaskState } from "../store/slices/sortTaskSlice";
+import { setSortDirection } from "../store/slices/sortTaskSlice";
 
 
 export const ActionBarMaker = () => {
@@ -11,7 +11,7 @@ export const ActionBarMaker = () => {
         const sortState = useSelector((state: RootState) => state.sortState);
 
         const handleOrder = () => {
-        dispatch(setSortTaskState({sortDirection: !sortState.sortDirection, sortingState: "interactiveOrdering"}))
+        dispatch(setSortDirection({sortDirection: !sortState.sortDirection}))
         }
 
         const handleSettings = () => {
