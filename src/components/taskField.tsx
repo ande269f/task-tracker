@@ -38,15 +38,15 @@ const TaskField = () => {
 
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    const { sortDirection } = sortState;
+    if (!result.destination) return; // brugeren droppede udenfor liste
 
-    if (!destination) return; // brugeren droppede udenfor liste
+    const fromIndex = result.source.index;
+    const toIndex = result.destination.index;
 
-    const fromIndex = source.index;
-    const toIndex = destination.index;
-
-    dispatch(updateSortOrder({ from: fromIndex, to: toIndex, sortDirection: sortDirection}));
+    dispatch(updateSortOrder({ 
+      from: fromIndex, 
+      to: toIndex, 
+      sortDirection: sortState.sortDirection}));
 };
 
   return (
@@ -88,7 +88,7 @@ const DraggableTaskPrinter = ({ innerRef, droppableProps, placeholder }: TaskPri
   return (
     <div ref={innerRef} {...droppableProps}>
       {sortedUserInput.map((input, index) => (
-        <Draggable draggableId={input.uuid.toString()} index={index}  key={input.uuid.toString()}>
+        <Draggable draggableId={input.uuid.toString()} index={index} key={input.uuid.toString()} >
           {(provided) => (
             <Box
               ref={provided.innerRef}

@@ -4,29 +4,13 @@ import { MdDelete, MdModeEdit } from "react-icons/md";
 import { setTaskDeleted, setTaskCompleted, setTaskText } from "../store/slices/textInputSlice";
 import { useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
-import { HiDotsHorizontal } from "react-icons/hi";
+import { DetailsButtonMaker } from "./DetailsButtonMaker";
 import useTaskChangeLogger from "../hooks/taskChangesLogger";
 import CheckboxMaker from "./CheckboxMaker";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
 import { taskObject } from "../store/states/taskObjectState";
 
 
-
-
-const DetailsButtonMaker = ({handleDetailsButtonMaker}: {handleDetailsButtonMaker: Function}) => {
-
-  return (
-    <div>
-        <Button
-        aria-label="Open details"
-        onClick={(e) => { handleDetailsButtonMaker();  e.stopPropagation();}}
-        variant="ghost"
-        >
-            <HiDotsHorizontal />
-        </Button>
-    </div>
-  )
-}
 
 
 const DeleteButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
@@ -68,7 +52,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
         dispatch(setTaskText({uuid: task.uuid, taskText: e.target.value}))
     }
 
-    const handleDetailsButtonMaker = () => {
+    const showDialogBox = () => {
         dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true}))
     }
 
@@ -97,7 +81,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
                     <EditTaskButtonMaker handleEdit={handleEdit}/>
                     <CheckboxMaker taskCompleted={task.taskCompleted}/>
                     <DeleteButtonMaker handleDelete={handleDelete}/>
-                    <DetailsButtonMaker handleDetailsButtonMaker={handleDetailsButtonMaker}/>
+                    <DetailsButtonMaker handleDetailsButtonMaker={showDialogBox}/>
                 </Card.Footer>
             </Card.Root>
         </div>

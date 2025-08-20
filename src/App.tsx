@@ -4,7 +4,7 @@ import { Provider } from "./components/ui/provider";
 import InputField from "./components/InputField";
 import TaskField from "./components/TaskField";
 import DialogMaker from './components/DialogMaker';
-import OrderButton from './components/OrderButton';
+import { ActionBarMaker } from './components/ActionBarMaker';
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
             </div>
 
             <InputField/>
-            <OrderButton/>
+            <ActionBarMaker/>
             <TaskField/>
             <DialogMaker/>
             
