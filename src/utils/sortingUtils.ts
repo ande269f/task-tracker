@@ -16,6 +16,8 @@ export const handleSorting = (sortingProps: sortingProps): taskObject[] => {
         return interactiveTaskSort(sortingProps)
       case "dateCreated": 
         return dateTaskSort(sortingProps)
+      case "alfabeticalOrdering":
+        return alphabetTaskSort(sortingProps)
       default:
         return interactiveTaskSort(sortingProps)
     }
@@ -48,4 +50,21 @@ const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
     a.dateCreated.getTime() - b.dateCreated.getTime())
     //bruger date.getTime til at omskrive til num værdi
 } 
+
+const alphabetTaskSort = (sortingProps: sortingProps): taskObject[] => {
+  const copiedUserInput = [...sortingProps.userInput]
+  return copiedUserInput.sort((a,b) => {
+    //for at sortere objekter alfabetisk med brug af sort, 
+    //sammenligner vi to tekster og returnere -1, 1 eller 0 alt efter casen
+    if (a.taskText.toUpperCase() > b.taskText.toUpperCase()) {
+      return -1
+    } 
+    else if (a.taskText.toUpperCase() < b.taskText.toUpperCase()) {
+      return 1
+    } 
+    else return 0
+  })
+    
+
+}
 
