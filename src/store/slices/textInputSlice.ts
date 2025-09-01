@@ -19,7 +19,7 @@ const inputSlice = createSlice({
                     findTask.taskText = action.payload.taskText
                 }
         },
-        setTaskDeleted: (state, action: PayloadAction<{uuid: UUIDTypes; taskDeleted: boolean}>) => {
+        setTaskDeleted: (state, action: PayloadAction<{uuid: UUIDTypes; taskDeleted: Date | null}>) => {
             const findTask = state.find(t => t.uuid === action.payload.uuid);
                 if (findTask) {
                     findTask.taskDeleted = action.payload.taskDeleted
@@ -31,7 +31,7 @@ const inputSlice = createSlice({
                     findTask.taskCompleted = action.payload.taskCompleted
                 }
         },
-        setTaskEditsLog: (state, action: PayloadAction<{uuid: UUIDTypes; taskEditsLog: {dateEdited: Date; taskText: string; taskCompleted: boolean; taskDeleted: boolean, uuid: UUIDTypes}}>) => {
+        setTaskEditsLog: (state, action: PayloadAction<{uuid: UUIDTypes; taskEditsLog: {dateEdited: Date; taskText: string; taskCompleted: boolean; taskDeleted: Date | null, uuid: UUIDTypes}}>) => {
             const findTask = state.find(t => t.uuid === action.payload.uuid);
             if (findTask) {
                 findTask.taskEditsLog.push(action.payload.taskEditsLog)

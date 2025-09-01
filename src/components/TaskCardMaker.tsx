@@ -37,7 +37,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
 
     const handleDelete = () => {
         
-        dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: true}))
+        dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: new Date()}))
     }
     const handleComplete = () => {
         if (isEditOff) {
@@ -53,7 +53,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     }
 
     const showDialogBox = () => {
-        dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true, dialogboxType: "details"}))
+        dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true, dialogboxType: "taskDetailsDialog"}))
     }
 
     useEffect(() => {

@@ -15,7 +15,7 @@ const InputField = () => {
 
   const duplicateDetected = (duplicateDetected: Boolean = false) => {
     userInput.forEach(element => {
-      if (element.taskText == localInput && element.taskDeleted === false) {
+      if (element.taskText == localInput && element.taskDeleted === null) {
         duplicateDetected =  true;
       }
     }); return duplicateDetected
@@ -35,12 +35,12 @@ const InputField = () => {
           taskCompleted: false, 
           dateCreated: new Date(), 
           uuid: newUuid, 
-          taskDeleted: false, 
+          taskDeleted: null, 
           taskEditsLog: [{
             taskText: localInput, 
             dateEdited: new Date(), 
             taskCompleted: false, 
-            taskDeleted: false, 
+            taskDeleted: null, 
             uuid: uuid()}]}))
         setLocalInput("")
         dispatch(setSortOrder({uuid: newUuid}))

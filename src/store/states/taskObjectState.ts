@@ -5,7 +5,7 @@ export interface taskEditsLog {
         dateEdited: Date;
         taskText: string;
         taskCompleted: boolean;
-        taskDeleted: boolean;
+        taskDeleted: Date | null;
         uuid: UUIDTypes;
     }
 
@@ -14,6 +14,6 @@ export interface taskObject {
     uuid: UUIDTypes;
     taskText: string;
     taskCompleted: boolean;
-    taskDeleted: boolean;
+    taskDeleted: Date | null;
     taskEditsLog: taskEditsLog[];
 }
