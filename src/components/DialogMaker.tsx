@@ -46,7 +46,7 @@ const DialogMaker = () => {
     
 
     return (
- <Dialog.Root  key={"sm"} size={"sm"} open={detailsDialog.dialogboxOpened} onOpenChange={() => dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false}))}>
+ <Dialog.Root  key={"sm"} size={"sm"} open={detailsDialog.dialogboxOpened} onOpenChange={() => dispatch(setDetailsDialogState({taskObject: detailsDialog.taskObject, dialogboxOpened: false, dialogboxType: null}))}>
             <Dialog.Trigger asChild>
                 <Button style={{ display: "none" }}>
                 </Button>

@@ -53,7 +53,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     }
 
     const showDialogBox = () => {
-        dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true}))
+        dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true, dialogboxType: "details"}))
     }
 
     useEffect(() => {

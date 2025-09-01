@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setSortingState, setSortDirection } from "../store/slices/sortTaskSlice";
 
-export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}) => {
+export const SettingsButtonMaker = () => {
 
     // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
     const sortingOption1 = "Custom";
@@ -21,10 +21,6 @@ export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}
         const newSortState = decideSortStateValue(sortValue);
         dispatch(setSortingState({sortingState: newSortState}))
     }
-
-
-
-
 
     const decideSortStateValue = (sortValue: string | null) => {
         switch (sortValue) {
@@ -44,11 +40,6 @@ export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}
                 return sortingOption1
         }
     }
-
-
-
-
-
 
     return (
     <Menu.Root>
@@ -71,6 +62,7 @@ export const SettingsButtonMaker = ({handleSettings}: {handleSettings: Function}
                     <Menu.Separator />
                     <Menu.ItemGroup>
                         <Menu.ItemGroupLabel> Andet</Menu.ItemGroupLabel>
+                        <Menu.Item value="deletedTasks"> Slettede opgaver </Menu.Item>
                     </Menu.ItemGroup>
                 </Menu.Content>
             </Menu.Positioner>

@@ -14,14 +14,11 @@ export const ActionBarMaker = () => {
         dispatch(setSortDirection({sortDirection: !sortState.sortDirection}))
         }
 
-        const handleSettings = () => {
-            console.log("hej");
-        }
 
     return (
         <Flex>
             <OrderButton handleOrder={handleOrder}/>
-            <SettingsButtonMaker handleSettings={handleSettings}/>
+            <SettingsButtonMaker />
         </Flex>
     )
 }
