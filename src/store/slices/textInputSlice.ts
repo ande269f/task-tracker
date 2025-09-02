@@ -37,10 +37,19 @@ const inputSlice = createSlice({
                 findTask.taskEditsLog.push(action.payload.taskEditsLog)
             }
         },
+        deleteTask: (state, action: PayloadAction<{uuid: UUIDTypes}>) => {
+            const updated = [...state]
+            const taskIndex = state.findIndex(t => t.uuid === action.payload.uuid);
+            //findindex returnere -1 hvis intet er fundet
+            if (taskIndex !== -1) {
+                updated.splice(taskIndex, 1)
+            }
+            return updated
+        },
 
     },
 })
 
 
-export const { setTextInput, setTaskDeleted, setTaskCompleted, setTaskText, setTaskEditsLog } = inputSlice.actions;
+export const { setTextInput, setTaskDeleted, setTaskCompleted, setTaskText, setTaskEditsLog, deleteTask } = inputSlice.actions;
 export default inputSlice.reducer;

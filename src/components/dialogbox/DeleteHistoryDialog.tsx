@@ -5,7 +5,9 @@ import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
 import CheckboxMaker from "../CheckboxMaker";
 import { taskObject } from "../../store/states/taskObjectState";
 import { FaArrowRotateLeft } from "react-icons/fa6";
-import { setTaskDeleted } from "../../store/slices/textInputSlice";
+import { setTaskDeleted, deleteTask } from "../../store/slices/textInputSlice";
+import { MdDeleteForever, MdOutlineDeleteSweep } from "react-icons/md";
+import { toaster } from "../ui/toaster";
 
 const RestoreTaskButtonMaker = ({handleRestore}: {handleRestore: Function}) => {
     return (
@@ -15,12 +17,32 @@ const RestoreTaskButtonMaker = ({handleRestore}: {handleRestore: Function}) => {
     )
 }
 
+const DeleteTaskPermanentlyButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
+    return (
+        <IconButton aria-label="Search database" onClick={(e) => {e.stopPropagation(); handleDelete();}}>
+            <MdDeleteForever />
+        </IconButton>
+    )
+}
+
+const DeleteAllTasksPermanentlyButtonMaker = ({handleDelete}: {handleDelete: Function}) => {
+    return (
+        <Button aria-label="Search database" onClick={(e) => {e.stopPropagation(); handleDelete();}}>
+            <MdOutlineDeleteSweep /> Ryd papirkurv
+        </Button>
+    )
+}
+
 
 const DeletedTask = ({ task }: { task: taskObject }) => {
     const dispatch = useDispatch<AppDispatch>()
 
     const handleRestore = () => {
-        dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: null}))
+      dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: null}))
+    }
+
+    const handleDelete = () => {
+      dispatch(deleteTask({uuid: task.uuid}))
     }
 
   return (
@@ -36,6 +58,8 @@ const DeletedTask = ({ task }: { task: taskObject }) => {
         <Card.Footer>
           <CheckboxMaker taskCompleted={task.taskCompleted} />
           <RestoreTaskButtonMaker handleRestore={handleRestore} />
+          <DeleteTaskPermanentlyButtonMaker handleDelete={handleDelete}/>
+
 
 
         </Card.Footer>
@@ -63,6 +87,19 @@ const DeleteHistoryDialog = () => {
   const tasks = useSelector((state: RootState) => state.form)
   const dispatch = useDispatch<AppDispatch>()
 
+  const handleDeleteAllTasks = () => {
+    tasks.forEach(task => {
+      dispatch(deleteTask({uuid: task.uuid}))
+    })
+
+    toaster.create({
+      description: "Papirkurven er ryddet",
+      type: "success",
+    })
+  }
+
+
+
   return (
     <Dialog.Root
       key={"sm"}
@@ -87,9 +124,12 @@ const DeleteHistoryDialog = () => {
           <Dialog.Content>
             <Dialog.Header>
               <Dialog.Title>Slettede To-do's</Dialog.Title>
+              
             </Dialog.Header>
+            
             <Dialog.Body>
-                <DisplayDeletedTasks tasks={tasks} />
+              <DeleteAllTasksPermanentlyButtonMaker handleDelete={handleDeleteAllTasks}/>
+              <DisplayDeletedTasks tasks={tasks} />
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>

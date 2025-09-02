@@ -36,9 +36,9 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const handleDelete = () => {
-        
         dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: new Date()}))
     }
+    
     const handleComplete = () => {
         if (isEditOff) {
             dispatch(setTaskCompleted({uuid: task.uuid, taskCompleted: !task.taskCompleted}))

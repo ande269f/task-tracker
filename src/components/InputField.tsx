@@ -36,12 +36,7 @@ const InputField = () => {
           dateCreated: new Date(), 
           uuid: newUuid, 
           taskDeleted: null, 
-          taskEditsLog: [{
-            taskText: localInput, 
-            dateEdited: new Date(), 
-            taskCompleted: false, 
-            taskDeleted: null, 
-            uuid: uuid()}]}))
+          taskEditsLog: []}))
         setLocalInput("")
         dispatch(setSortOrder({uuid: newUuid}))
       }

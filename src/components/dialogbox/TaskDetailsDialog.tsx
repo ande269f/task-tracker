@@ -8,9 +8,10 @@ import { taskObject, taskEditsLog } from "../../store/states/taskObjectState";
 const TaskChange = ({ taskEditsLog }: { taskEditsLog: taskEditsLog }) => {
   return (
     <div>
+      <Dialog.Description> {taskEditsLog.dateEdited?.toLocaleString('en-UK')} </Dialog.Description>
       <Card.Root>
         <Card.Header />
-        <Card.Body>
+        <Card.Body >
           <Card.Description>
             <input value={taskEditsLog.taskText} readOnly={true} />
           </Card.Description>
