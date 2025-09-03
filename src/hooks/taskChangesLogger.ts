@@ -11,7 +11,6 @@ export default function useTaskChangeLogger(item: taskObject) {
 
     const logChanges = () => {
         
-        //console.log("logChanges()")
 
         if (!loggedTask) return;
         
@@ -21,18 +20,12 @@ export default function useTaskChangeLogger(item: taskObject) {
             loggedTask.current?.taskCompleted !== item.taskCompleted ||
             loggedTask.current?.taskDeleted !== item.taskDeleted;
         if (hasChanged) {
-            //console.log("item: ")
-            //console.log(item)
-            //console.log("loggedTask: ")
-            //console.log(loggedTask)
             dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted, uuid: uuid()}}))
             logTask()
         }
     }
     const logTask = () => {
-        //console.log("logTask()")
         loggedTask.current = {...item}
-
     }
     return {logTask, logChanges}
 }

@@ -23,13 +23,11 @@ const sortTasks = createSlice({
           if (action.payload.sortDirection) {
             // hvis det er normal rækkefølge (sortDirection = true = asc)
             const [moved] = updated.splice(action.payload.from, 1)
-            console.log(moved)
             updated.splice(action.payload.to, 0, moved)  
           } else {
             //hvis det ikke er normal rækkefølge, reverse og lav skift
             updated.reverse()
             const [moved] = updated.splice(action.payload.from, 1)
-            console.log(moved)
             updated.splice(action.payload.to, 0, moved)  
             updated.reverse()
           }

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import textInputReducer from "./slices/textInputSlice"
 import dialogOpener from "./slices/detailsDialogSlice"
 import sortTasks from "./slices/interactiveTaskOrderSlice"
@@ -19,3 +19,4 @@ export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type Thunk = ThunkAction<void, RootState, unknown, Action>;
