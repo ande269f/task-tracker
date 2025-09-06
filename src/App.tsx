@@ -1,27 +1,24 @@
 
 import './App.scss';
 import { Provider } from "./components/ui/provider";
-import InputField from "./components/InputField";
-import TaskField from "./components/TaskField";
-import { ActionBarMaker } from './components/ActionBarMaker';
-import DisplayDialog from './components/dialogbox/DisplayDialog';
-import { useBeforeunload } from "react-beforeunload";
+import LoginPage from './pages/LoginPage';
+import TaskPage from './pages/TaskPage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
-    useBeforeunload((event) => {
-    console.log("hej");
-    event.preventDefault();
-  });
+
     return (
         <Provider>
             <div className="App">
             </div>
+            <Router>
+                <Routes>
+                    <Route path="/login" element={<LoginPage/>} />
+                    <Route path="/tasks" element={<TaskPage/>} />
+                </Routes>
+            </Router>
 
-            <InputField/>
-            <ActionBarMaker/>
-            <TaskField/>
-            <DisplayDialog/>
-            
             
 
 

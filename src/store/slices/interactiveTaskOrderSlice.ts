@@ -1,41 +1,58 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import {interactiveTaskOrder} from "../states/interactiveTaskOrderState";
-
+import { interactiveTaskOrder } from "../states/interactiveTaskOrderState";
+import { setTextInput, deleteTask } from "./textInputSlice";
 const initialState: interactiveTaskOrder[] = [];
 
-
 const sortTasks = createSlice({
-    name: "sortTasks",
-    initialState,
-    reducers: {
-        setSortOrder: (state, action: PayloadAction<{uuid: UUIDTypes}>) => {
-            const newElement: interactiveTaskOrder = {
-                uuid: action.payload.uuid,
-                sortOrder: state.length
-            }
-            state.push(newElement)
-        },
-        updateSortOrder: (state, action: PayloadAction<{from: number; to: number; sortDirection: boolean}>) => {
-            //flyt elementet
-          var updated = [...state];
+  name: "sortTasks",
+  initialState,
+  reducers: {
+    updateSortOrder: (
+      state,
+      action: PayloadAction<{
+        from: number;
+        to: number;
+        sortDirection: boolean;
+      }>
+    ) => {
+      //flyt elementet
+      var updated = [...state];
 
-          if (action.payload.sortDirection) {
-            // hvis det er normal rækkefølge (sortDirection = true = asc)
-            const [moved] = updated.splice(action.payload.from, 1)
-            updated.splice(action.payload.to, 0, moved)  
-          } else {
-            //hvis det ikke er normal rækkefølge, reverse og lav skift
-            updated.reverse()
-            const [moved] = updated.splice(action.payload.from, 1)
-            updated.splice(action.payload.to, 0, moved)  
-            updated.reverse()
-          }
+      if (action.payload.sortDirection) {
+        // hvis det er normal rækkefølge (sortDirection = true = asc)
+        const [moved] = updated.splice(action.payload.from, 1);
+        updated.splice(action.payload.to, 0, moved);
+      } else {
+        //hvis det ikke er normal rækkefølge, reverse og lav skift
+        updated.reverse();
+        const [moved] = updated.splice(action.payload.from, 1);
+        updated.splice(action.payload.to, 0, moved);
+        updated.reverse();
+      }
 
-
-          return updated
-        }
-    }
-})
-export const {updateSortOrder, setSortOrder} = sortTasks.actions
-export default sortTasks.reducer
+      return updated;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+    .addCase(setTextInput, (state, action) => {
+      const newElement: interactiveTaskOrder = {
+        uuid: action.payload.uuid,
+        sortOrder: state.length,
+      };
+      state.push(newElement);
+    })
+    .addCase(deleteTask, (state, action) => {
+      const updated = [...state]
+      const taskIndex = state.findIndex(t => t.uuid === action.payload.uuid);
+      //findindex returnere -1 hvis intet er fundet
+      if (taskIndex !== -1) {
+          updated.splice(taskIndex, 1)
+      }
+      return updated
+    })
+  },
+});
+export const { updateSortOrder } = sortTasks.actions;
+export default sortTasks.reducer;

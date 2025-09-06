@@ -89,7 +89,11 @@ const DeleteHistoryDialog = () => {
 
   const handleDeleteAllTasks = () => {
     tasks.forEach(task => {
-      dispatch(deleteTask({uuid: task.uuid}))
+      if (task.taskDeleted) {
+        dispatch(deleteTask({uuid: task.uuid}))
+
+      }
+
     })
 
     toaster.create({
