@@ -34,6 +34,7 @@ const sortTasks = createSlice({
       return updated;
     },
   },
+  //extrareducers til at reagere på ændring i taskobject listen (tilføjelse - sletning af tasks)
   extraReducers: (builder) => {
     builder
     .addCase(setTextInput, (state, action) => {

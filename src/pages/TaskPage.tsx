@@ -1,6 +1,5 @@
 import { useBeforeunload } from "react-beforeunload";
 import { ActionBarMaker } from "../components/ActionBarMaker";
-import DisplayDialog from "../components/dialogbox/DisplayDialog";
 import InputField from "../components/InputField";
 import TaskField from "../components/TaskField";
 
@@ -14,7 +13,6 @@ const TaskPage = () => {
       <InputField />
       <ActionBarMaker />
       <TaskField />
-      <DisplayDialog />
     </>
   );
 };

@@ -1,5 +1,6 @@
 
 import './App.scss';
+import DisplayDialog from './components/dialogbox/DisplayDialog';
 import { Provider } from "./components/ui/provider";
 import LoginPage from './pages/LoginPage';
 import TaskPage from './pages/TaskPage';
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/tasks" element={<TaskPage/>} />
                 </Routes>
             </Router>
+            <DisplayDialog />
 
             
 
