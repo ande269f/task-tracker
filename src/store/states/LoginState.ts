@@ -1,7 +1,8 @@
 import { UUIDTypes } from "uuid";
 
 export interface LoginState {
-    LoggedIn: boolean
+    username: string
+    loggedIn: boolean
     sessionId: UUIDTypes | null
     userId: number | null
 }

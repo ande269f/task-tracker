@@ -1,3 +1,4 @@
+import UserState from './slices/userSlice';
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import textInputReducer from "./slices/textInputSlice"
 import dialogOpener from "./slices/detailsDialogSlice"
@@ -8,7 +9,8 @@ const store = configureStore({
         form: textInputReducer,
         detailsOpener: dialogOpener,
         sortTasks: sortTasks,
-        sortState: sortState
+        sortState: sortState,
+        UserState: UserState
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false,

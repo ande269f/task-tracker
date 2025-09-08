@@ -2,6 +2,7 @@ import TaskDetailsDialog from "./TaskDetailsDialog";
 import DeleteHistoryDialog from "./DeleteHistoryDialog";
 import {useSelector } from "react-redux";
 import { RootState } from "../../store";
+import NewUserDialog from "./NewUserDialog";
 
 
 
@@ -15,6 +16,8 @@ const DisplayDialog = () => {
                 return <TaskDetailsDialog />
             case "deleteHistoryDialog":
                 return <DeleteHistoryDialog />
+            case "newUserDialog":
+                return <NewUserDialog />
             default:
                 return undefined
         }

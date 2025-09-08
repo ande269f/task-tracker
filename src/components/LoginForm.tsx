@@ -1,5 +1,8 @@
 import { Stack, Field, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import Login from "../API/Login";
+import { AppDispatch } from "../store";
+import { useDispatch } from "react-redux";
 
 interface FormValues {
   username: string;
@@ -12,22 +15,21 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
+  const dispatch: AppDispatch = useDispatch();
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+
+  const onSubmit = async (data: FormValues) => {
+    const login = new Login(data.username, dispatch)
+    login.submit();
+  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap="4" align="flex-start" maxW="sm">
-        <Field.Root invalid={!!errors.username}>
+        <Field.Root invalid={!!errors.username} required>
           <Field.Label>Brugernavn</Field.Label>
           <Input {...register("username")} />
           <Field.ErrorText>{errors.username?.message}</Field.ErrorText>
-        </Field.Root>
-
-        <Field.Root invalid={!!errors.password}>
-          <Field.Label>Kodeord</Field.Label>
-          <Input {...register("password")} />
-          <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
         </Field.Root>
 
         <Button type="submit">Log in</Button>
@@ -36,4 +38,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm
+export default LoginForm;

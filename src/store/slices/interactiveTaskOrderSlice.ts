@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UUIDTypes } from "uuid";
 import { interactiveTaskOrder } from "../states/interactiveTaskOrderState";
 import { setTextInput, deleteTask } from "./textInputSlice";
 const initialState: interactiveTaskOrder[] = [];
