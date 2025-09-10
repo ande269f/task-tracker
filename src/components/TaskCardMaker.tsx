@@ -1,7 +1,7 @@
 import { AppDispatch } from "../store";
 import { Card, IconButton, Button } from "@chakra-ui/react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { setTaskDeleted, setTaskCompleted, setTaskText } from "../store/slices/textInputSlice";
+import { setTaskDeleted, setTaskCompleted, setTaskText } from "../store/slices/taskSlice";
 import { useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { DetailsButtonMaker } from "./DetailsButtonMaker";

@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import sortTaskState from "../states/sortTaskState";
+
+interface sortTaskState {
+    sortDirection: boolean
+    sortingState: string
+}
 
 const initialState: sortTaskState = {
     sortDirection: false,

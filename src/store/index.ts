@@ -1,6 +1,6 @@
-import UserState from './slices/userSlice';
+import UserState from './slices/loginSlice';
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import textInputReducer from "./slices/textInputSlice"
+import textInputReducer from "./slices/taskSlice"
 import dialogOpener from "./slices/detailsDialogSlice"
 import sortTasks from "./slices/interactiveTaskOrderSlice"
 import sortState from "./slices/sortTaskSlice";

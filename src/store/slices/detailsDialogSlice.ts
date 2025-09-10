@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import DetailsDialogState from "../states/detailsDialogState";
+import { taskObject } from "../slices/taskSlice";
+
+interface DetailsDialogState {
+    taskObject: taskObject | null;
+    dialogboxOpened: boolean;
+    dialogboxType: string | null;
+};
 
 const initialState: DetailsDialogState = {
     taskObject: null,

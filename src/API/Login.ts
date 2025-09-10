@@ -1,6 +1,6 @@
 import axios from "../API/client"
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { setUserLoggedIn, setUsername } from "../store/slices/userSlice";
+import { setUserLoggedIn, setUsername } from "../store/slices/loginSlice";
 import { AppDispatch } from "../store";
 
 export default class Login {
@@ -34,7 +34,7 @@ export default class Login {
 
   submit = async (username = this.username) => {
     try {
-      const response = await axios.get("users/" + username);
+      const response = await axios.get("users/getUser" + username);
       this.checkBackendResponse(response.data);
     } catch (e) {
       //der er ikke forbindelse til back-enden
@@ -44,7 +44,7 @@ export default class Login {
 
   createNewUser = async (username = this.username) => {
     try {
-      await axios.post("createNewUser/" + username);
+      await axios.post("users/createNewUser/" + username);
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("create new user fails");
@@ -53,10 +53,10 @@ export default class Login {
 
   setUserPassword = async (username = this.username, password: string) => {
     try {
-      await axios.post("setUserPassword/" + username);
+      await axios.post("users/setUserPassword/" + username + "/" + password);
     } catch (e) {
       //der er ikke forbindelse til back-enden
-      console.log("create new user fails");
+      console.log("setting user password fails");
     }
   }
 

@@ -1,7 +1,14 @@
 
 import {v4 as uuid} from 'uuid';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LoginState } from "../states/LoginState";
+import { UUIDTypes } from "uuid";
+
+interface LoginState {
+    username: string
+    loggedIn: boolean
+    sessionId: UUIDTypes | null
+    userId: number | null
+}
 
 const initialState: LoginState = {
   username: "",

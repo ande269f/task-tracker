@@ -5,7 +5,7 @@ import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
 import CheckboxMaker from "../CheckboxMaker";
 import { taskObject } from "../../store/states/taskObjectState";
 import { FaArrowRotateLeft } from "react-icons/fa6";
-import { setTaskDeleted, deleteTask } from "../../store/slices/textInputSlice";
+import { setTaskDeleted, deleteTask } from "../../store/slices/taskSlice";
 import { MdDeleteForever, MdOutlineDeleteSweep } from "react-icons/md";
 import { toaster } from "../ui/toaster";
 

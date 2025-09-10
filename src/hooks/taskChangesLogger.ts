@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { setTaskEditsLog } from "../store/slices/textInputSlice";
+import { setTaskEditsLog } from "../store/slices/taskSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import {v4 as uuid} from 'uuid';
