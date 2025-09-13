@@ -3,7 +3,7 @@ import CheckboxMaker from "../CheckboxMaker";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
-import { taskObject, taskEditsLog } from "../../store/states/taskObjectState";
+import { taskObject, taskEditsLog } from "../../store/slices/taskSlice";
 
 const TaskChange = ({ taskEditsLog }: { taskEditsLog: taskEditsLog }) => {
   return (

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface sortTaskState {
+export interface sortTaskState {
     sortDirection: boolean
     sortingState: string
 }

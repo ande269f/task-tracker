@@ -85,7 +85,7 @@ const DraggableTaskPrinter = ({ innerRef, droppableProps, placeholder }: TaskPri
   
 
   return (
-    <div ref={innerRef} {...droppableProps}>
+    <div ref={innerRef} {...droppableProps} id="TaskField">
       {sortedUserInput.map((input, index) => (
         <Draggable 
         draggableId={input.uuid.toString()} 

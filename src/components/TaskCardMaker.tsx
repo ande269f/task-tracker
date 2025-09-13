@@ -8,7 +8,7 @@ import { DetailsButtonMaker } from "./DetailsButtonMaker";
 import useTaskChangeLogger from "../hooks/taskChangesLogger";
 import CheckboxMaker from "./CheckboxMaker";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { taskObject } from "../store/states/taskObjectState";
+import { taskObject } from "../store/slices/taskSlice";
 
 
 
@@ -63,8 +63,8 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
 
     if (!task.taskDeleted) {
             return (
-        <div >
-            <Card.Root onClick={() => {handleComplete(); logTask();}}>
+        <div id="TaskCard">
+            <Card.Root onClick={() => {handleComplete(); logTask();}} >
                 <Card.Header />
                     <Card.Body> 
                         <Card.Description>

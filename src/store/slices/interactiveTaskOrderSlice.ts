@@ -3,7 +3,7 @@ import { setTextInput, deleteTask } from "./taskSlice";
 
 import { UUIDTypes } from "uuid";
 
-interface interactiveTaskOrder {
+export interface interactiveTaskOrder {
     sortOrder: number
     uuid: UUIDTypes
 }

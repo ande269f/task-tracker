@@ -16,7 +16,7 @@ export const ActionBarMaker = () => {
 
 
     return (
-        <Flex>
+        <Flex id="ActionBar">
             <OrderButton handleOrder={handleOrder}/>
             <SettingsButtonMaker />
         </Flex>

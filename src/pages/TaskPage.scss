@@ -1,0 +1,30 @@
+#TaskPage {
+    padding: 2vw;
+
+    #InputField {
+        grid-column: 2;
+        max-width: 94vw;
+        width: 50rem;
+        
+    }
+
+    #flexbox-top-part {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+    }
+
+    #ActionBar {
+        padding-left: 2rem;
+    }
+
+    #TaskField {
+        padding-top: 2rem;
+    }
+
+    #TaskCard {
+        padding-bottom: 1rem;
+    }
+
+
+}

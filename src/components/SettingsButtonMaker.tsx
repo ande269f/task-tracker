@@ -41,7 +41,7 @@ export const SettingsButtonMaker = () => {
   };
 
   return (
-    <Menu.Root>
+    <Menu.Root id="settingsButtonMaker">
       <Menu.Trigger asChild>
         <IconButton aria-label="Settings" variant="ghost">
           <IoSettingsSharp />
