@@ -32,10 +32,11 @@ export default class Login {
       );
   };
 
-  submit = async (username = this.username) => {
+  submit = async (username = this.username, password: string | null = null) => {
     try {
-      const response = await axios.get("users/getUser" + username);
+      const response = await axios.get("users/getUser/" + username + "/" + password);
       this.checkBackendResponse(response.data);
+      return response;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("submit fails");
@@ -44,7 +45,8 @@ export default class Login {
 
   createNewUser = async (username = this.username) => {
     try {
-      await axios.post("users/createNewUser/" + username);
+      const response = await axios.post("users/createNewUser/" + username);
+      return response
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("create new user fails");
@@ -57,6 +59,26 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("setting user password fails");
+    }
+  }
+
+  deleteUser = async (username = this.username) => {
+    try {
+      const response = await axios.post("users/deleteUser/" + username);
+      return response
+    } catch (e) {
+      //der er ikke forbindelse til back-enden
+      console.log("deleting user fails");
+    }
+  }
+
+    deactivateUser = async (username = this.username) => {
+    try {
+      const response = await axios.post("users/deactivateUser/" + username);
+      return response
+    } catch (e) {
+      //der er ikke forbindelse til back-enden
+      console.log("deactivating user fails");
     }
   }
 
