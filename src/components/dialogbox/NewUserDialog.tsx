@@ -6,18 +6,33 @@ import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
 import { Prose } from "../ui/prose";
 import { FaPlus } from "react-icons/fa6";
 import Login from "../../API/Login";
+import { toaster } from "../ui/toaster";
+import PasswordForm from "../PasswordForm";
+import { useState } from "react";
 
 
 const DialogProse = () => {
     return (
-    <Stack key={"loginText"}>
+    <Stack key={"DialogProse"}>
         <Prose size="md">
             <h1> Hej du</h1>
 
             <p>
                 det virker ikke til at det brugernavn du har indtastet er i brug.
                 Har du lyst til at oprette en ny bruger med dette brugernavn?
+            </p>
+        </Prose>
+    </Stack>
+    )
+}
 
+const PasswordProse = () => {
+    return (
+    <Stack key={"PasswordProse"}>
+        <Prose size="md">
+          <h1> Brug for ekstra sikkerhed? </h1>
+            <p>
+                hvis du vil, kan du også sætte et kodeord.
             </p>
         </Prose>
     </Stack>
@@ -26,7 +41,7 @@ const DialogProse = () => {
 
 const CreateNewUserButtonmaker = ({handleCreateNewUser}: {handleCreateNewUser: Function}) => {
         return (
-            <Button aria-label="Search database" onClick={(e) => {e.stopPropagation(); handleCreateNewUser();}}>
+            <Button aria-label="create-new-user" onClick={(e) => {e.stopPropagation(); handleCreateNewUser();}}>
                 <FaPlus /> Opret bruger
             </Button>
         )
@@ -35,12 +50,26 @@ const CreateNewUserButtonmaker = ({handleCreateNewUser}: {handleCreateNewUser: F
 const NewUserDialog = () => {
   const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
   const user = useSelector((state: RootState) => state.UserState);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleCreateNewUser = () => {
+  const handleCreateNewUser = async () => {
     const login = new Login(user.username, dispatch);
-    login.createNewUser();
+    const response = await login.createNewUser();
+
+
+    if (response?.data == "SUCCESS") {
+      toaster.create({
+        description: "Ny bruger oprettet",
+        type: "success",
+      })
+      setShowPasswordForm(true);
+    }
+
+    
   }
+
+
 
 
   return (
@@ -69,7 +98,10 @@ const NewUserDialog = () => {
               <Dialog.Title></Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-                <DialogProse />
+                {!showPasswordForm && <DialogProse />}
+                {!showPasswordForm && <CreateNewUserButtonmaker handleCreateNewUser={handleCreateNewUser}/>}
+                {showPasswordForm && <PasswordProse />}
+                {showPasswordForm && <PasswordForm />}
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
@@ -79,7 +111,7 @@ const NewUserDialog = () => {
             <Dialog.CloseTrigger asChild>
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
-            <CreateNewUserButtonmaker handleCreateNewUser={handleCreateNewUser}/>
+            
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

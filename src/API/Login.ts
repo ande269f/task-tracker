@@ -17,7 +17,7 @@ export default class Login {
   }
 
   checkBackendResponse = (data: any) => {
-    if (data === null || data === "") {
+    if (data.data === null || data.data === "") {
       this.dispatch(
         setDetailsDialogState({
           taskObject: null,
@@ -35,7 +35,7 @@ export default class Login {
   submit = async (username = this.username, password: string | null = null) => {
     try {
       const response = await axios.get("users/getUser/" + username + "/" + password);
-      this.checkBackendResponse(response.data);
+      this.checkBackendResponse(response);
       return response;
     } catch (e) {
       //der er ikke forbindelse til back-enden
@@ -45,7 +45,7 @@ export default class Login {
 
   createNewUser = async (username = this.username) => {
     try {
-      const response = await axios.post("users/createNewUser/" + username);
+      const response = await axios.post("users/createNewUser/" + username)
       return response
     } catch (e) {
       //der er ikke forbindelse til back-enden
@@ -55,7 +55,8 @@ export default class Login {
 
   setUserPassword = async (username = this.username, password: string) => {
     try {
-      await axios.post("users/setUserPassword/" + username + "/" + password);
+      const response = await axios.post("users/setUserPassword/" + username + "/" + password);
+      return response
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("setting user password fails");

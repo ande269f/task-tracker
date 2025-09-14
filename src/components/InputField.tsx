@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/taskSlice";
 import { useState } from "react";
 import {v4 as uuid, UUIDTypes} from 'uuid';
-import { Toaster, toaster } from "./ui/toaster"
+import {toaster } from "./ui/toaster"
 
 
 const InputField = () => {
@@ -57,8 +57,6 @@ const InputField = () => {
   }
 
   return (
-    <> 
-    <Toaster/>
     <form onSubmit={handleSubmit}>
       <Group attached w="full" maxW="sm">
         <Input flex="1" id="textInput" value={localInput} placeholder="Indtast en todo" onChange={(e) => setLocalInput(e.target.value)} />
@@ -67,7 +65,6 @@ const InputField = () => {
         </Button>
       </Group>
     </form>
-    </>
   )
 }
 
