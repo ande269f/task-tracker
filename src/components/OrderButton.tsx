@@ -9,7 +9,7 @@ const OrderButton = ({handleOrder}: {handleOrder: Function}) => {
 
     // conditional rendering af knaptype
     return (
-        <IconButton id="orderButton" aria-label="Order tasks" onClick={(e) => {e.stopPropagation(); handleOrder();}} variant="ghost">
+        <IconButton id="OrderButton" aria-label="Order tasks" onClick={(e) => {e.stopPropagation(); handleOrder();}} variant="subtle">
             {sortState.sortDirection ? <FaSortUp /> : <FaSortDown />}  
         </IconButton>
     )

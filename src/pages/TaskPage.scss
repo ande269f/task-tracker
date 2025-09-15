@@ -1,26 +1,49 @@
 #TaskPage {
     padding: 2vw;
 
-    #InputField {
-        grid-column: 2;
-        max-width: 94vw;
-        width: 50rem;
-        
-    }
-
+    // mobil settings - basis
     #flexbox-top-part {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
+        flex-direction: column;
+
+
+        #InputField {
+            align-items: center;
+            max-width: 94vw;
+            width: 100%;
+        }
+
+        #ActionBar {
+            align-items: flex-start;
+
+             #OrderButton, #SettingsButton {
+                margin: 0.5rem 0;
+                margin-right: 0.5rem;
+             }
+
+
+        }
     }
 
-    #ActionBar {
-        padding-left: 2rem;
+    // desktop settings
+    @media (min-width: 440px) {
+
+        #flexbox-top-part {
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+            align-items: center;
+
+            #InputField {
+                grid-column: 2;
+                margin-right: 40px;
+
+
+            }
+        }
     }
 
-    #TaskField {
-        padding-top: 2rem;
-    }
+
+
 
     #TaskCard {
         padding-bottom: 1rem;

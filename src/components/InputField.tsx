@@ -58,7 +58,6 @@ const InputField = () => {
 
   return (
     <div id="InputField">
-    <Toaster/>
     <form onSubmit={handleSubmit}>
       <Group attached w="full">
         <Input flex="1" id="Input" value={localInput} placeholder="Indtast en todo" onChange={(e) => setLocalInput(e.target.value)} />
