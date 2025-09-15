@@ -4,44 +4,44 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 
 interface LoginState {
-    username: string
-    loggedIn: boolean
+    username: string | null
+    password: string | null
     sessionId: UUIDTypes | null
     userId: number | null
+    loginState: string
 }
 
 const initialState: LoginState = {
-  username: "",
-  loggedIn: false,
+  username: null,
+  password: null,
   sessionId: null,
   userId: null,
+  loginState: "NOT_LOGGED_IN"
 };
 
 const loginSlice = createSlice({
   name: "loginState",
   initialState,
   reducers: {
-    setUserLoggedIn: (
-      state,
-      action: PayloadAction<{username: string, userId: number}>
-    ) => {
-      state.username = action.payload.username;
-      state.loggedIn = true;
-      state.userId = action.payload.userId;
-    },
     setUserLoggedOut: (state) => {
-        state.username = "";
-        state.loggedIn = false;
-        state.userId= null;
+        state = initialState;
+    },
+    setUserLoggedIn: (state, action: PayloadAction<{loginState: string}>) => {
+      state.loginState = action.payload.loginState;
     },
     setSessionId: (state) => {
       state.sessionId = uuid();
     },
     setUsername: (state, action: PayloadAction<{username: string}>) => {
       state.username = action.payload.username;
-    }
-  },
-});
+    },
+    setPassword: (state, action: PayloadAction<{password: string}>) => {
+      state.password = action.payload.password;
+    },
+    setLoginState: (state, action: PayloadAction<{loginState: string}>) => {
+      state.loginState = action.payload.loginState;
+    },
+}})
 
-export const {setUserLoggedIn, setUserLoggedOut, setSessionId, setUsername} = loginSlice.actions;
+export const {setUserLoggedIn, setUserLoggedOut, setSessionId, setUsername, setLoginState, setPassword} = loginSlice.actions;
 export default loginSlice.reducer;

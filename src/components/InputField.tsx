@@ -1,10 +1,10 @@
-import { Button, Group, Input } from "@chakra-ui/react"
+import { Button, Group, Input, Toaster } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setTextInput } from "../store/slices/taskSlice";
 import { useState } from "react";
 import {v4 as uuid, UUIDTypes} from 'uuid';
-import { Toaster, toaster } from "./ui/toaster"
+import {toaster } from "./ui/toaster"
 
 
 const InputField = () => {

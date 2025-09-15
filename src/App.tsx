@@ -2,6 +2,7 @@
 import './App.scss';
 import DisplayDialog from './components/dialogbox/DisplayDialog';
 import { Provider } from "./components/ui/provider";
+import { Toaster } from './components/ui/toaster';
 import LoginPage from './pages/LoginPage';
 import TaskPage from './pages/TaskPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -13,6 +14,7 @@ function App() {
         <Provider>
             <div className="App">
             </div>
+            <Toaster/> 
             <Router>
                 <Routes>
                     <Route path="/login" element={<LoginPage/>} />

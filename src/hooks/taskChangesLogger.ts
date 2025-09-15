@@ -3,7 +3,7 @@ import { setTaskEditsLog } from "../store/slices/taskSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import {v4 as uuid} from 'uuid';
-import { taskObject } from "../store/states/taskObjectState";
+import { taskObject } from "../store/slices/taskSlice";
 
 export default function useTaskChangeLogger(item: taskObject) {
         const loggedTask = useRef<taskObject>()
