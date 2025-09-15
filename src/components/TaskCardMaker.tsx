@@ -8,7 +8,7 @@ import { DetailsButtonMaker } from "./DetailsButtonMaker";
 import useTaskChangeLogger from "../hooks/taskChangesLogger";
 import CheckboxMaker from "./CheckboxMaker";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { taskObject } from "../store/states/taskObjectState";
+import { taskObject } from "../store/slices/taskSlice";
 
 
 

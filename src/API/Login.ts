@@ -1,41 +1,25 @@
 import axios from "../API/client"
-import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { setUserLoggedIn, setUsername } from "../store/slices/loginSlice";
 import { AppDispatch } from "../store";
 
 export default class Login {
-  username: string;
+  username: string | null;
   dispatch: AppDispatch;
 
   constructor(
-    username: string,
+    username: string | null,
     dispatch: AppDispatch
   ) {
     this.username = username;
     this.dispatch = dispatch;
-
   }
 
-  checkBackendResponse = (data: any) => {
-    if (data.data === null || data.data === "") {
-      this.dispatch(
-        setDetailsDialogState({
-          taskObject: null,
-          dialogboxType: "newUserDialog",
-          dialogboxOpened: true,
-        }),
-        this.dispatch(setUsername({username: this.username}))
-      );
-    } else
-      this.dispatch(
-        setUserLoggedIn({ username: data.username, userId: data.userId })
-      );
-  };
 
-  submit = async (username = this.username, password: string | null = null) => {
+  submit = async (username: string | null= this.username, password: string | null = null) => {
     try {
-      const response = await axios.get("users/getUser/" + username + "/" + password);
-      this.checkBackendResponse(response);
+      const url = password 
+      ? `users/getUser/${username}?password=${password}`
+      : `users/getUser/${username}`;
+      const response = await axios.get(url);
       return response;
     } catch (e) {
       //der er ikke forbindelse til back-enden

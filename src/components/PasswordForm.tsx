@@ -5,33 +5,25 @@ import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { toaster } from "./ui/toaster";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
+import { setPassword, setUsername } from "../store/slices/loginSlice";
 
 interface FormValues {
   password: string;
 }
 
+
 const PasswordForm = () => {
+    const dispatch: AppDispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.UserState);
 
-  const onSubmit = async (data: FormValues) => {
-    const login = new Login(user.username, dispatch)
-    const response = await login.setUserPassword(user.username, data.password);
-
-    if (response?.data == "SUCCESS") {
-        toaster.create({
-        description: "nyt kodeord sat",
-        type: "success",
-        })
-
-        dispatch(setDetailsDialogState({taskObject: null, dialogboxOpened: false, dialogboxType: null}))
-    }
-  };
+  const onSubmit = (data: FormValues) => {
+    dispatch(setPassword({password: data.password}))
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,8 +32,6 @@ const PasswordForm = () => {
           <Input {...register("password")} />
           <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
         </Field.Root>
-
-        <Button type="submit">Gem</Button>
       </Flex>
     </form>
   );
