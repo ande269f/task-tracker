@@ -2,92 +2,119 @@ import { Dialog, Button, Portal, CloseButton, Stack } from "@chakra-ui/react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
+import {
+  setDialogBoxTypeClosed,
+} from "../../store/slices/detailsDialogSlice";
 import { Prose } from "../ui/prose";
 import { FaPlus } from "react-icons/fa6";
 import Login from "../../API/Login";
 import { toaster } from "../ui/toaster";
 import PasswordForm from "../PasswordForm";
 import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { setLoginState } from "../../store/slices/loginSlice";
 
+interface FormValue {
+  password: string;
+}
 
 const DialogProse = () => {
-    return (
+  return (
     <Stack key={"DialogProse"}>
-        <Prose size="md">
-            <h1> Hej du</h1>
+      <Prose size="md">
+        <h1> Hej du</h1>
 
-            <p>
-                det virker ikke til at det brugernavn du har indtastet er i brug.
-                Har du lyst til at oprette en ny bruger med dette brugernavn?
-            </p>
-        </Prose>
+        <p>
+          det virker ikke til at det brugernavn du har indtastet er i brug. Har
+          du lyst til at oprette en ny bruger med dette brugernavn?
+        </p>
+      </Prose>
     </Stack>
-    )
-}
+  );
+};
 
 const PasswordProse = () => {
-    return (
+  return (
     <Stack key={"PasswordProse"}>
-        <Prose size="md">
-          <h1> Brug for ekstra sikkerhed? </h1>
-            <p>
-                hvis du vil, kan du også sætte et kodeord.
-            </p>
-        </Prose>
+      <Prose size="md">
+        <h1> Brug for ekstra sikkerhed? </h1>
+        <p>hvis du vil, kan du også sætte et kodeord.</p>
+      </Prose>
     </Stack>
-    )
-}
+  );
+};
 
-const CreateNewUserButtonmaker = ({handleCreateNewUser}: {handleCreateNewUser: Function}) => {
-        return (
-            <Button aria-label="create-new-user" onClick={(e) => {e.stopPropagation(); handleCreateNewUser();}}>
-                <FaPlus /> Opret bruger
-            </Button>
-        )
-}
+const CreateNewUserButtonmaker = ({
+  handleCreateNewUser,
+}: {
+  handleCreateNewUser: Function;
+}) => {
+  return (
+    <Button
+      aria-label="create-new-user"
+      onClick={(e) => {
+        e.stopPropagation();
+        handleCreateNewUser();
+      }}
+    >
+      <FaPlus /> Opret bruger
+    </Button>
+  );
+};
 
 const NewUserDialog = () => {
   const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
   const user = useSelector((state: RootState) => state.UserState);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const methods = useForm<{ password: string }>();
 
   const handleCreateNewUser = async () => {
+    console.log(user);
     const login = new Login(user.username, dispatch);
     const response = await login.createNewUser();
-
 
     if (response?.data == "SUCCESS") {
       toaster.create({
         description: "Ny bruger oprettet",
         type: "success",
-      })
+      });
+      dispatch(setLoginState({ loginState: "SUCCESS" }));
       setShowPasswordForm(true);
     }
+  };
 
-    
+  const onSubmitPassword = async (data: FormValue) => {
+    const login = new Login(user.username, dispatch);
+    const response = await login.setUserPassword(user.username, data.password);
 
-    
-  }
-
-
-
+    if (response?.data == "SUCCESS") {
+      toaster.create({
+        description: "dit kodeord er sat op!",
+        type: "success",
+      });
+    } else {
+      toaster.create({
+        description: "der er sket en fejl",
+        type: "error",
+      });
+    }
+    dispatch(setDialogBoxTypeClosed());
+  };
 
   return (
     <Dialog.Root
       key={"sm"}
       size={"sm"}
       open={detailsDialog.dialogboxOpened}
-      onOpenChange={() =>
-        dispatch(
-          setDetailsDialogState({
-            taskObject: detailsDialog.taskObject,
-            dialogboxOpened: false,
-            dialogboxType: null,
-          })
-        )
-      }
+      onOpenChange={() => {
+        dispatch(setDialogBoxTypeClosed());
+        // user er logged in efter "opret ny bruger". 
+        // hvis de ikke trykker på den knap det skal loginstate sættes tilbage til NOT_LOGGED_IN
+        if (user.loginState == "USER_NOT_FOUND") {
+          dispatch(setLoginState({ loginState: "NOT_LOGGED_IN" }));
+        }
+      }}
     >
       <Dialog.Trigger asChild>
         <Button style={{ display: "none" }}></Button>
@@ -100,10 +127,20 @@ const NewUserDialog = () => {
               <Dialog.Title></Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-                {!showPasswordForm && <DialogProse />}
-                {!showPasswordForm && <CreateNewUserButtonmaker handleCreateNewUser={handleCreateNewUser}/>}
-                {showPasswordForm && <PasswordProse />}
-                {showPasswordForm && <PasswordForm />}
+              {!showPasswordForm && <DialogProse />}
+              {!showPasswordForm && (
+                <CreateNewUserButtonmaker
+                  handleCreateNewUser={handleCreateNewUser}
+                />
+              )}
+              {showPasswordForm && (
+                <FormProvider {...methods}>
+                  <PasswordProse />
+                  <form onSubmit={methods.handleSubmit(onSubmitPassword)}>
+                    <PasswordForm />
+                  </form>
+                </FormProvider>
+              )}
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
@@ -113,7 +150,6 @@ const NewUserDialog = () => {
             <Dialog.CloseTrigger asChild>
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
-            
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

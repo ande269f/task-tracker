@@ -1,6 +1,6 @@
-import sortTaskState from './../store/states/sortTaskState';
-import { taskObject } from "../store/states/taskObjectState"
-import { interactiveTaskOrder } from "../store/states/interactiveTaskOrderState"
+import { sortTaskState }  from './../store/slices/sortTaskSlice';
+import { taskObject } from "../store/slices/taskSlice"
+import { interactiveTaskOrder } from "../store/slices/interactiveTaskOrderSlice"
 
 interface sortingProps {
   userInput: taskObject[]
@@ -9,7 +9,6 @@ interface sortingProps {
 }
 
 export const handleSorting = (sortingProps: sortingProps): taskObject[] => {
-  console.log(sortingProps)
   const sortingType = (sortingState: string) => {
     switch (sortingState) {
       case "interactiveOrdering": 
