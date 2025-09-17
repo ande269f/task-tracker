@@ -18,8 +18,10 @@ export default function loginResultDispatcher(
       setUser({
         username: response.username,
         password: response.password,
-        sessionId: response.sessionId,
         userId: response.userId,
+        exp: response.exp,
+        iat: response.iat
+
       })
     );
     dispatch(setLoginState({ loginState: "SUCCESS" }));

@@ -8,6 +8,8 @@ interface LoginState {
   sessionId: UUIDTypes | null;
   userId: number | null;
   loginState: string;
+  exp: number | null;
+  iat: number | null; 
 }
 
 const initialState: LoginState = {
@@ -15,6 +17,8 @@ const initialState: LoginState = {
   password: null,
   sessionId: null,
   userId: null,
+  exp: null,
+  iat: null,
   loginState: "NOT_LOGGED_IN",
 };
 
@@ -27,14 +31,17 @@ const loginSlice = createSlice({
       action: PayloadAction<{
         username: string;
         password: string;
-        sessionId: UUIDTypes;
         userId: number;
+        exp: number;
+        iat:number
       }>
     ) => {
       state.username = action.payload.username;
       state.password = action.payload.password;
-      state.sessionId = action.payload.sessionId;
+      state.sessionId = uuid();
       state.userId = action.payload.userId;
+      state.exp = action.payload.exp;
+      state.iat = action.payload.iat;
     },
     setUserLoggedOut: () => {
       initialState;
