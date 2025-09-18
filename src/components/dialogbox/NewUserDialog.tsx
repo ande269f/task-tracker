@@ -71,7 +71,7 @@ const NewUserDialog = () => {
 
   const handleCreateNewUser = async () => {
     console.log(user);
-    const login = new Login(user.username, dispatch);
+    const login = new Login(user.username);
     const response = await login.createNewUser();
 
     if (response?.data == "SUCCESS") {
@@ -85,7 +85,7 @@ const NewUserDialog = () => {
   };
 
   const onSubmitPassword = async (data: FormValue) => {
-    const login = new Login(user.username, dispatch);
+    const login = new Login(user.username);
     const response = await login.setUserPassword(user.username, data.password);
 
     if (response?.data == "SUCCESS") {

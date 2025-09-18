@@ -4,12 +4,10 @@ import JwtHandler from "./JwtHandler";
 
 export default class Login {
   username: string | null;
-  dispatch: AppDispatch;
   jwtHandler = new JwtHandler();
 
-  constructor(username: string | null, dispatch: AppDispatch) {
+  constructor(username: string | null) {
     this.username = username;
-    this.dispatch = dispatch;
   }
 
   submit = async (
@@ -73,4 +71,16 @@ export default class Login {
       console.log("deactivating user fails");
     }
   };
+
+
+  checkLogin = async () => {
+    try {
+      const response = await axios.get("checkLogin/");
+      return response.data;
+    } catch (e) {
+      //der er ikke forbindelse til back-enden
+      console.log("checkLogin fails" + e);
+      return ""
+    }
+  }
 }

@@ -46,7 +46,7 @@ const LoginPage = () => {
 
 
   const onSubmit = async (data: FormValues) => {
-    const login = new Login(data.username, dispatch);
+    const login = new Login(data.username);
     const response = await login.submit(data.username, data.password);
     loginResultDispatcher(response, dispatch, data);
   };

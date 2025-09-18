@@ -10,7 +10,7 @@ export interface taskEditsLog {
     }
 
 export interface taskObject {
-    dateCreated: Date
+    taskCreated: Date
     uuid: UUIDTypes;
     taskText: string;
     taskCompleted: boolean;
@@ -24,6 +24,11 @@ const inputSlice = createSlice({
     name: "textInput",
     initialState,
     reducers: {
+
+        loadTasks: (state, action: PayloadAction<taskObject[]>) => {
+            return action.payload;
+        },
+
         setTextInput: (state, action: PayloadAction<taskObject>) => {
             state.push(action.payload);
         },

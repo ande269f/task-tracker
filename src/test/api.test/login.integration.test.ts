@@ -2,12 +2,11 @@ import Login from "../../API/Login";
 import { AppDispatch } from "../../store";
 
 describe("Login integration tests with real backend", () => {
-  const mockDispatch: AppDispatch = jest.fn();
 
 it("should create, setpassword, deactivate, and delete a user sequentially", async () => {
   const username = "kljasfnbwerlwqerhdshflkjwerlkjwherosdfkjasdfasfd";
   const password = "mypassword";
-  const login = new Login(username, mockDispatch);
+  const login = new Login(username);
 
   // 1. Create
   const createResponse = await login.createNewUser(username);
