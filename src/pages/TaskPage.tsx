@@ -37,7 +37,7 @@ const TaskPage = () => {
           taskDeleted: task.taskDeleted,
           taskCompleted: task.taskCompleted,
           taskText: task.taskText,
-          uuid: task.taskUuid,
+          taskUuid: task.taskUuid,
           taskEditsLog: []
         })))
 

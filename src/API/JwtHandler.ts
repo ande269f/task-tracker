@@ -4,7 +4,7 @@ export default class JwtHandler {
 
 
     safeJwtToken = (token: string) => {
-        localStorage.setItem("jwt", token);
+        localStorage.settask("jwt", token);
     }
 
     decodeJwt = (token: string) => {
