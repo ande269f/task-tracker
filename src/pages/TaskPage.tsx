@@ -38,7 +38,6 @@ const TaskPage = () => {
           taskCompleted: task.taskCompleted,
           taskText: task.taskText,
           taskUuid: task.taskUuid,
-          taskEditsLog: []
         })))
 
 

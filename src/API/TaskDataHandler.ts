@@ -10,10 +10,11 @@ export interface taskDto {
   taskCreated: Date;
 }
 
+
 export default class TaskDataHandler {
   unloadTasks = async (task: taskDto, userId: number | null) => {
     try {
-      const token = localStorage.gettask("jwt") as string;
+      const token = localStorage.getItem("jwt") as string;
       if (typeof token != "string" && userId != null) {
         console.log(
           "token eksistere ikke eller er invalid - ellers så er iserId null"
@@ -41,7 +42,7 @@ export default class TaskDataHandler {
 
   loadtaskEdits = async (taskUuid: UUIDTypes) => {
     try {
-      const taskEdits = await axios.get("data/loadtaskEdits/" + taskUuid);
+      const taskEdits = await axios.get("data/loadTaskEdits/" + taskUuid);
       return taskEdits.data
     } catch (e) {
       console.log("loadtaskEdits failed " + e);
@@ -49,10 +50,10 @@ export default class TaskDataHandler {
     }
   }
 
-  unloadtaskEdit = async (taskUuid: UUIDTypes, taskEdits: taskEditsLog) => {
+  unloadtaskEdit = async (taskEdits: taskEditsLog) => {
     try {
-      const taskEdits = await axios.post("data/unloadtaskEdit/" + taskUuid, setTaskEditsLog);
-      return taskEdits.data
+      const response = await axios.post("data/unloadTaskEdit/", taskEdits);
+      return response.data
     } catch (e) {
       console.log("loadtaskEdits failed " + e);
       return "ERROR";

@@ -37,7 +37,7 @@ const handleSortingDirection = (sortingDirection: boolean, userInput: taskObject
 const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
   return sortingProps.sortTask.map(taskSorting => (
       sortingProps.userInput.find(task => 
-        task.uuid === taskSorting.uuid 
+        task.taskUuid === taskSorting.uuid
       )
   )).filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
               //læs op på det her
@@ -46,7 +46,7 @@ const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
 const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
   const copiedUserInput = [...sortingProps.userInput] // laver en kopi og ændre i den, da værdierne kommer direkte fra redux
   return copiedUserInput.sort((a,b) => 
-    a.dateCreated.getTime() - b.dateCreated.getTime())
+    a.taskCreated.getTime() - b.taskCreated.getTime())
     //bruger date.getTime til at omskrive til num værdi
 } 
 

@@ -52,7 +52,6 @@ const InputField = () => {
             taskCreated: task.taskCreated,
             taskUuid: task.taskUuid,
             taskDeleted: task.taskDeleted,
-            taskEditsLog: [],
           })
         );
         setLocalInput("");

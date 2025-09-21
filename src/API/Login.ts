@@ -25,7 +25,7 @@ export default class Login {
       } else return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
-      console.log("submit fails");
+      console.log("submit fails " + e);
     }
   };
 

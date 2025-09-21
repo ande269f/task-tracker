@@ -20,7 +20,7 @@ function App() {
   // clears localstorage for eksempeltvis jwt token
   useEffect(() => {
     if (loginState.loginState != "SUCCESS") {
-      localStorage.settask("jwt", "")
+      localStorage.setItem("jwt", "")
     }
   })
 
