@@ -1,15 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 
-export interface taskEdits {
-  dateEdited: Date;
-  taskText: string;
-  taskCompleted: boolean;
-  taskDeleted: Date | null;
-  taskEditsUuid: UUIDTypes;
-  taskUuid: UUIDTypes;
-}
-
 export interface taskObject {
   taskCreated: Date;
   taskUuid: UUIDTypes;
@@ -56,27 +47,7 @@ const inputSlice = createSlice({
         findTask.taskCompleted = action.payload.taskCompleted;
       }
     },
-    setTaskEditsLog: (
-      state,
-      action: PayloadAction<{
-        taskUuid: UUIDTypes;
-        taskEditsLog: {
-          dateEdited: Date;
-          taskText: string;
-          taskCompleted: boolean;
-          taskDeleted: Date | null;
-          taskEditsUuid: UUIDTypes;
-          taskUuid: UUIDTypes;
-        };
-      }>
-    ) => {
-      const findTask = state.find(
-        (t) => t.taskUuid === action.payload.taskUuid
-      );
-      if (findTask) {
-        findTask.taskEditsLog.push(action.payload.taskEditsLog);
-      }
-    },
+
     deleteTask: (state, action: PayloadAction<{ uuid: UUIDTypes }>) => {
       const updated = [...state];
       const taskIndex = state.findIndex(
@@ -88,19 +59,14 @@ const inputSlice = createSlice({
       }
       return updated;
     },
-    emptyTaskEditsLog: () => {
-      return initialState;
-    },
   },
 });
 
 export const {
-  emptyTaskEditsLog,
   setTextInput,
   setTaskDeleted,
   setTaskCompleted,
   setTaskText,
-  setTaskEditsLog,
   deleteTask,
 } = inputSlice.actions;
 export default inputSlice.reducer;
