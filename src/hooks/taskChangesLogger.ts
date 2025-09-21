@@ -8,7 +8,7 @@ import TaskDataHandler from "../API/TaskDataHandler";
 import { setTaskEdits, TaskEdits } from "../store/slices/taskEditsSlice";
 
 export default function useTaskChangeLogger(task: taskObject) {
-  const loggedTask = useRef<taskObject>();
+  const loggedTask = useRef<taskObject>({ ...task });
   const dispatch = useDispatch<AppDispatch>();
   const taskDataHandler = new TaskDataHandler();
 

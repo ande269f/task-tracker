@@ -1,6 +1,6 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
-import { setTaskEditsLog, taskEditsLog } from "../store/slices/taskSlice";
+import { TaskEdits } from "../store/slices/taskEditsSlice";
 
 export interface taskDto {
   taskUuid: UUIDTypes;
@@ -50,9 +50,19 @@ export default class TaskDataHandler {
     }
   }
 
-  unloadtaskEdit = async (taskEdits: taskEditsLog) => {
+  unloadtaskEdit = async (taskEdits: TaskEdits) => {
     try {
       const response = await axios.post("data/unloadTaskEdit/", taskEdits);
+      return response.data
+    } catch (e) {
+      console.log("loadtaskEdits failed " + e);
+      return "ERROR";
+    }
+  }
+
+  updateTask = async (task: taskDto) => {
+    try {
+      const response = await axios.post("data/updateTask/", task);
       return response.data
     } catch (e) {
       console.log("loadtaskEdits failed " + e);

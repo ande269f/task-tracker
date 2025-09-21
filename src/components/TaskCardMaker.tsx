@@ -31,18 +31,24 @@ const EditTaskButtonMaker = ({handleEdit}: {handleEdit: Function}) => {
 
 const TaskCardMaker = ({task}: {task: taskObject}) => {
     const {logTask, logChanges} = useTaskChangeLogger(task)
+
+logTask()
+
+
     const [isEditOff, setIsEditOff] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useDispatch<AppDispatch>();
 
     const handleDelete = () => {
         dispatch(setTaskDeleted({uuid: task.taskUuid, taskDeleted: new Date()}))
+        logChanges();
     }
     
     const handleComplete = () => {
         if (isEditOff) {
             dispatch(setTaskCompleted({taskUuid: task.taskUuid, taskCompleted: !task.taskCompleted}))
         }
+        logChanges();
     }
     const handleEdit = () => {
         setIsEditOff(!isEditOff)
@@ -56,15 +62,12 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
         dispatch(setDetailsDialogState({taskObject: task, dialogboxOpened: true, dialogboxType: "taskDetailsDialog"}))
     }
 
-    useEffect(() => {
-        logChanges();
-    }, [task.taskCompleted, task.taskDeleted]);
 
 
     if (!task.taskDeleted) {
             return (
         <div >
-            <Card.Root onClick={() => {handleComplete(); logTask();}}>
+            <Card.Root onClick={() => {handleComplete(); }}>
                 <Card.Header />
                     <Card.Body> 
                         <Card.Description>
