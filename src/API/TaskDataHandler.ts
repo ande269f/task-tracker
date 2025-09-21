@@ -60,5 +60,15 @@ export default class TaskDataHandler {
     }
   }
 
+  updateTask = async (task: taskDto) => {
+    try {
+      const response = await axios.post("data/updateTask/", task);
+      return response.data;
+    } catch (e) {
+      console.log("unload tasks failed " + e);
+      return "ERROR";
+    }
+  }
+
   
 }

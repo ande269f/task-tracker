@@ -7,12 +7,12 @@ import { taskObject } from "../store/slices/taskSlice";
 import TaskDataHandler from "../API/TaskDataHandler";
 import { setTaskEdits, TaskEdits } from "../store/slices/taskEditsSlice";
 
-export default function useTaskChangeLogger(task: taskObject) {
+export default function useTaskEditsLogger(task: taskObject) {
   const loggedTask = useRef<taskObject>({ ...task });
   const dispatch = useDispatch<AppDispatch>();
   const taskDataHandler = new TaskDataHandler();
 
-  const logChanges = async () => {
+  const logTaskEdit = async () => {
     if (!loggedTask) return;
 
     //hvis der er sket en ændring, så log
@@ -30,12 +30,23 @@ export default function useTaskChangeLogger(task: taskObject) {
         taskUuid: task.taskUuid,
       };
 
-      const response = await taskDataHandler.unloadtaskEdit(taskEdit);
-      if (response == "SUCCESS") {
+      const taskEditResponse = await taskDataHandler.unloadtaskEdit(taskEdit);
+      if (taskEditResponse == "SUCCESS") {
         const taskEdits = await taskDataHandler.loadtaskEdits(task.taskUuid);
 
         try {
           dispatch(setTaskEdits(taskEdits));
+        } catch (e) {
+          console.error("fejl ved dispatch af logchanges " + e);
+        }
+      }
+
+        const taskResponse = await taskDataHandler.updateTask(task);
+      if (taskResponse == "SUCCESS") {
+        const tasks = await taskDataHandler.loadTasks();
+
+        try {
+          //dispatch(set(taskEdits)); <-------------- lav en ny dispatch type her
         } catch (e) {
           console.error("fejl ved dispatch af logchanges " + e);
         }
@@ -47,5 +58,5 @@ export default function useTaskChangeLogger(task: taskObject) {
   const logTask = () => {
     loggedTask.current = { ...task };
   };
-  return { logTask, logChanges };
+  return { logTaskEdit };
 }
