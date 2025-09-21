@@ -1,5 +1,6 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
+import { setTaskEditsLog, taskEditsLog } from "../store/slices/taskSlice";
 
 export interface taskDto {
   taskUuid: UUIDTypes;
@@ -12,7 +13,7 @@ export interface taskDto {
 export default class TaskDataHandler {
   unloadTasks = async (task: taskDto, userId: number | null) => {
     try {
-      const token = localStorage.getItem("jwt") as string;
+      const token = localStorage.gettask("jwt") as string;
       if (typeof token != "string" && userId != null) {
         console.log(
           "token eksistere ikke eller er invalid - ellers så er iserId null"
@@ -37,4 +38,26 @@ export default class TaskDataHandler {
       return "ERROR";
     }
   }
+
+  loadtaskEdits = async (taskUuid: UUIDTypes) => {
+    try {
+      const taskEdits = await axios.get("data/loadtaskEdits/" + taskUuid);
+      return taskEdits.data
+    } catch (e) {
+      console.log("loadtaskEdits failed " + e);
+      return "ERROR";
+    }
+  }
+
+  unloadtaskEdit = async (taskUuid: UUIDTypes, taskEdits: taskEditsLog) => {
+    try {
+      const taskEdits = await axios.post("data/unloadtaskEdit/" + taskUuid, setTaskEditsLog);
+      return taskEdits.data
+    } catch (e) {
+      console.log("loadtaskEdits failed " + e);
+      return "ERROR";
+    }
+  }
+
+  
 }

@@ -36,12 +36,12 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const handleDelete = () => {
-        dispatch(setTaskDeleted({uuid: task.uuid, taskDeleted: new Date()}))
+        dispatch(setTaskDeleted({uuid: task.taskUuid, taskDeleted: new Date()}))
     }
     
     const handleComplete = () => {
         if (isEditOff) {
-            dispatch(setTaskCompleted({uuid: task.uuid, taskCompleted: !task.taskCompleted}))
+            dispatch(setTaskCompleted({taskUuid: task.taskUuid, taskCompleted: !task.taskCompleted}))
         }
     }
     const handleEdit = () => {
@@ -49,7 +49,7 @@ const TaskCardMaker = ({task}: {task: taskObject}) => {
         isEditOff ? inputRef.current?.focus() : inputRef.current?.blur()
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(setTaskText({uuid: task.uuid, taskText: e.target.value}))
+        dispatch(setTaskText({uuid: task.taskUuid, taskText: e.target.value}))
     }
 
     const showDialogBox = () => {

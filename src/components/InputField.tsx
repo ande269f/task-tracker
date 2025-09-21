@@ -50,7 +50,7 @@ const InputField = () => {
             taskText: task.taskText,
             taskCompleted: task.taskCompleted,
             taskCreated: task.taskCreated,
-            uuid: task.taskUuid,
+            taskUuid: task.taskUuid,
             taskDeleted: task.taskDeleted,
             taskEditsLog: [],
           })

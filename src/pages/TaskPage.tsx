@@ -32,17 +32,17 @@ const TaskPage = () => {
         const tasks = await taskDataHandler.loadTasks();
 
         tasks.forEach((task: taskDto) =>
-          dispatch(
-            setTextInput({
-              taskCreated: task.taskCreated,
-              taskDeleted: task.taskDeleted,
-              taskCompleted: task.taskCompleted,
-              taskText: task.taskText,
-              uuid: task.taskUuid,
-              taskEditsLog: [],
-            })
-          )
-        );
+        dispatch(setTextInput({
+          taskCreated: task.taskCreated,
+          taskDeleted: task.taskDeleted,
+          taskCompleted: task.taskCompleted,
+          taskText: task.taskText,
+          taskUuid: task.taskUuid,
+          taskEditsLog: []
+        })))
+
+
+
       }
     };
 
