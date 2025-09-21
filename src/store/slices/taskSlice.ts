@@ -25,10 +25,6 @@ const inputSlice = createSlice({
     initialState,
     reducers: {
 
-        loadTasks: (state, action: PayloadAction<taskObject[]>) => {
-            return action.payload;
-        },
-
         setTextInput: (state, action: PayloadAction<taskObject>) => {
             state.push(action.payload);
         },

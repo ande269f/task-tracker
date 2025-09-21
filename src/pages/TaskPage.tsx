@@ -1,4 +1,3 @@
-
 import { ActionBarMaker } from "../components/ActionBarMaker";
 import InputField from "../components/InputField";
 import TaskField from "../components/TaskField";
@@ -20,33 +19,34 @@ const TaskPage = () => {
     const checkLogin = async () => {
       const login = new Login(loginState.username);
       const response = await login.checkLogin();
+
       if (response != "SUCCESS") {
         navigate("/login");
 
         toaster.create({
           description: "Tilgå denne side kræver et login",
-          type: "error"
-        })
+          type: "error",
+        });
       } else {
-        const taskDataHandler = new TaskDataHandler() 
+        const taskDataHandler = new TaskDataHandler();
         const tasks = await taskDataHandler.loadTasks();
 
         tasks.forEach((task: taskDto) =>
-        dispatch(setTextInput({
-          taskCreated: task.taskCreated,
-          taskDeleted: task.taskDeleted,
-          taskCompleted: task.taskCompleted,
-          taskText: task.taskText,
-          uuid: task.taskUuid,
-          taskEditsLog: []
-        })))
-
-
-
+          dispatch(
+            setTextInput({
+              taskCreated: task.taskCreated,
+              taskDeleted: task.taskDeleted,
+              taskCompleted: task.taskCompleted,
+              taskText: task.taskText,
+              uuid: task.taskUuid,
+              taskEditsLog: [],
+            })
+          )
+        );
       }
     };
 
-    checkLogin()
+    checkLogin();
   });
 
   return (
