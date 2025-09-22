@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { DetailsButtonMaker } from "./DetailsButtonMaker";
-import useTaskChangeLogger from "../hooks/taskChangesLogger";
+import useTaskEditsLogger from "../hooks/taskChangesLogger";
 import CheckboxMaker from "./CheckboxMaker";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
 import { taskObject } from "../store/slices/taskSlice";
@@ -43,7 +43,7 @@ const EditTaskButtonMaker = ({ handleEdit }: { handleEdit: Function }) => {
 };
 
 const TaskCardMaker = ({ task }: { task: taskObject }) => {
-  const { logTask, logChanges } = useTaskChangeLogger(task);
+  const { logTaskEdit } = useTaskEditsLogger(task);
   const taskobject = useSelector((state: RootState) => state.form);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const TaskCardMaker = ({ task }: { task: taskObject }) => {
                 onChange={handleChange}
                 readOnly={isEditOff}
                 ref={inputRef}
-                onBlur={logChanges} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
+                onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
               />
             </Card.Description>
           </Card.Body>
