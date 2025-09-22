@@ -1,6 +1,9 @@
 import { v4 as uuid } from "uuid";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
+import Login from "../../API/Login";
+import TaskDataHandler from "../../API/TaskDataHandler";
+import { taskObject } from "./taskSlice";
 
 interface LoginState {
   username: string | null;
@@ -21,6 +24,7 @@ const initialState: LoginState = {
   iat: null,
   loginState: "NOT_LOGGED_IN",
 };
+
 
 const loginSlice = createSlice({
   name: "loginState",

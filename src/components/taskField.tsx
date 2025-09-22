@@ -81,9 +81,13 @@ const DraggableTaskPrinter = ({ innerRef, droppableProps, placeholder }: TaskPri
   const {sortTask} = dataFromStore
   const {sortState} = dataFromStore
 
-  const sortedUserInput = handleSorting({userInput: userInput, sortTask: sortTask, sortingState: sortState})
+  const sortedUserInput = handleSorting({userInput: userInput.tasks, sortTask: sortTask, sortingState: sortState})
 
   if (sortTask.length != 0 && sortedUserInput.length == 0) {
+    // test - hvis sorttask ikke er tom men den sorterede liste er tom, så er der et problem 
+    console.error("Problem med sortering!!")
+  }
+    if (userInput.tasks.length != 0 && sortedUserInput.length == 0) {
     // test - hvis sorttask ikke er tom men den sorterede liste er tom, så er der et problem 
     console.error("Problem med sortering!!")
   }

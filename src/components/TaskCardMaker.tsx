@@ -48,7 +48,7 @@ const TaskCardMaker = ({ task }: { task: taskObject }) => {
 
   useEffect(() => {
     // kører første gang taskcardmaker renderes, så derefter hver gang text complete eller delete ændrer sig
-    logChanges();
+    logTaskEdit();
   }, [task.taskText, task.taskCompleted, task.taskDeleted]);
 
   const [isEditOff, setIsEditOff] = useState<boolean>(true);

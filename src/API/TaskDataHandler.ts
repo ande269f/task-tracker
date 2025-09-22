@@ -1,6 +1,8 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
 import { TaskEdits } from "../store/slices/taskEditsSlice";
+import { taskObject } from "../store/slices/taskSlice";
+import { interactiveTaskOrder } from "../store/slices/interactiveTaskOrderSlice";
 
 export interface taskDto {
   taskUuid: UUIDTypes;
@@ -11,7 +13,36 @@ export interface taskDto {
 }
 
 
+export interface UserTaskDataDto {
+    tasks: taskObject[],
+    sortTasks: interactiveTaskOrder[],
+  }
+
+
+
 export default class TaskDataHandler {
+
+
+  loadUserData = async () => {
+    try {
+      const response = await axios.get("data/loadUserData/");
+
+      const userTaskData = response.data as UserTaskDataDto;
+
+      console.assert(
+      userTaskData.tasks.length === userTaskData.sortTasks.length,
+      "Tasks og sortTasks er ikke samme længde!"
+    );
+
+      return userTaskData
+
+    } catch (e) {
+      console.log("load user data failed " + e);
+      return "ERROR";
+    }
+  }
+
+
   unloadTasks = async (task: taskDto, userId: number | null) => {
     try {
       const token = localStorage.getItem("jwt") as string;
@@ -50,6 +81,8 @@ export default class TaskDataHandler {
     }
   }
 
+
+
   unloadtaskEdit = async (taskEdits: TaskEdits) => {
     try {
       const response = await axios.post("data/unloadTaskEdit/", taskEdits);
@@ -63,6 +96,17 @@ export default class TaskDataHandler {
   updateTask = async (task: taskDto) => {
     try {
       const response = await axios.post("data/updateTask/", task);
+      return response.data;
+    } catch (e) {
+      console.log("unload tasks failed " + e);
+      return "ERROR";
+    }
+  }
+
+  
+  updateTaskOrder = async (to: interactiveTaskOrder, from: interactiveTaskOrder) => {
+    try {
+      const response = await axios.post("data/updateTaskOrder/", { to, from });
       return response.data;
     } catch (e) {
       console.log("unload tasks failed " + e);

@@ -15,7 +15,7 @@ const InputField = () => {
   const userState = useSelector((state: RootState) => state.UserState);
 
   const duplicateDetected = (duplicateDetected: Boolean = false) => {
-    userInput.forEach((element) => {
+    userInput.tasks.forEach((element) => {
       if (element.taskText == localInput && element.taskDeleted === null) {
         duplicateDetected = true;
       }
