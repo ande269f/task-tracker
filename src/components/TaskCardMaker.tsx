@@ -47,6 +47,7 @@ const TaskCardMaker = ({ task }: { task: taskObject }) => {
   const taskobject = useSelector((state: RootState) => state.form);
 
   useEffect(() => {
+    // kører første gang taskcardmaker renderes, så derefter hver gang text complete eller delete ændrer sig
     logChanges();
   }, [task.taskText, task.taskCompleted, task.taskDeleted]);
 
