@@ -12,17 +12,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import { RootState } from "./store";
-import { useEffect } from "react";
+import LoginHandler from "./components/LoginHandler";
+
 
 function App() {
   const loginState = useSelector((state: RootState) => state.UserState);
-
-  // clears localstorage for eksempeltvis jwt token
-  useEffect(() => {
-    if (loginState.loginState != "SUCCESS") {
-      localStorage.setItem("jwt", "")
-    }
-  })
 
 
   return (
@@ -44,6 +38,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/tasks" element={<TaskPage />} />
         </Routes>
+        <LoginHandler />
         <DisplayDialog />
       </Router>
     </Provider>

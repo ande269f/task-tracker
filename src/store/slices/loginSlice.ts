@@ -5,14 +5,21 @@ import Login from "../../API/Login";
 import TaskDataHandler from "../../API/TaskDataHandler";
 import { taskObject } from "./taskSlice";
 
-interface LoginState {
+export interface LoginState {
   username: string | null;
   password: string | null;
   sessionId: UUIDTypes | null;
   userId: number | null;
-  loginState: string;
+  loginState:
+    | "SUCCESS"
+    | "ERROR"
+    | "USER_NOT_FOUND"
+    | "LOGIN_FAILED"
+    | "NOT_LOGGED_IN"
+    | "PENDING"
+    | "USERNAME_PASSWORD_SET";
   exp: number | null;
-  iat: number | null; 
+  iat: number | null;
 }
 
 const initialState: LoginState = {
@@ -22,9 +29,16 @@ const initialState: LoginState = {
   userId: null,
   exp: null,
   iat: null,
-  loginState: "NOT_LOGGED_IN",
+  loginState: "PENDING",
 };
 
+export interface LoginStateDto {
+  username: string;
+  password: string;
+  userId: number;
+  exp: number;
+  iat: number;
+}
 
 const loginSlice = createSlice({
   name: "loginState",
@@ -37,7 +51,7 @@ const loginSlice = createSlice({
         password: string;
         userId: number;
         exp: number;
-        iat:number
+        iat: number;
       }>
     ) => {
       state.username = action.payload.username;
@@ -47,19 +61,25 @@ const loginSlice = createSlice({
       state.exp = action.payload.exp;
       state.iat = action.payload.iat;
     },
-    setUserLoggedOut: () => {
-      initialState;
-    },
-    setUserLoggedIn: (state, action: PayloadAction<{ loginState: string }>) => {
+    setUserLoggedOut: () => initialState,
+    setUserLoggedIn: (
+      state,
+      action: PayloadAction<{ loginState: LoginState["loginState"] }>
+    ) => {
       state.loginState = action.payload.loginState;
     },
-    setUsername: (state, action: PayloadAction<{ username: string }>) => {
+    setUsernamePassword: (
+      state,
+      action: PayloadAction<{ username: string; password: string }>
+    ) => {
       state.username = action.payload.username;
-    },
-    setPassword: (state, action: PayloadAction<{ password: string }>) => {
       state.password = action.payload.password;
     },
-    setLoginState: (state, action: PayloadAction<{ loginState: string }>) => {
+
+    setLoginState: (
+      state,
+      action: PayloadAction<{ loginState: LoginState["loginState"] }>
+    ) => {
       state.loginState = action.payload.loginState;
     },
   },
@@ -68,9 +88,8 @@ const loginSlice = createSlice({
 export const {
   setUserLoggedIn,
   setUserLoggedOut,
-  setUsername,
+  setUsernamePassword,
   setLoginState,
-  setPassword,
-  setUser
+  setUser,
 } = loginSlice.actions;
 export default loginSlice.reducer;

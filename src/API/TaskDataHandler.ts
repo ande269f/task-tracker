@@ -104,9 +104,9 @@ export default class TaskDataHandler {
   }
 
   
-  updateTaskOrder = async (to: interactiveTaskOrder, from: interactiveTaskOrder) => {
+  updateTaskOrder = async (taskOrders: interactiveTaskOrder[]) => {
     try {
-      const response = await axios.post("data/updateTaskOrder/", { to, from });
+      const response = await axios.post("data/updateTaskOrder/", taskOrders);
       return response.data;
     } catch (e) {
       console.log("unload tasks failed " + e);

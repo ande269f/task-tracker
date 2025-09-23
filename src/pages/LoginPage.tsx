@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import loginResultDispatcher from "../utils/loginResultDispatcher";
+import loginResultDispatcher from "../utils/loginResultStateDispatcher";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
+import { setLoginState, setUsernamePassword } from "../store/slices/loginSlice";
 
 export interface FormValues {
   username: string;
@@ -46,9 +47,8 @@ const LoginPage = () => {
 
 
   const onSubmit = async (data: FormValues) => {
-    const login = new Login(data.username);
-    const response = await login.submit(data.username, data.password);
-    loginResultDispatcher(response, dispatch, data);
+    dispatch(setUsernamePassword({username: data.username, password: data.password}))
+    dispatch(setLoginState({loginState: "USERNAME_PASSWORD_SET"}))
   };
 
   return (

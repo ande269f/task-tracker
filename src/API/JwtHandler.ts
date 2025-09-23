@@ -1,4 +1,5 @@
 import  {jwtDecode} from "jwt-decode"
+import { LoginStateDto } from "../store/slices/loginSlice";
 
 export default class JwtHandler {
 
@@ -7,10 +8,10 @@ export default class JwtHandler {
         localStorage.setItem("jwt", token);
     }
 
-    decodeJwt = (token: string) => {
+    decodeJwt = (token: string): LoginStateDto | null => {
         try {
         const decodedToken = jwtDecode(token);
-        return decodedToken
+        return decodedToken as LoginStateDto
         }
         catch (e) {
             console.log("fejl ved decoding: " + token)

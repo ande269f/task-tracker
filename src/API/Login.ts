@@ -1,5 +1,4 @@
 import axios from "../API/client";
-import { AppDispatch } from "../store";
 import JwtHandler from "./JwtHandler";
 
 export default class Login {
@@ -21,7 +20,7 @@ export default class Login {
       const response = await axios.get(url);
       if (response.data.token) {
         this.jwtHandler.safeJwtToken(response.data.token);
-        return this.jwtHandler.decodeJwt(response.data.token);
+        return "SUCCESS"
       } else return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden

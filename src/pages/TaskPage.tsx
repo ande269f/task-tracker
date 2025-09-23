@@ -18,19 +18,26 @@ const TaskPage = () => {
 
   useEffect(() => {
     const fetchTaskData = async () => {
+      var taskData
 
       const login = new Login(loginState.username)
       const response = await login.checkLogin()
+
       if (response && response === "SUCCESS") {
         const taskDataHandler = new TaskDataHandler();
-        const taskData =
+        taskData =
           (await taskDataHandler.loadUserData()) as UserTaskDataDto;
-
-        dispatch(setTasks(taskData.tasks));
-        dispatch(setTaskOrder(taskData.sortTasks));
+        
       } else {
         console.warn("Ingen bruger logget ind");
         navigate("/login");
+      }
+
+      if (taskData != undefined && taskData.sortTasks != undefined) {
+        dispatch(setTasks(taskData.tasks));
+        dispatch(setTaskOrder(taskData.sortTasks));
+      } else {
+        console.warn("brugerens task data er ikke loaded korrekt");
       }
     };
     fetchTaskData();

@@ -6,6 +6,7 @@ import {
   setSortingState,
 } from "../store/slices/sortTaskSlice";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
+import { setLoginState } from "../store/slices/loginSlice";
 
 export const SettingsButtonMaker = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
@@ -76,6 +77,14 @@ export const SettingsButtonMaker = () => {
               }
             >
               Slettede opgaver
+            </Menu.Item>
+            <Menu.Item
+              value="logout"
+              onClick={() => 
+                dispatch(setLoginState({ loginState: "NOT_LOGGED_IN"}))
+              }
+              >
+              Log ud
             </Menu.Item>
           </Menu.ItemGroup>
         </Menu.Content>
