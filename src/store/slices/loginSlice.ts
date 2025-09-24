@@ -17,7 +17,8 @@ export interface LoginState {
     | "LOGIN_FAILED"
     | "NOT_LOGGED_IN"
     | "PENDING"
-    | "USERNAME_PASSWORD_SET";
+    | "USERNAME_PASSWORD_SET"
+    | "CREATE_NEW_USER";
   exp: number | null;
   iat: number | null;
 }
@@ -70,10 +71,22 @@ const loginSlice = createSlice({
     },
     setUsernamePassword: (
       state,
-      action: PayloadAction<{ username: string; password: string }>
+      action: PayloadAction<{ username: string; password: string | null}>
     ) => {
       state.username = action.payload.username;
       state.password = action.payload.password;
+    },
+    setPassword: (
+      state,
+      action: PayloadAction<{password: string}>
+    ) => {
+      state.password = action.payload.password;
+    },
+        setUsername: (
+      state,
+      action: PayloadAction<{username: string}>
+    ) => {
+      state.username = action.payload.username;
     },
 
     setLoginState: (
@@ -86,6 +99,8 @@ const loginSlice = createSlice({
 });
 
 export const {
+  setPassword,
+  setUsername,
   setUserLoggedIn,
   setUserLoggedOut,
   setUsernamePassword,

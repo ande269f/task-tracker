@@ -65,8 +65,14 @@ const inputSlice = createSlice({
       }
     },
 
-    deleteTask: (state, action: PayloadAction<{ uuid: UUIDTypes }>) => {
-      state.tasks = state.tasks.filter((t) => t.taskUuid !== action.payload.uuid);
+  deleteTask: (state, action: PayloadAction<{ uuid: UUIDTypes }>) => {
+    state.tasks = state.tasks.filter(
+      (t) => t.taskUuid !== action.payload.uuid
+    );
+  },
+
+    deleteTasks: (state, action: PayloadAction<taskObject[]>) => {
+      state.tasks = state.tasks.filter((t) => t.taskDeleted === null);
     },
   },
 });
@@ -76,6 +82,7 @@ export const {
   setTaskDeleted,
   setTaskCompleted,
   setTaskText,
+  deleteTasks,
   deleteTask,
   setTasks
 } = inputSlice.actions;

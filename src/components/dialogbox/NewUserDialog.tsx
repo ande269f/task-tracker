@@ -10,9 +10,9 @@ import { FaPlus } from "react-icons/fa6";
 import Login from "../../API/Login";
 import { toaster } from "../ui/toaster";
 import PasswordForm from "../PasswordForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { setLoginState } from "../../store/slices/loginSlice";
+import { setLoginState, setPassword, setUsername, setUsernamePassword } from "../../store/slices/loginSlice";
 
 interface FormValue {
   password: string;
@@ -70,35 +70,19 @@ const NewUserDialog = () => {
   const methods = useForm<{ password: string }>();
 
   const handleCreateNewUser = async () => {
-    console.log(user);
-    const login = new Login(user.username);
-    const response = await login.createNewUser();
-
-    if (response?.data == "SUCCESS") {
-      toaster.create({
-        description: "Ny bruger oprettet",
-        type: "success",
-      });
-      dispatch(setLoginState({ loginState: "SUCCESS" }));
-      setShowPasswordForm(true);
-    }
+    if (user.username)
+    dispatch(setUsername({username: user.username}))
+    dispatch(setLoginState({ loginState: "CREATE_NEW_USER" }));
   };
 
-  const onSubmitPassword = async (data: FormValue) => {
-    const login = new Login(user.username);
-    const response = await login.setUserPassword(user.username, data.password);
-
-    if (response?.data == "SUCCESS") {
-      toaster.create({
-        description: "dit kodeord er sat op!",
-        type: "success",
-      });
-    } else {
-      toaster.create({
-        description: "der er sket en fejl",
-        type: "error",
-      });
+  useEffect(() => {
+    if (user.loginState == "SUCCESS") {
+      setShowPasswordForm(true);
     }
+  })
+
+  const onSubmitPassword = async (data: FormValue) => {
+    dispatch(setPassword({password: data.password}))
     dispatch(setDialogBoxTypeClosed());
   };
 

@@ -35,11 +35,14 @@ const handleSortingDirection = (sortingDirection: boolean, userInput: taskObject
 }
 
 const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
-  return sortingProps.sortTask.map(taskSorting => (
-      sortingProps.userInput.find(task => 
+  return sortingProps.sortTask
+  .map(taskSorting => (
+      sortingProps.userInput
+  .find(task => 
         task.taskUuid === taskSorting.uuid
       )
-  )).filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
+  ))
+  .filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
               //læs op på det her
 }           
 

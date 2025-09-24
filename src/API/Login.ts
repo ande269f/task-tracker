@@ -31,8 +31,7 @@ export default class Login {
   createNewUser = async (username = this.username) => {
     try {
       const response = await axios.post("users/createNewUser/" + username);
-      console.log(response)
-      return response;
+      return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("create new user fails");

@@ -114,5 +114,17 @@ export default class TaskDataHandler {
     }
   }
 
+    deleteTasks = async (tasks: taskObject[]) => {
+    try {
+      const response = await axios.delete("data/deleteTasks/", {data: tasks});
+      return response.data;
+    } catch (e) {
+      console.log("delete tasks failed " + e);
+      return "ERROR";
+    }
+  }
+
+
+
   
 }

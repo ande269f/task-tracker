@@ -5,7 +5,7 @@ import { AppDispatch } from "../store";
 import { v4 as uuid } from "uuid";
 import { taskObject } from "../store/slices/taskSlice";
 import TaskDataHandler from "../API/TaskDataHandler";
-import { setTaskEdits, TaskEdits } from "../store/slices/taskEditsSlice";
+import { addTaskEdits, setTaskEdits, TaskEdits } from "../store/slices/taskEditsSlice";
 
 export default function useTaskEditsLogger(task: taskObject) {
   const loggedTask = useRef<taskObject>({ ...task });
@@ -32,10 +32,8 @@ export default function useTaskEditsLogger(task: taskObject) {
 
       const taskEditResponse = await taskDataHandler.unloadtaskEdit(taskEdit);
       if (taskEditResponse == "SUCCESS") {
-        const taskEdits = await taskDataHandler.loadtaskEdits(task.taskUuid);
-
         try {
-          dispatch(setTaskEdits(taskEdits));
+          dispatch(addTaskEdits(taskEdit));
         } catch (e) {
           console.error("fejl ved dispatch af logchanges " + e);
         }

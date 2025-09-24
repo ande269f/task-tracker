@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import store, { RootState } from "../store";
 import TaskCardMaker from "./TaskCardMaker";
 import {
   Droppable,
@@ -54,8 +54,10 @@ const TaskField = () => {
       })
     );
 
+    const updatedSortTask = store.getState().sortTasks; // eller via useSelector
+
     const taskDataHandler = new TaskDataHandler();
-    const response = await taskDataHandler.updateTaskOrder(sortTask);
+    const response = await taskDataHandler.updateTaskOrder(updatedSortTask);
     if (response != "SUCCESS") {
       console.warn("rækkefølge er ikke opdateret");
     }
