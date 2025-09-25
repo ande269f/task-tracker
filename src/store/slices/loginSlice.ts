@@ -18,7 +18,8 @@ export interface LoginState {
     | "NOT_LOGGED_IN"
     | "PENDING"
     | "USERNAME_PASSWORD_SET"
-    | "CREATE_NEW_USER";
+    | "CREATE_NEW_USER"
+    | "PASSWORD_NEEDED";
   exp: number | null;
   iat: number | null;
 }

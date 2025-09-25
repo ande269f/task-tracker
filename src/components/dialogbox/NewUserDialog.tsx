@@ -82,7 +82,14 @@ const NewUserDialog = () => {
   })
 
   const onSubmitPassword = async (data: FormValue) => {
-    dispatch(setPassword({password: data.password}))
+    const login = new Login("")
+    const response = await login.setUserPassword(user.username, data.password)
+
+    console.assert(response == "SUCCESS",
+      "fejl ved set af password"
+    )
+
+
     dispatch(setDialogBoxTypeClosed());
   };
 

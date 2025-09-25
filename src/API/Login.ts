@@ -14,17 +14,17 @@ export default class Login {
     password: string | null = null
   ) => {
     try {
-      const url = password
-        ? `users/getUser/${username}?password=${password}`
-        : `users/getUser/${username}`;
-      const response = await axios.get(url);
+      const response = await axios.post("users/login/", {
+        username,
+        password,
+      });
       if (response.data.token) {
         this.jwtHandler.safeJwtToken(response.data.token);
-        return "SUCCESS"
+        return "SUCCESS";
       } else return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
-      console.log("submit fails " + e);
+      console.log("login fails " + e);
     }
   };
 
@@ -43,7 +43,7 @@ export default class Login {
       const response = await axios.post(
         "users/setUserPassword/" + username + "/" + password
       );
-      return response;
+      return response.data as string;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("setting user password fails");
@@ -70,7 +70,6 @@ export default class Login {
     }
   };
 
-
   checkLogin = async () => {
     try {
       const response = await axios.get("checkLogin/");
@@ -78,7 +77,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("checkLogin fails" + e);
-      return ""
+      return "";
     }
-  }
+  };
 }
