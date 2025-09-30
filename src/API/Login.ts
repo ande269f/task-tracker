@@ -9,8 +9,8 @@ export default class Login {
     this.username = username;
   }
 
-  submit = async (
-    username: string | null = this.username,
+  static submit = async (
+    username: string | null,
     password: string | null = null
   ) => {
     try {
@@ -19,7 +19,8 @@ export default class Login {
         password,
       });
       if (response.data.token) {
-        this.jwtHandler.safeJwtToken(response.data.token);
+        const jwtHandler = new JwtHandler();
+        jwtHandler.safeJwtToken(response.data.token);
         return "SUCCESS";
       } else return response.data;
     } catch (e) {
@@ -28,7 +29,7 @@ export default class Login {
     }
   };
 
-  createNewUser = async (username = this.username) => {
+  static createNewUser = async (username: string) => {
     try {
       const response = await axios.post("users/createNewUser/" + username);
       return response.data;

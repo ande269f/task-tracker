@@ -12,7 +12,7 @@ import { toaster } from "../ui/toaster";
 import PasswordForm from "../PasswordForm";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { setLoginState, setPassword, setUsername, setUsernamePassword } from "../../store/slices/loginSlice";
+import { createNewUser, setLoginState, setPassword, setUsername, setUsernamePassword } from "../../store/slices/loginSlice";
 
 interface FormValue {
   password: string;
@@ -71,8 +71,7 @@ const NewUserDialog = () => {
 
   const handleCreateNewUser = async () => {
     if (user.username)
-    dispatch(setUsername({username: user.username}))
-    dispatch(setLoginState({ loginState: "CREATE_NEW_USER" }));
+    dispatch(createNewUser({username: user.username}))
   };
 
   useEffect(() => {

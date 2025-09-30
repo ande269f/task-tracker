@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
 import DisplayDialog from "./components/dialogbox/DisplayDialog";
 import { Provider } from "./components/ui/provider";
@@ -11,12 +11,22 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { RootState } from "./store";
+import { AppDispatch, RootState } from "./store";
 import LoginHandler from "./components/LoginHandler";
+import { useEffect } from "react";
+import { checkLogin } from "./store/slices/loginSlice";
 
 
 function App() {
   const loginState = useSelector((state: RootState) => state.UserState);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(checkLogin())
+  }, [dispatch])
+
+
+
 
 
   return (

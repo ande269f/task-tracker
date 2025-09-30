@@ -23,7 +23,7 @@ export interface UserTaskDataDto {
 export default class TaskDataHandler {
 
 
-  loadUserData = async () => {
+  static loadUserData = async () => {
     try {
       const response = await axios.get("data/loadUserData/");
 
@@ -61,7 +61,7 @@ export default class TaskDataHandler {
     }
   };
 
-  loadTasks = async () => {
+  static loadTasks = async () => {
     try {
       const tasks = await axios.get("data/loadTasks/");
       return tasks.data

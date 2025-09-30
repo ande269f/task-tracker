@@ -6,8 +6,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { setLoginState, setUsernamePassword } from "../store/slices/loginSlice";
+import {
+  login,
+  setLoginState,
+  setUsername,
+  setUsernamePassword,
+} from "../store/slices/loginSlice";
 import { toaster } from "../components/ui/toaster";
+import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
+import { loadUserData } from "../store/slices/taskSlice";
 
 export interface FormValues {
   username: string;
@@ -15,10 +22,10 @@ export interface FormValues {
 }
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const methods = useForm<FormValues>();
   const dispatch: AppDispatch = useDispatch();
   const [showPasswordForm, setShowPasswordForm] = useState(false);
-  const [passwordFailed, setPasswordFailed] = useState(false);
   const loginState = useSelector((state: RootState) => state.UserState);
   const dialogState = useSelector((state: RootState) => state.detailsOpener);
 
@@ -28,15 +35,32 @@ const LoginPage = () => {
       if (loginState.loginState === "PASSWORD_NEEDED") {
         setShowPasswordForm(true);
       }
+      if (loginState.loginState === "USER_NOT_FOUND") {
+        dispatch(
+          setDetailsDialogState({
+            taskObject: null,
+            dialogboxType: "newUserDialog",
+            dialogboxOpened: true,
+          })
+        );
+      }
+      if (loginState.loginState == "LOGIN_FAILED") {
+        queueMicrotask(() => {
+          toaster.create({
+            description: "Forkert adgangskode",
+            type: "error",
+          });
+        });
+      }
+      if (loginState.loginState == "SUCCESS") {
+        navigate("/tasks");
+      }
     }
-  }, [loginState.loginState]);
-
+  }, [loginState.loginState, dialogState.dialogboxOpened]);
 
   const onSubmit = async (data: FormValues) => {
-    dispatch(
-      setUsernamePassword({ username: data.username, password: data.password })
-    );
-    dispatch(setLoginState({ loginState: "USERNAME_PASSWORD_SET" }));
+    dispatch(setUsername({ username: data.username })); // <-- det er til når der skal laves en ny bruger
+    dispatch(login({ username: data.username, password: data.password }));
   };
 
   return (

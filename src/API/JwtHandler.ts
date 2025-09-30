@@ -8,7 +8,7 @@ export default class JwtHandler {
         localStorage.setItem("jwt", token);
     }
 
-    decodeJwt = (token: string): LoginStateDto | null => {
+    static decodeJwt = (token: string): LoginStateDto | null => {
         try {
         const decodedToken = jwtDecode(token);
         return decodedToken as LoginStateDto
