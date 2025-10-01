@@ -14,7 +14,7 @@ import {
 import { AppDispatch, RootState } from "./store";
 import LoginHandler from "./components/LoginHandler";
 import { useEffect } from "react";
-import { checkLogin } from "./store/slices/loginSlice";
+import { checkLogin, setLoginDetails } from "./store/slices/loginSlice";
 
 
 function App() {
@@ -24,6 +24,12 @@ function App() {
   useEffect(() => {
     dispatch(checkLogin())
   }, [dispatch])
+
+  useEffect(() => {
+    dispatch(setLoginDetails(loginState))
+  }, [loginState])
+
+  
 
 
 

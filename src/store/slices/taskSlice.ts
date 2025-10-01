@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 import TaskDataHandler, { UserTaskDataDto } from "../../API/TaskDataHandler";
 import { interactiveTaskOrder } from "./interactiveTaskOrderSlice";
+import store, { RootState } from "..";
 
 export interface taskObject {
   taskCreated: Date;
@@ -24,6 +25,60 @@ const initialState: TaskState = {
   error: null,
   refreshed: true,
 };
+
+export const deleteTaskThunk = createAsyncThunk<
+  { uuid: UUIDTypes }, // Return type
+  taskObject, // Argument type
+  { rejectValue: string } // error handling
+>("tasks/deleteTaskThunk", async (task, { rejectWithValue }) => {
+  const response = await TaskDataHandler.deleteTasks([task]);
+  if (response === "SUCCESS") {
+    return { uuid: task.taskUuid };
+  } else {
+    return rejectWithValue("Delete failed");
+  }
+});
+
+
+export const deleteTasksThunk = createAsyncThunk<
+  { taskObjects: taskObject[] }, // Return type
+  void, // Argument type
+  { rejectValue: string } // error handling
+>("tasks/deleteTasksThunk", async (_, { getState, rejectWithValue }) => {
+  try {
+    const state = getState() as RootState;
+    const deletedTasks = state.form.tasks.filter(
+      (task) => task.taskDeleted != null
+    );
+    const response = await TaskDataHandler.deleteTasks(deletedTasks);
+    if (response === "SUCCESS") {
+      return { taskObjects: deletedTasks };
+    } else {
+      return rejectWithValue("Delete failed");
+    }
+  } catch (e) {
+    console.error("deleteTasksThunk fejler: " + e);
+    return { taskObjects: [] };
+  }
+});
+
+export const updateTask = createAsyncThunk<
+  { task: taskObject }, // Return type
+  taskObject, // Argument type
+  { rejectValue: string } // error handling
+>("tasks/updateTask", async (task, { rejectWithValue }) => {
+  try {
+    const response = await TaskDataHandler.updateTask(task);
+    if (response === "SUCCESS") {
+      return { task };
+    } else {
+      return rejectWithValue("Update failed");
+    }
+  } catch (e) {
+    console.error("updateTask fejler: " + e);
+    return rejectWithValue("Update failed");
+  }
+});
 
 export const loadUserData = createAsyncThunk<
   { tasks: taskObject[]; sortTasks: interactiveTaskOrder[] }, // return type
@@ -110,12 +165,28 @@ const inputSlice = createSlice({
       .addCase(loadUserData.fulfilled, (state, action) => {
         state.loading = false;
         state.tasks = action.payload.tasks;
-        state.refreshed = false; 
+        state.refreshed = false;
         // Hvis du har en separat state til sortTasks, sæt den her
       })
       .addCase(loadUserData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Unknown error";
+      })
+      .addCase(deleteTaskThunk.fulfilled, (state, action) => {
+        // Brug din eksisterende reducer til at fjerne tasken
+        // Dette skyldes at taskOrder er sat op på reduceren
+        inputSlice.caseReducers.deleteTask(state, {
+          type: "tasks/deleteTask",
+          payload: { uuid: action.payload.uuid },
+        });
+      })
+      .addCase(deleteTasksThunk.fulfilled, (state, action) => {
+        // Brug din eksisterende reducer til at fjerne tasken
+        // Dette skyldes at taskOrder er sat op på reduceren
+        inputSlice.caseReducers.deleteTasks(state, {
+          type: "tasks/deleteTasks",
+          payload: action.payload.taskObjects,
+        });
       });
   },
 });
@@ -130,3 +201,4 @@ export const {
   setTasks,
 } = inputSlice.actions;
 export default inputSlice.reducer;
+

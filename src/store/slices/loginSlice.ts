@@ -35,11 +35,39 @@ export interface LoginStateDto {
   active: boolean;
 }
 
-const loadJwtTokenData = (): LoginState => {
+const decodeJwtService = (jwt: string | null): LoginStateDto | null => {
+  if (!jwt) {
+    console.error("jwt er null");
+    return null;
+  }
+  if (jwt.length < 100) {
+    console.error("længden på jwt er under 100 karaktere");
+    return null;
+  }
+
+  const jwtDecoded = JwtHandler.decodeJwt(jwt) as LoginStateDto;
+  // hvis data er loaded korrekt, sæt det ind og sæt loginState til PENDING
+  if (jwtDecoded != null) {
+    return {
+      username: jwtDecoded.username,
+      password: jwtDecoded.password,
+      userId: jwtDecoded.userId,
+      exp: jwtDecoded.exp,
+      iat: jwtDecoded.iat,
+      active: jwtDecoded.active,
+    };
+  } else {
+    console.error("jwtDecoded er null");
+    return null;
+  }
+};
+
+const loadJwtTokenDataService = (): LoginState => {
   try {
     const jwt = localStorage.getItem("jwt");
+    const jwtDecoded = decodeJwtService(jwt) as LoginStateDto;
     //hvis jwt ikke findes i localstorage
-    if (!jwt) {
+    if (jwtDecoded == null) {
       return {
         username: null,
         password: null,
@@ -49,14 +77,7 @@ const loadJwtTokenData = (): LoginState => {
         iat: null,
         loginState: "NOT_LOGGED_IN",
       };
-    }
-    if (jwt.length < 100) {
-      console.error("længden på jwt er under 100 karaktere");
-    }
-
-    const jwtDecoded = JwtHandler.decodeJwt(jwt) as LoginStateDto;
-    // hvis data er loaded korrekt, sæt det ind og sæt loginState til PENDING
-    if (jwtDecoded != null) {
+    } else {
       return {
         username: jwtDecoded.username,
         password: jwtDecoded.password,
@@ -65,18 +86,6 @@ const loadJwtTokenData = (): LoginState => {
         exp: jwtDecoded.exp,
         iat: jwtDecoded.iat,
         loginState: "PENDING",
-      };
-    } else {
-      console.error("jwtDecoded er lig null");
-
-      return {
-        username: null,
-        password: null,
-        sessionId: null,
-        userId: null,
-        exp: null,
-        iat: null,
-        loginState: "NOT_LOGGED_IN",
       };
     }
   } catch (e) {
@@ -101,6 +110,7 @@ export const checkLogin = createAsyncThunk(
   // i en thunk funktion er der (dispatch, getState). her bruger vi ikke nogen payload, så første parameter sættes som "unused"
   async (_, { rejectWithValue }) => {
     try {
+      // hvis jwt ikke er der, så skal brugeren ikke være logget ind
       const jwt = localStorage.getItem("jwt");
       if (!jwt) {
         return { loginState: "NOT_LOGGED_IN" as LoginState["loginState"] };
@@ -118,41 +128,54 @@ export const checkLogin = createAsyncThunk(
   }
 );
 
+export const setLoginDetails = createAsyncThunk(
+  "loginState/setLoginDetails",
+  (payload: LoginState) => {
+    if (
+      localStorage.getItem("jwt") &&
+      localStorage.getItem("jwt") != "" &&
+      payload.exp
+    ) {
+      loadJwtTokenDataService();
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "loginState/login",
   async (payload: { username: string; password: string | null }) => {
     const response = await Login.submit(payload.username, payload.password);
     try {
-    return { loginState: response as LoginState["loginState"] };
-
+      return { loginState: response as LoginState["loginState"] };
     } catch {
-      console.error("ukendt fejl ved login")
-      return { loginState: "ERROR" as LoginState["loginState"] }
+      console.error("ukendt fejl ved login");
+      return { loginState: "ERROR" as LoginState["loginState"] };
     }
   }
 );
 
 export const createNewUser = createAsyncThunk(
   "loginState/createNewUser",
-  async (payload: { username: string}) => {
+  async (payload: { username: string }) => {
     try {
-    let response = await Login.createNewUser(payload.username);
+      let response = await Login.createNewUser(payload.username);
 
-    if (response === "SUCCESS") {
-      response = await Login.submit(payload.username);
-    } else {
-      console.error("create new user returnere ikke success og skaber derfor fejl")
+      if (response === "SUCCESS") {
+        response = await Login.submit(payload.username);
+      } else {
+        console.error(
+          "create new user returnere ikke success og skaber derfor fejl"
+        );
+      }
+
+      return { loginState: response as LoginState["loginState"] };
+    } catch (e) {
+      return { loginState: "ERROR" as LoginState["loginState"] };
     }
-
-    return { loginState: response as LoginState["loginState"] }
-  } catch (e) {
-    return { loginState: "ERROR" as LoginState["loginState"] }
   }
-  }
+);
 
-)
-
-const initialState: LoginState = loadJwtTokenData();
+const initialState: LoginState = loadJwtTokenDataService();
 const loginSlice = createSlice({
   name: "loginState",
   initialState,
@@ -204,8 +227,14 @@ const loginSlice = createSlice({
         state.loginState = "PENDING";
       })
       .addMatcher(isFulfilled, (state, action) => {
-        const payload = action.payload as { loginState: LoginState["loginState"] };
-        state.loginState = payload.loginState;
+        const payload = action.payload as {
+          loginState: LoginState["loginState"];
+        };
+        //isFulfilled bliver matchet med alle thunks - nogle thunks returnere ikke en payload
+        if (payload != undefined) {
+          state.loginState = payload.loginState;
+
+        }
       })
       .addMatcher(isRejected, (state, action) => {
         state.loginState = "ERROR";

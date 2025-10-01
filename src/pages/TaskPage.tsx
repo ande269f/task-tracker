@@ -4,11 +4,7 @@ import TaskField from "../components/taskField";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import TaskDataHandler, { UserTaskDataDto } from "../API/TaskDataHandler";
 import { loadUserData, } from "../store/slices/taskSlice";
-import { setTaskOrder } from "../store/slices/interactiveTaskOrderSlice";
-import Login from "../API/Login";
 
 const TaskPage = () => {
   const dispatch: AppDispatch = useDispatch();

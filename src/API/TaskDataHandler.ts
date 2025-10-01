@@ -43,7 +43,7 @@ export default class TaskDataHandler {
   }
 
 
-  unloadTasks = async (task: taskDto, userId: number | null) => {
+  static unloadTasks = async (task: taskDto, userId: number | null) => {
     try {
       const token = localStorage.getItem("jwt") as string;
       if (typeof token != "string" && userId != null) {
@@ -71,7 +71,7 @@ export default class TaskDataHandler {
     }
   }
 
-  loadtaskEdits = async (taskUuid: UUIDTypes) => {
+  static loadtaskEdits = async (taskUuid: UUIDTypes) => {
     try {
       const taskEdits = await axios.get("data/loadTaskEdits/" + taskUuid);
       return taskEdits.data
@@ -83,7 +83,7 @@ export default class TaskDataHandler {
 
 
 
-  unloadtaskEdit = async (taskEdits: TaskEdits) => {
+  static unloadtaskEdit = async (taskEdits: TaskEdits) => {
     try {
       const response = await axios.post("data/unloadTaskEdit/", taskEdits);
       return response.data
@@ -93,7 +93,7 @@ export default class TaskDataHandler {
     }
   }
 
-  updateTask = async (task: taskDto) => {
+  static updateTask = async (task: taskDto) => {
     try {
       const response = await axios.post("data/updateTask/", task);
       return response.data;
@@ -104,7 +104,7 @@ export default class TaskDataHandler {
   }
 
   
-  updateTaskOrder = async (taskOrders: interactiveTaskOrder[]) => {
+  static updateTaskOrder = async (taskOrders: interactiveTaskOrder[]) => {
     try {
       const response = await axios.post("data/updateTaskOrder/", taskOrders);
       return response.data;
@@ -114,7 +114,7 @@ export default class TaskDataHandler {
     }
   }
 
-    deleteTasks = async (tasks: taskObject[]) => {
+    static deleteTasks = async (tasks: taskObject[]) => {
     try {
       const response = await axios.delete("data/deleteTasks/", {data: tasks});
       return response.data;
