@@ -7,7 +7,7 @@ import { AppDispatch } from "../store";
 import { setDetailsDialogState } from "../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { logout } from "../store/slices/loginSlice/thunks";
 import { loadUserData } from "../store/slices/taskSlice/thunks";
-import { loadLoginDetails } from "../store/slices/loginSlice/loginSlice";
+import { loadLoginDetails, setLoginState } from "../store/slices/loginSlice/loginSlice";
 
 export const useHandleLoginState = (loginState: string) => {
   const navigate = useNavigate();
@@ -27,10 +27,11 @@ export const useHandleLoginState = (loginState: string) => {
       case "LOGIN_FAILED":
         queueMicrotask(() => {
           toaster.create({
-            description: "Forkert adgangskode",
+            description: "Kunne ikke logge ind, brugernavn eller adgangskode er forkert",
             type: "error",
           });
         });
+        dispatch(setLoginState({ loginState: "PASSWORD_NEEDED" }));
         break;
       case "SUCCESS":
         navigate("/tasks");
@@ -38,7 +39,8 @@ export const useHandleLoginState = (loginState: string) => {
         dispatch(loadUserData());
         break;
       case "LOGOUT_USER":
-        dispatch(logout({ navigate }));
+        dispatch(logout());
+        navigate("/login");
         break;
     }
   }, [loginState]);

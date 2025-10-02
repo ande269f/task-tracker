@@ -67,7 +67,7 @@ const sortTasks = createSlice({
     },
   },
   //extrareducers til at reagere på ændring i taskobject listen (tilføjelse - sletning af tasks)
-  // reagere i ui selvom backenden ikke følger med - men skulle være sikker på at oders.len == tasks.len dat task api kaldet laver order
+  // reagere i ui selvom backenden ikke følger med - men skulle være sikker på at orders.length == tasks.len dat task api kaldet laver order
   extraReducers: (builder) => {
     builder
       .addCase(setTextInput, (state, action) => {

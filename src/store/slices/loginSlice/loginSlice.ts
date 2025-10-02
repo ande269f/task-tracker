@@ -77,12 +77,6 @@ const loginSlice = createSlice({
         return loggedOutState;
     },
     loadLoginDetails: () => loadJwtTokenDataService(),
-    setUserLoggedIn: (
-      state,
-      action: PayloadAction<{ loginState: LoginState["loginState"]; }>
-    ) => {
-      state.loginState = action.payload.loginState;
-    },
     setUsernamePassword: (
       state,
       action: PayloadAction<{ username: string; password: string | null; }>
@@ -125,6 +119,6 @@ const loginSlice = createSlice({
 });
 
 export const {
-  setPassword, loadLoginDetails, setUsername, setUserLoggedIn, logoutUser, setUserLoggedOut, setUsernamePassword, setLoginState, setUser,
+  setPassword, loadLoginDetails, setUsername, logoutUser, setUserLoggedOut, setUsernamePassword, setLoginState, setUser,
 } = loginSlice.actions;
 export default loginSlice.reducer;

@@ -15,24 +15,21 @@ import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
 
 export const logout = createAsyncThunk(
   "loginState/logout",
-   ({ navigate }: { navigate: ReturnType<typeof useNavigate> },
-    { dispatch }
-   ) => { 
-          try {
-            localStorage.removeItem("jwt");
-            dispatch(logoutUser())
+  (_, { dispatch }) => { 
+    try {
+      localStorage.removeItem("jwt");
+      dispatch(logoutUser())
 
-            //reset alle slices til default state ved logout
-            dispatch(setTaskEditsToDefault())
-            dispatch(setTasksToDefault())
-            dispatch(setSortOrderToDefault())
-            dispatch(setSortOrderToDefault())
-            dispatch(setDetailsDialogStateToDefault())
-          } catch (err) {
-            console.warn("Kunne ikke få adgang til localStorage:", err);
-          }
-          navigate("/login");
-   }
+      //reset alle slices til default state ved logout
+      dispatch(setTaskEditsToDefault())
+      dispatch(setTasksToDefault())
+      dispatch(setSortOrderToDefault())
+      dispatch(setSortOrderToDefault())
+      dispatch(setDetailsDialogStateToDefault())
+    } catch (err) {
+      console.warn("Kunne ikke få adgang til localStorage:", err);
+    }
+  }
 );
 
 export const validateLogin = createAsyncThunk(

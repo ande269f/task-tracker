@@ -12,16 +12,15 @@ export const pushSortOrder = createAsyncThunk<
   "sortTasks/updateSortOrderThunk",
   async ({ from, to, sortDirection }, { dispatch, getState }) => {
 
-    // 1. Dispatch updateSortOrder
+    // Dispatch updateSortOrder
     dispatch(updateSortOrder({ from, to, sortDirection }));
 
-    // 2. Get updated sortTasks from state
+    // Hent updated sortTasks fra state
     const updatedSortTask = getState().sortTasks as interactiveTaskOrder[];
 
-    // 3. Call API
+    // Kald API
     const response = await TaskDataHandler.updateTaskOrder(updatedSortTask);
 
-    // 4. Handle response
     if (response !== "SUCCESS") {
       console.warn("rækkefølge er ikke opdateret");
     }

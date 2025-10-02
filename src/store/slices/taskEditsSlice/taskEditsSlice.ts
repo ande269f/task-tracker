@@ -15,17 +15,8 @@ const taskEditsSlice = createSlice({
   initialState,
   reducers: {
     setTaskEditsToDefault: () => initialState,
-    setTaskEdits: (state, action: PayloadAction<TaskEdits[]>) => {
-      // overskriv hele edits-listen
-      return action.payload;
-    },
-    addTaskEdits: (state, action: PayloadAction<TaskEdits>) => {
-      state.push(action.payload);
-    },
-    clearTaskEdits: () => {
-      return [];
-    },
   },
+  //taskEdits kører alene med thunks, der returnere en hel array eller et enkelt objekt
   extraReducers: (builder) => {
     builder.addCase(pushTaskEdit.fulfilled, (state, action) => {
       state.push(action.payload.taskEdit);
@@ -37,6 +28,6 @@ const taskEditsSlice = createSlice({
   },
 });
 
-export const { setTaskEdits, setTaskEditsToDefault, addTaskEdits, clearTaskEdits } = taskEditsSlice.actions;
+export const { setTaskEditsToDefault } = taskEditsSlice.actions;
 export default taskEditsSlice.reducer;
 
