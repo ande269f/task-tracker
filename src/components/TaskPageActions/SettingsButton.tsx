@@ -1,19 +1,17 @@
 import { IconButton, Menu, SegmentGroup } from "@chakra-ui/react";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
-import {
-  setSortingState,
-} from "../store/slices/sortTaskSlice";
-import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { setLoginState } from "../store/slices/loginSlice";
+import { AppDispatch, RootState } from "../../store";
+import { setSortingState } from "../../store/slices/sortTaskSlice/sortTaskSlice";
+import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import { setUserLoggedOut } from "../../store/slices/loginSlice/loginSlice";
 
-export const SettingsButtonMaker = () => {
+
+export const SettingsButton = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
   const sortingOption1 = "Custom";
   const sortingOption2 = "Dato";
   const sortingOption3 = "Alfabetisk";
-
   const dispatch = useDispatch<AppDispatch>();
   const currentSortState = useSelector((state: RootState) => state.sortState);
 
@@ -81,7 +79,7 @@ export const SettingsButtonMaker = () => {
             <Menu.Item
               value="logout"
               onClick={() => 
-                dispatch(setLoginState({ loginState: "NOT_LOGGED_IN"}))
+                dispatch(setUserLoggedOut())
               }
               >
               Log ud

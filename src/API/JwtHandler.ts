@@ -1,5 +1,5 @@
 import  {jwtDecode} from "jwt-decode"
-import { LoginStateDto } from "../store/slices/loginSlice";
+import { LoginStateDto } from "../store/slices/loginSlice/loginSlice";
 
 export default class JwtHandler {
 

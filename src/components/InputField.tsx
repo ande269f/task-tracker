@@ -1,12 +1,11 @@
 import { Button, Group, Input } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { pushTask, setTextInput } from "../store/slices/taskSlice";
+import { pushTask } from "../store/slices/taskSlice/thunks";
 import { useState } from "react";
 import { v4 as uuid, UUIDTypes } from "uuid";
 import { toaster } from "./ui/toaster";
-import TaskDataHandler, { taskDto } from "../API/TaskDataHandler";
-import { taskObject } from "../store/slices/taskSlice";
+import { taskDto } from "../API/TaskDataHandler";
 
 const InputField = () => {
   const dispatch: AppDispatch = useDispatch();

@@ -1,8 +1,8 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
-import { TaskEdits } from "../store/slices/taskEditsSlice";
-import { taskObject } from "../store/slices/taskSlice";
-import { interactiveTaskOrder } from "../store/slices/interactiveTaskOrderSlice";
+import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
+import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
 
 export interface taskDto {
   taskUuid: UUIDTypes;

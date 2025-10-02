@@ -2,9 +2,7 @@ import { Dialog, Button, Portal, CloseButton, Stack } from "@chakra-ui/react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import {
-  setDialogBoxTypeClosed,
-} from "../../store/slices/detailsDialogSlice";
+import { setDialogBoxTypeClosed } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { Prose } from "../ui/prose";
 import { FaPlus } from "react-icons/fa6";
 import Login from "../../API/Login";
@@ -12,7 +10,9 @@ import { toaster } from "../ui/toaster";
 import PasswordForm from "../PasswordForm";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { createNewUser, setLoginState, setPassword, setUsername, setUsernamePassword, setUserPassword } from "../../store/slices/loginSlice";
+import { setLoginState, setPassword, setUsername, setUsernamePassword } from "../../store/slices/loginSlice/loginSlice";
+import { setUserPassword } from "../../store/slices/loginSlice/thunks";
+import { createNewUser } from "../../store/slices/loginSlice/thunks";
 
 interface FormValue {
   password: string;

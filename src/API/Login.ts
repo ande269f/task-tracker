@@ -71,7 +71,7 @@ export default class Login {
     }
   };
 
-  checkLogin = async () => {
+  static checkLogin = async () => {
     try {
       const response = await axios.get("checkLogin/");
       return response.data;

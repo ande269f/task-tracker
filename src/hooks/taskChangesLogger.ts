@@ -3,8 +3,10 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { v4 as uuid } from "uuid";
-import { taskObject, updateTask } from "../store/slices/taskSlice";
-import { addTaskEdits, pushTaskEdit, TaskEdits } from "../store/slices/taskEditsSlice";
+import { updateTask } from "../store/slices/taskSlice/thunks";
+import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { pushTaskEdit } from "../store/slices/taskEditsSlice/thunks";
+import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
 
 export default function useTaskEditsLogger(task: taskObject) {
   const loggedTask = useRef<taskObject>({ ...task });

@@ -1,6 +1,6 @@
-import { sortTaskState }  from './../store/slices/sortTaskSlice';
-import { taskObject } from "../store/slices/taskSlice"
-import { interactiveTaskOrder } from "../store/slices/interactiveTaskOrderSlice"
+import { sortTaskState } from "../store/slices/sortTaskSlice/sortTaskSlice";
+import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
 
 interface sortingProps {
   userInput: taskObject[]

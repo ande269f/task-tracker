@@ -1,17 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import TaskDataHandler from "../../API/TaskDataHandler";
-
-export interface TaskEdits {
-  dateEdited: Date;
-  taskText: string;
-  taskCompleted: boolean;
-  taskDeleted: Date | null;
-  taskEditsUuid: UUIDTypes;
-  taskUuid: UUIDTypes;
-}
-
-const initialState: TaskEdits[] = [];
+import { TaskEdits } from "../taskEditsSlice/taskEditsSlice";
+import TaskDataHandler from "../../../API/TaskDataHandler";
 
 export const pushTaskEdit = createAsyncThunk<
   { taskEdit: TaskEdits }, // Return type
@@ -33,6 +23,7 @@ export const pushTaskEdit = createAsyncThunk<
 
 export const fetchTaskEdits = createAsyncThunk<
   { taskEdits: TaskEdits[] }, // Return type
+  // Return type
   UUIDTypes | undefined | null, // Argument type
   { rejectValue: string } // error handling
 >("taskEdits/fetchTaskEdits", async (taskUuid, { rejectWithValue }) => {
@@ -47,33 +38,3 @@ export const fetchTaskEdits = createAsyncThunk<
     return rejectWithValue("Failed to fetch task edits");
   }
 });
-
-const taskEditsSlice = createSlice({
-  name: "taskEdits",
-  initialState,
-  reducers: {
-    setTaskEdits: (state, action: PayloadAction<TaskEdits[]>) => {
-      // overskriv hele edits-listen
-      return action.payload;
-    },
-    addTaskEdits: (state, action: PayloadAction<TaskEdits>) => {
-      state.push(action.payload);
-    },
-    clearTaskEdits: () => {
-      return [];
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(pushTaskEdit.fulfilled, (state, action) => {
-      state.push(action.payload.taskEdit);
-    });
-
-    builder.addCase(fetchTaskEdits.fulfilled, (state, action) => {
-      return action.payload.taskEdits;
-    });
-  },
-});
-
-export const { setTaskEdits, addTaskEdits, clearTaskEdits } =
-  taskEditsSlice.actions;
-export default taskEditsSlice.reducer;

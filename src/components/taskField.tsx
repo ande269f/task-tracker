@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import TaskCardMaker from "./TaskCardMaker";
+import TaskCard from "./TaskCard/TaskCard";
 import {
   Droppable,
   Draggable,
@@ -11,9 +11,7 @@ import { Box } from "@chakra-ui/react";
 import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
 import { createContext, useContext } from "react";
-import {
-  pushSortOrder,
-} from "../store/slices/interactiveTaskOrderSlice";
+import { pushSortOrder } from "../store/slices/taskOrderSlice/thunks";
 import { handleSorting } from "../utils/sortingUtils";
 
 // TaskField printer alle task komponenterne i en liste ved map()
@@ -122,7 +120,7 @@ const DraggableTaskPrinter = ({
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <TaskCardMaker task={input} />
+              <TaskCard task={input} />
             </Box>
           )}
         </Draggable>

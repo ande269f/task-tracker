@@ -1,22 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { taskObject } from "../slices/taskSlice";
-
+import { taskObject } from "../taskSlice/taskSlice";
 interface DetailsDialogState {
   taskObject: taskObject | null;
   dialogboxOpened: boolean;
   dialogboxType: string | null;
 }
-
 const initialState: DetailsDialogState = {
   taskObject: null,
   dialogboxOpened: false,
   dialogboxType: null,
 };
-
 const detailsDialogSlice = createSlice({
   name: "detailsDialog",
   initialState,
   reducers: {
+    setDetailsDialogStateToDefault: () => initialState,
+
     setDetailsDialogState: (
       state,
       action: PayloadAction<DetailsDialogState>
@@ -26,11 +25,10 @@ const detailsDialogSlice = createSlice({
       state.dialogboxType = action.payload.dialogboxType;
     },
     setDialogBoxTypeClosed: () => {
-        return initialState;
+      return initialState;
     }
   },
 });
 
-export const { setDetailsDialogState, setDialogBoxTypeClosed } =
-  detailsDialogSlice.actions;
+export const { setDetailsDialogStateToDefault, setDetailsDialogState, setDialogBoxTypeClosed } = detailsDialogSlice.actions;
 export default detailsDialogSlice.reducer;

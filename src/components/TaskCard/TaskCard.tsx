@@ -1,20 +1,20 @@
-import { AppDispatch, RootState } from "../store";
+import { AppDispatch, RootState } from "../../store";
 import { Card, IconButton, Button } from "@chakra-ui/react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import {
   setTaskDeleted,
   setTaskCompleted,
-  setTaskText,
-} from "../store/slices/taskSlice";
+  setTaskText
+} from "../../store/slices/taskSlice/taskSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
-import { DetailsButtonMaker } from "./DetailsButtonMaker";
-import useTaskEditsLogger from "../hooks/taskChangesLogger";
-import CheckboxMaker from "./CheckboxMaker";
-import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { taskObject } from "../store/slices/taskSlice";
+import { DetailsButton } from "./DetailsButton";
+import useTaskEditsLogger from "../../hooks/taskChangesLogger";
+import TaskCheckbox from "./TaskCheckbox";
+import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import { taskObject } from "../../store/slices/taskSlice/taskSlice";
 
-const DeleteButtonMaker = ({ handleDelete }: { handleDelete: Function }) => {
+const DeleteButton = ({ handleDelete }: { handleDelete: Function }) => {
   return (
     <IconButton
       aria-label="Search database"
@@ -28,7 +28,7 @@ const DeleteButtonMaker = ({ handleDelete }: { handleDelete: Function }) => {
   );
 };
 
-const EditTaskButtonMaker = ({ handleEdit }: { handleEdit: Function }) => {
+const EditTaskButton = ({ handleEdit }: { handleEdit: Function }) => {
   return (
     <IconButton
       aria-label="Edit Task"
@@ -42,12 +42,11 @@ const EditTaskButtonMaker = ({ handleEdit }: { handleEdit: Function }) => {
   );
 };
 
-const TaskCardMaker = ({ task }: { task: taskObject }) => {
+const TaskCard = ({ task }: { task: taskObject }) => {
   const { logTaskEdit } = useTaskEditsLogger(task);
-  const taskobject = useSelector((state: RootState) => state.form);
 
   useEffect(() => {
-    // kører første gang taskcardmaker renderes, så derefter hver gang text complete eller delete ændrer sig
+    // kører første gang taskcard renderes, så derefter hver gang text complete eller delete ændrer sig
     logTaskEdit();
   }, [task.taskText, task.taskCompleted, task.taskDeleted]);
 
@@ -108,10 +107,10 @@ const TaskCardMaker = ({ task }: { task: taskObject }) => {
             </Card.Description>
           </Card.Body>
           <Card.Footer>
-            <EditTaskButtonMaker handleEdit={handleEdit} />
-            <CheckboxMaker taskCompleted={task.taskCompleted} />
-            <DeleteButtonMaker handleDelete={handleDelete} />
-            <DetailsButtonMaker handleDetailsButtonMaker={showDialogBox} />
+            <EditTaskButton handleEdit={handleEdit} />
+            <TaskCheckbox taskCompleted={task.taskCompleted} />
+            <DeleteButton handleDelete={handleDelete} />
+            <DetailsButton handleDetailsButton={showDialogBox} />
           </Card.Footer>
         </Card.Root>
       </div>
@@ -119,4 +118,4 @@ const TaskCardMaker = ({ task }: { task: taskObject }) => {
   }
 };
 
-export default TaskCardMaker;
+export default TaskCard;
