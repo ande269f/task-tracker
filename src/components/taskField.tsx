@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import store, { RootState } from "../store";
+import { RootState } from "../store";
 import TaskCardMaker from "./TaskCardMaker";
 import {
   Droppable,
@@ -11,9 +11,10 @@ import { Box } from "@chakra-ui/react";
 import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
 import { createContext, useContext } from "react";
-import { updateSortOrder } from "../store/slices/interactiveTaskOrderSlice";
+import {
+  pushSortOrder,
+} from "../store/slices/interactiveTaskOrderSlice";
 import { handleSorting } from "../utils/sortingUtils";
-import TaskDataHandler from "../API/TaskDataHandler";
 
 // TaskField printer alle task komponenterne i en liste ved map()
 // TaskField bruger @hello-pangea/dnd til at håndtere brugerens egen ændring i rækkefølge
@@ -47,20 +48,8 @@ const TaskField = () => {
     const toIndex = result.destination.index;
 
     dispatch(
-      updateSortOrder({
-        from: fromIndex,
-        to: toIndex,
-        sortDirection: sortState.sortDirection,
-      })
+      pushSortOrder({ from: fromIndex, to: toIndex, sortDirection: sortState.sortDirection })
     );
-
-    const updatedSortTask = store.getState().sortTasks; // eller via useSelector
-
-    const taskDataHandler = new TaskDataHandler();
-    const response = await taskDataHandler.updateTaskOrder(updatedSortTask);
-    if (response != "SUCCESS") {
-      console.warn("rækkefølge er ikke opdateret");
-    }
   };
 
   return (

@@ -39,7 +39,7 @@ export default class Login {
     }
   };
 
-  setUserPassword = async (username = this.username, password: string) => {
+  static setUserPassword = async (username: string | null, password: string) => {
     try {
       const response = await axios.post(
         "users/setUserPassword/" + username + "/" + password

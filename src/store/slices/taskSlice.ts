@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import TaskDataHandler, { UserTaskDataDto } from "../../API/TaskDataHandler";
+import TaskDataHandler, { taskDto, UserTaskDataDto } from "../../API/TaskDataHandler";
 import { interactiveTaskOrder } from "./interactiveTaskOrderSlice";
 import store, { RootState } from "..";
 
@@ -11,6 +11,7 @@ export interface taskObject {
   taskCompleted: boolean;
   taskDeleted: Date | null;
 }
+
 
 type TaskState = {
   tasks: taskObject[];
@@ -70,6 +71,7 @@ export const updateTask = createAsyncThunk<
   try {
     const response = await TaskDataHandler.updateTask(task);
     if (response === "SUCCESS") {
+
       return { task };
     } else {
       return rejectWithValue("Update failed");
@@ -102,12 +104,31 @@ export const loadUserData = createAsyncThunk<
   }
 });
 
+export const pushTask = createAsyncThunk<
+  { task: taskObject }, // Return type (skal matche dit task-objekt)
+  { task: taskDto; userId: number | null }, // Argument type
+  { rejectValue: string } // Error handling
+>(
+  "tasks/pushTask",
+  async ({ task, userId }, { rejectWithValue, dispatch }) => {
+    const response = await TaskDataHandler.unloadTasks(task, userId);
+
+    if (response === "SUCCESS") {
+      dispatch(setTextInput(task));
+      return { task };
+    } else {
+      return rejectWithValue("Failed to push task");
+    }
+  }
+);
+
 const inputSlice = createSlice({
   name: "textInput",
   initialState,
   reducers: {
     setTextInput: (state, action: PayloadAction<taskObject>) => {
       state.tasks.push(action.payload);
+      console.log(state.tasks);
     },
     setTasks: (state, action: PayloadAction<taskObject[]>) => {
       state.tasks = action.payload;

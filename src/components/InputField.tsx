@@ -1,7 +1,7 @@
 import { Button, Group, Input } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { setTextInput } from "../store/slices/taskSlice";
+import { pushTask, setTextInput } from "../store/slices/taskSlice";
 import { useState } from "react";
 import { v4 as uuid, UUIDTypes } from "uuid";
 import { toaster } from "./ui/toaster";
@@ -32,7 +32,6 @@ const InputField = () => {
 
     //opdatere taskObjekt og sortOrder
     const submitTask = async () => {
-      const taskDataHandler = new TaskDataHandler();
       const task: taskDto = {
         taskUuid: newUuid,
         taskText: localInput,
@@ -42,27 +41,14 @@ const InputField = () => {
         taskDeleted: null,
       };
 
-      const response = await taskDataHandler.unloadTasks(task, userState.userId);
-
-      if (response == "SUCCESS") {
-        dispatch(
-          setTextInput({
-            taskText: task.taskText,
-            taskCompleted: task.taskCompleted,
-            taskCreated: task.taskCreated,
-            taskUuid: task.taskUuid,
-            taskDeleted: task.taskDeleted,
-          })
-        );
-        setLocalInput("");
-      } else {
-        toaster.create({
-          description: "Fejl. Opgaven kunne ikke gemmes! Der er gået noget galt med kontakt til serveren",
-          type: "error"
-        })
-      }
+      dispatch(pushTask({ task: task, userId: userState.userId }));
+      setLocalInput("");
+      
+      // toaster.create({
+      //   description: "Fejl. Opgaven kunne ikke gemmes! Der er gået noget galt med kontakt til serveren",
+      //   type: "error"
+      // })
     };
-
     if (localInput.trim() === "") {
     } else if (!duplicateDetected()) {
       submitTask();

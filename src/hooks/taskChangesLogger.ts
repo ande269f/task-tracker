@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { v4 as uuid } from "uuid";
 import { taskObject, updateTask } from "../store/slices/taskSlice";
-import { addTaskEdits, TaskEdits } from "../store/slices/taskEditsSlice";
+import { addTaskEdits, pushTaskEdit, TaskEdits } from "../store/slices/taskEditsSlice";
 
 export default function useTaskEditsLogger(task: taskObject) {
   const loggedTask = useRef<taskObject>({ ...task });
@@ -29,7 +29,7 @@ export default function useTaskEditsLogger(task: taskObject) {
         taskUuid: task.taskUuid,
       };
       // sender taskedit til backend og opdaterer redux state
-      dispatch(addTaskEdits(taskEdit));
+      dispatch(pushTaskEdit(taskEdit));
 
       // opdaterer selve tasken i backend
       dispatch(updateTask(task)); // <-- forstår ikke hvorfor det her virker

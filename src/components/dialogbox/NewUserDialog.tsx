@@ -12,7 +12,7 @@ import { toaster } from "../ui/toaster";
 import PasswordForm from "../PasswordForm";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { createNewUser, setLoginState, setPassword, setUsername, setUsernamePassword } from "../../store/slices/loginSlice";
+import { createNewUser, setLoginState, setPassword, setUsername, setUsernamePassword, setUserPassword } from "../../store/slices/loginSlice";
 
 interface FormValue {
   password: string;
@@ -75,21 +75,15 @@ const NewUserDialog = () => {
   };
 
   useEffect(() => {
+    //hvis brugeren har lavet en ny bruger og er logget ind, så vis password formen
     if (user.loginState == "SUCCESS") {
       setShowPasswordForm(true);
     }
   })
 
   const onSubmitPassword = async (data: FormValue) => {
-    const login = new Login("")
-    const response = await login.setUserPassword(user.username, data.password)
-
-    console.assert(response == "SUCCESS",
-      "fejl ved set af password"
-    )
-
-
-    dispatch(setDialogBoxTypeClosed());
+    // skal rettes så password ikke er i url
+    dispatch(setUserPassword({username: user.username, password: data.password}))
   };
 
   return (
@@ -99,11 +93,6 @@ const NewUserDialog = () => {
       open={detailsDialog.dialogboxOpened}
       onOpenChange={() => {
         dispatch(setDialogBoxTypeClosed());
-        // user er logged in efter "opret ny bruger". 
-        // hvis de ikke trykker på den knap det skal loginstate sættes tilbage til NOT_LOGGED_IN
-        if (user.loginState == "USER_NOT_FOUND") {
-          dispatch(setLoginState({ loginState: "NOT_LOGGED_IN" }));
-        }
       }}
     >
       <Dialog.Trigger asChild>

@@ -6,6 +6,7 @@ import Login from "../../API/Login";
 import TaskDataHandler from "../../API/TaskDataHandler";
 import { taskObject } from "./taskSlice";
 import JwtHandler from "../../API/JwtHandler";
+import { setDialogBoxTypeClosed } from "./detailsDialogSlice";
 
 export interface LoginState {
   username: string | null;
@@ -85,7 +86,7 @@ const loadJwtTokenDataService = (): LoginState => {
         userId: jwtDecoded.userId,
         exp: jwtDecoded.exp,
         iat: jwtDecoded.iat,
-        loginState: "PENDING",
+        loginState: "SUCCESS",
       };
     }
   } catch (e) {
@@ -175,6 +176,28 @@ export const createNewUser = createAsyncThunk(
   }
 );
 
+export const setUserPassword = createAsyncThunk(
+  "loginState/setUserPassword",
+  async (payload: { username: string | null; password: string }, { dispatch }) => {
+    if (payload.username == null) {
+      console.error(
+        "create new user returnere ikke success og skaber derfor fejl"
+      );
+      return { loginState: "ERROR" as LoginState["loginState"] };
+    }
+    try {
+      let response = await Login.setUserPassword(
+        payload.username,
+        payload.password
+      );
+      dispatch(setDialogBoxTypeClosed());
+      return { loginState: response as LoginState["loginState"] };
+    } catch (e) {
+      return { loginState: "ERROR" as LoginState["loginState"] };
+    }
+  }
+);
+
 const initialState: LoginState = loadJwtTokenDataService();
 const loginSlice = createSlice({
   name: "loginState",
@@ -223,9 +246,6 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(isPending, (state) => {
-        state.loginState = "PENDING";
-      })
       .addMatcher(isFulfilled, (state, action) => {
         const payload = action.payload as {
           loginState: LoginState["loginState"];
@@ -233,7 +253,6 @@ const loginSlice = createSlice({
         //isFulfilled bliver matchet med alle thunks - nogle thunks returnere ikke en payload
         if (payload != undefined) {
           state.loginState = payload.loginState;
-
         }
       })
       .addMatcher(isRejected, (state, action) => {

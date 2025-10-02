@@ -13,8 +13,6 @@ export interface TaskEdits {
 
 const initialState: TaskEdits[] = [];
 
-
-
 export const pushTaskEdit = createAsyncThunk<
   { taskEdit: TaskEdits }, // Return type
   TaskEdits, // Argument type
@@ -33,6 +31,22 @@ export const pushTaskEdit = createAsyncThunk<
   }
 });
 
+export const fetchTaskEdits = createAsyncThunk<
+  { taskEdits: TaskEdits[] }, // Return type
+  UUIDTypes | undefined | null, // Argument type
+  { rejectValue: string } // error handling
+>("taskEdits/fetchTaskEdits", async (taskUuid, { rejectWithValue }) => {
+  if (!taskUuid || taskUuid.length < 1 || taskUuid.length == undefined) {
+    return rejectWithValue("No task UUID provided");
+  }
+  try {
+    const taskEdits = await TaskDataHandler.loadtaskEdits(taskUuid);
+    return { taskEdits };
+  } catch (e) {
+    console.error("fetchTaskEdits fejler: " + e);
+    return rejectWithValue("Failed to fetch task edits");
+  }
+});
 
 const taskEditsSlice = createSlice({
   name: "taskEdits",
@@ -53,8 +67,13 @@ const taskEditsSlice = createSlice({
     builder.addCase(pushTaskEdit.fulfilled, (state, action) => {
       state.push(action.payload.taskEdit);
     });
-  }
+
+    builder.addCase(fetchTaskEdits.fulfilled, (state, action) => {
+      return action.payload.taskEdits;
+    });
+  },
 });
 
-export const { setTaskEdits, addTaskEdits, clearTaskEdits } = taskEditsSlice.actions;
+export const { setTaskEdits, addTaskEdits, clearTaskEdits } =
+  taskEditsSlice.actions;
 export default taskEditsSlice.reducer;
