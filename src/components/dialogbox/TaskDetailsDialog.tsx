@@ -1,37 +1,38 @@
 import { Dialog, Button, Portal, CloseButton, Card } from "@chakra-ui/react";
-import CheckboxMaker from "../CheckboxMaker";
+import TaskCheckbox from "../TaskCard/TaskCheckbox";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice";
-import { taskObject, taskEditsLog } from "../../store/slices/taskSlice";
+import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import { setTaskEditsToDefault, TaskEdits } from "../../store/slices/taskEditsSlice/taskEditsSlice";
+import { useEffect } from "react";
+import { fetchTaskEdits } from "../../store/slices/taskEditsSlice/thunks";
 
-const TaskChange = ({ taskEditsLog }: { taskEditsLog: taskEditsLog }) => {
+const TaskChange = ({ taskEdit }: { taskEdit: TaskEdits }) => {
   return (
     <div>
-      <Dialog.Description> {taskEditsLog.dateEdited?.toLocaleString('en-UK')} </Dialog.Description>
+      <Dialog.Description> {taskEdit.dateEdited?.toLocaleString('en-UK')} </Dialog.Description>
       <Card.Root>
         <Card.Header />
         <Card.Body >
           <Card.Description>
-            <input value={taskEditsLog.taskText} readOnly={true} />
+            <input value={taskEdit.taskText} readOnly={true} />
           </Card.Description>
         </Card.Body>
         <Card.Footer>
-          <CheckboxMaker taskCompleted={taskEditsLog.taskCompleted} />
+          <TaskCheckbox taskCompleted={taskEdit.taskCompleted} />
         </Card.Footer>
       </Card.Root>
     </div>
   );
 };
 
-const DisplayTaskChanges = ({ task }: { task: taskObject | null }) => {
-  if (task)
+const DisplayTaskChanges = ({ taskEdits }: { taskEdits: TaskEdits[]}) => {
+
     return (
       //printer alle inputs
-      task.taskEditsLog.map((taskChanges) => (
-        <div key={taskChanges.uuid.toString()}>
-          {" "}
-          {<TaskChange taskEditsLog={taskChanges} />}
+      taskEdits.map((taskEdit) => (
+        <div key={taskEdit.taskEditsUuid.toString()}>
+          {<TaskChange taskEdit={taskEdit} />}
         </div>
       ))
     );
@@ -39,7 +40,13 @@ const DisplayTaskChanges = ({ task }: { task: taskObject | null }) => {
 
 const TaskDetailsDialog = () => {
   const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
+  const taskEdits = useSelector((state: RootState) => state.taskEdits);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (detailsDialog.taskObject) 
+    dispatch(fetchTaskEdits(detailsDialog.taskObject.taskUuid))
+  }, [detailsDialog.taskObject])
 
   return (
     <Dialog.Root
@@ -67,7 +74,7 @@ const TaskDetailsDialog = () => {
               <Dialog.Title>To-do historik</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <DisplayTaskChanges task={detailsDialog.taskObject} />
+              <DisplayTaskChanges taskEdits={taskEdits} />
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
