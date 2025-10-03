@@ -1,12 +1,12 @@
-import { SettingsButtonMaker } from "./SettingsButtonMaker";
-import OrderButton from "./OrderButton"
+import { SettingsButton } from "./SettingsButton";
+import OrderButton from "./OrderButton";
 import { Flex } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
-import { setSortDirection } from "../store/slices/sortTaskSlice";
+import { AppDispatch, RootState } from "../../store";
+import { setSortDirection } from "../../store/slices/sortTaskSlice/sortTaskSlice";
 
 
-export const ActionBarMaker = () => {
+export const TaskPageActions = () => {
         const dispatch = useDispatch<AppDispatch>()
         const sortState = useSelector((state: RootState) => state.sortState);
 
@@ -18,7 +18,7 @@ export const ActionBarMaker = () => {
     return (
         <Flex id="ActionBar">
             <OrderButton handleOrder={handleOrder}/>
-            <SettingsButtonMaker />
+            <SettingsButton />
         </Flex>
     )
 }

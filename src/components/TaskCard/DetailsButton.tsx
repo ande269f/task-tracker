@@ -3,13 +3,13 @@ import { HiDotsHorizontal } from "react-icons/hi";
 
 
 
-export const DetailsButtonMaker = ({handleDetailsButtonMaker}: {handleDetailsButtonMaker: Function}) => {
+export const DetailsButton = ({handleDetailsButton}: {handleDetailsButton: Function}) => {
 
   return (
     <div>
         <Button
         aria-label="Open details"
-        onClick={(e) => { handleDetailsButtonMaker();  e.stopPropagation();}}
+        onClick={(e) => { handleDetailsButton();  e.stopPropagation();}}
         variant="ghost"
         >
             <HiDotsHorizontal />

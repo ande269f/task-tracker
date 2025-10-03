@@ -1,33 +1,47 @@
+
 import { useRef } from "react";
-import { setTaskEditsLog } from "../store/slices/taskSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import {v4 as uuid} from 'uuid';
-import { taskObject } from "../store/slices/taskSlice";
+import { v4 as uuid } from "uuid";
+import { updateTask } from "../store/slices/taskSlice/thunks";
+import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { pushTaskEdit } from "../store/slices/taskEditsSlice/thunks";
+import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
 
-export default function useTaskChangeLogger(item: taskObject) {
-        const loggedTask = useRef<taskObject>()
-        const dispatch = useDispatch<AppDispatch>();
+export default function useTaskEditsLogger(task: taskObject) {
+  const loggedTask = useRef<taskObject>({ ...task });
+  const dispatch = useDispatch<AppDispatch>();
 
-    const logChanges = () => {
-        
+  const logTaskEdit = async () => {
+    if (!loggedTask) return;
 
-        if (!loggedTask) return;
-        
-        //hvis der er sket en ændring, så log
-        const hasChanged =
-            loggedTask.current?.taskText !== item.taskText ||
-            loggedTask.current?.taskCompleted !== item.taskCompleted ||
-            loggedTask.current?.taskDeleted !== item.taskDeleted;
-        if (hasChanged) {
-            dispatch(setTaskEditsLog({uuid: item.uuid, taskEditsLog: {taskText: item.taskText, dateEdited: new Date, taskCompleted: item.taskCompleted, taskDeleted: item.taskDeleted, uuid: uuid()}}))
-            logTask()
-        }
+    //hvis der er sket en ændring, så log
+    const hasChanged =
+      loggedTask.current?.taskText !== task.taskText ||
+      loggedTask.current?.taskCompleted !== task.taskCompleted ||
+      loggedTask.current?.taskDeleted !== task.taskDeleted;
+    if (hasChanged) {
+
+      const taskEdit: TaskEdits = {
+        taskText: task.taskText,
+        dateEdited: new Date(),
+        taskCompleted: task.taskCompleted,
+        taskDeleted: task.taskDeleted,
+        taskEditsUuid: uuid(),
+        taskUuid: task.taskUuid,
+      };
+      // sender taskedit til backend og opdaterer redux state
+      dispatch(pushTaskEdit(taskEdit));
+
+      // opdaterer selve tasken i backend
+      dispatch(updateTask(task)); // <-- forstår ikke hvorfor det her virker
+
+      // opdater loggedTask til den nyeste state
+      logTask();
     }
-    const logTask = () => {
-        loggedTask.current = {...item}
-    }
-    return {logTask, logChanges}
+  };
+  const logTask = () => {
+    loggedTask.current = { ...task };
+  };
+  return { logTaskEdit };
 }
-
-

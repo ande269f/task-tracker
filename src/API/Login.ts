@@ -1,71 +1,84 @@
-import axios from "../API/client"
-import { AppDispatch } from "../store";
+import axios from "../API/client";
+import JwtHandler from "./JwtHandler";
 
 export default class Login {
   username: string | null;
-  dispatch: AppDispatch;
+  jwtHandler = new JwtHandler();
 
-  constructor(
-    username: string | null,
-    dispatch: AppDispatch
-  ) {
+  constructor(username: string | null) {
     this.username = username;
-    this.dispatch = dispatch;
   }
 
-
-  submit = async (username: string | null= this.username, password: string | null = null) => {
+  static submit = async (
+    username: string | null,
+    password: string | null = null
+  ) => {
     try {
-      const url = password 
-      ? `users/getUser/${username}?password=${password}`
-      : `users/getUser/${username}`;
-      const response = await axios.get(url);
-      return response;
+      const response = await axios.post("users/login/", {
+        username,
+        password,
+      });
+      if (response.data.token) {
+        const jwtHandler = new JwtHandler();
+        jwtHandler.safeJwtToken(response.data.token);
+        return "SUCCESS";
+      } else return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
-      console.log("submit fails");
+      console.log("login fails " + e);
     }
   };
 
-  createNewUser = async (username = this.username) => {
+  static createNewUser = async (username: string) => {
     try {
-      const response = await axios.post("users/createNewUser/" + username)
-      return response
+      const response = await axios.post("users/createNewUser/" + username);
+      return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("create new user fails");
     }
-  }
+  };
 
-  setUserPassword = async (username = this.username, password: string) => {
+  static setUserPassword = async (username: string | null, password: string) => {
     try {
-      const response = await axios.post("users/setUserPassword/" + username + "/" + password);
-      return response
+      const response = await axios.post(
+        "users/setUserPassword/" + username + "/" + password
+      );
+      return response.data as string;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("setting user password fails");
     }
-  }
+  };
 
   deleteUser = async (username = this.username) => {
     try {
       const response = await axios.post("users/deleteUser/" + username);
-      return response
+      return response;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("deleting user fails");
     }
-  }
+  };
 
-    deactivateUser = async (username = this.username) => {
+  deactivateUser = async (username = this.username) => {
     try {
       const response = await axios.post("users/deactivateUser/" + username);
-      return response
+      return response;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("deactivating user fails");
     }
-  }
+  };
 
-
+  static checkLogin = async () => {
+    try {
+      const response = await axios.get("checkLogin/");
+      return response.data;
+    } catch (e) {
+      //der er ikke forbindelse til back-enden
+      console.log("checkLogin fails" + e);
+      return "";
+    }
+  };
 }

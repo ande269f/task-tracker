@@ -1,6 +1,6 @@
 import { Checkbox } from "@chakra-ui/react"
 
-const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
+const TaskCheckbox = ({taskCompleted}: {taskCompleted: boolean}) => {
     return (
         <Checkbox.Root readOnly checked={taskCompleted}>
             <Checkbox.HiddenInput />
@@ -12,4 +12,4 @@ const CheckboxMaker = ({taskCompleted}: {taskCompleted: boolean}) => {
     )
 }
 
-export default CheckboxMaker
+export default TaskCheckbox

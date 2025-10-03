@@ -1,6 +1,6 @@
-import { sortTaskState } from './../store/slices/sortTaskSlice';
-import { taskObject } from "../store/slices/taskSlice"
-import { interactiveTaskOrder } from "../store/slices/interactiveTaskOrderSlice"
+import { sortTaskState } from "../store/slices/sortTaskSlice/sortTaskSlice";
+import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
 
 interface sortingProps {
   userInput: taskObject[]
@@ -9,7 +9,6 @@ interface sortingProps {
 }
 
 export const handleSorting = (sortingProps: sortingProps): taskObject[] => {
-  console.log(sortingProps)
   const sortingType = (sortingState: string) => {
     switch (sortingState) {
       case "interactiveOrdering": 
@@ -36,18 +35,21 @@ const handleSortingDirection = (sortingDirection: boolean, userInput: taskObject
 }
 
 const interactiveTaskSort = (sortingProps: sortingProps): taskObject[] => {
-  return sortingProps.sortTask.map(taskSorting => (
-      sortingProps.userInput.find(task => 
-        task.uuid === taskSorting.uuid 
+  return sortingProps.sortTask
+  .map(taskSorting => (
+      sortingProps.userInput
+  .find(task => 
+        task.taskUuid === taskSorting.uuid
       )
-  )).filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
+  ))
+  .filter((task): task is taskObject => task !== undefined); //sørger for at der ikke kan returnere manglende matches
               //læs op på det her
 }           
 
 const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
   const copiedUserInput = [...sortingProps.userInput] // laver en kopi og ændre i den, da værdierne kommer direkte fra redux
   return copiedUserInput.sort((a,b) => 
-    a.dateCreated.getTime() - b.dateCreated.getTime())
+    a.taskCreated.getTime() - b.taskCreated.getTime())
     //bruger date.getTime til at omskrive til num værdi
 } 
 

@@ -1,39 +1,23 @@
-import { Stack, Field, Input, Button, Flex } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import Login from "../API/Login";
-import { AppDispatch, RootState } from "../store";
-import { useDispatch, useSelector } from "react-redux";
-import { toaster } from "./ui/toaster";
-import { setDetailsDialogState } from "../store/slices/detailsDialogSlice";
-import { setPassword, setUsername } from "../store/slices/loginSlice";
-
-interface FormValues {
-  password: string;
-}
-
+import { Flex, Field, Input } from "@chakra-ui/react";
+import { useFormContext } from "react-hook-form";
 
 const PasswordForm = () => {
-    const dispatch: AppDispatch = useDispatch();
-
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
-
-  const onSubmit = (data: FormValues) => {
-    dispatch(setPassword({password: data.password}))
-  }
+  } = useFormContext<{ password: string }>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex gap="4" align="flex-start" maxW="sm">
-        <Field.Root invalid={!!errors.password} required>
-          <Input {...register("password")} />
-          <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
-        </Field.Root>
-      </Flex>
-    </form>
+    <Flex gap="4" align="flex-start" maxW="sm">
+      <Field.Root required>
+        <Input
+          type="password"
+          {...register("password")}
+          placeholder="Password"
+        />
+        <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
+      </Field.Root>
+    </Flex>
   );
 };
 
