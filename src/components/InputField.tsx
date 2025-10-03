@@ -1,4 +1,4 @@
-import { Button, Group, Input } from "@chakra-ui/react";
+import { Button, Group, Input, Textarea } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { pushTask } from "../store/slices/taskSlice/thunks";
@@ -42,7 +42,7 @@ const InputField = () => {
 
       dispatch(pushTask({ task: task, userId: userState.userId }));
       setLocalInput("");
-      
+
       // toaster.create({
       //   description: "Fejl. Opgaven kunne ikke gemmes! Der er gået noget galt med kontakt til serveren",
       //   type: "error"
@@ -62,22 +62,28 @@ const InputField = () => {
 
   return (
     <div id="InputForm">
-    <form onSubmit={handleSubmit}>
-      <Group attached w="full">
-        <Input
-          flex="1"
-          id="InputField"
-          value={localInput}
-          placeholder="Indtast en todo"
-          onChange={(e) => setLocalInput(e.target.value)}
-        />
-        <Button type="submit" bg="bg.subtle" variant="outline">
-          Indsæt
-        </Button>
-      </Group>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <Group attached w="full">
+          <Textarea
+            id="InputField"
+            value={localInput}
+            placeholder="Indtast en todo"
+            autoresize
+            onChange={(e) => setLocalInput(e.target.value)}
+            rows={1}
+          />
+          <Button
+            type="submit"
+            id="SubmitButton"
+            bg="bg.subtle"
+            variant="outline"
+          >
+            Indsæt
+          </Button>
+        </Group>
+      </form>
     </div>
-  )
-}
+  );
+};
 
 export default InputField;

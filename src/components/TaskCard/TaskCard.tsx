@@ -1,10 +1,10 @@
 import { AppDispatch, RootState } from "../../store";
-import { Card, IconButton, Button } from "@chakra-ui/react";
+import { Card, IconButton, Button, Textarea, Grid, GridItem } from "@chakra-ui/react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import {
   setTaskDeleted,
   setTaskCompleted,
-  setTaskText
+  setTaskText,
 } from "../../store/slices/taskSlice/taskSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
@@ -51,7 +51,7 @@ const TaskCard = ({ task }: { task: taskObject }) => {
   }, [task.taskText, task.taskCompleted, task.taskDeleted]);
 
   const [isEditOff, setIsEditOff] = useState<boolean>(true);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDelete = () => {
@@ -72,7 +72,7 @@ const TaskCard = ({ task }: { task: taskObject }) => {
     setIsEditOff(!isEditOff);
     isEditOff ? inputRef.current?.focus() : inputRef.current?.blur();
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setTaskText({ uuid: task.taskUuid, taskText: e.target.value }));
   };
 
@@ -88,7 +88,7 @@ const TaskCard = ({ task }: { task: taskObject }) => {
 
   if (!task.taskDeleted) {
     return (
-      <div>
+      <div id="TaskCard">
         <Card.Root
           onClick={() => {
             handleComplete();
@@ -97,21 +97,29 @@ const TaskCard = ({ task }: { task: taskObject }) => {
           <Card.Header />
           <Card.Body>
             <Card.Description>
-              <input
-                value={task.taskText}
-                onChange={handleChange}
-                readOnly={isEditOff}
-                ref={inputRef}
-                onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
-              />
+              <Grid templateColumns="1fr auto" alignItems="center" gap={2}>
+                <GridItem>
+                <Textarea
+                  id="TaskCardInputField"
+                  borderWidth={0}
+                  autoresize
+                  value={task.taskText}
+                  onChange={handleChange}
+                  readOnly={isEditOff}
+                  ref={inputRef}
+                  onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
+                />
+                </GridItem> 
+
+                <GridItem>
+                <EditTaskButton handleEdit={handleEdit} />
+                <TaskCheckbox taskCompleted={task.taskCompleted} />
+                <DeleteButton handleDelete={handleDelete} />
+                <DetailsButton handleDetailsButton={showDialogBox} />
+                </GridItem>
+              </Grid>
             </Card.Description>
           </Card.Body>
-          <Card.Footer>
-            <EditTaskButton handleEdit={handleEdit} />
-            <TaskCheckbox taskCompleted={task.taskCompleted} />
-            <DeleteButton handleDelete={handleDelete} />
-            <DetailsButton handleDetailsButton={showDialogBox} />
-          </Card.Footer>
         </Card.Root>
       </div>
     );

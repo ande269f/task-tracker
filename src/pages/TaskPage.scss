@@ -1,55 +1,49 @@
 #TaskPage {
-    padding: 2vw;
+  padding: 2vw;
 
-    // mobil settings - basis
+  // mobil settings - basis
+  #flexbox-top-part {
+    flex-direction: column;
+
+    #InputField {
+      padding: 0.55rem 1rem;
+    }
+
+    #ActionBar {
+      align-items: flex-start;
+
+      #OrderButton,
+      #SettingsButton {
+        margin: 0.5rem 0;
+        margin-right: 0.5rem;
+      }
+    }
+
+    #SubmitButton {
+      padding: 0 0.7rem;
+    }
+  }
+
+  // desktop settings
+  @media (min-width: 440px) {
     #flexbox-top-part {
-        flex-direction: column;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+      align-items: center;
+      margin: 1rem;
 
-
-        #InputField {
-            align-items: center;
-            max-width: 94vw;
-            width: 100%;
-        }
-
-        #ActionBar {
-            align-items: flex-start;
-
-             #OrderButton, #SettingsButton {
-                margin: 0.5rem 0;
-                margin-right: 0.5rem;
-             }
-
-
-        }
+      #InputForm {
+        grid-column: 2;
+        margin-right: 1rem;
+      }
     }
+  }
+  #TaskCardInputField {
+    padding: 1rem;
+  }
 
-    // desktop settings
-    @media (min-width: 440px) {
-
-        #flexbox-top-part {
-            box-sizing: border-box;
-            display: grid;
-            grid-template-columns: 1fr minmax(0,40rem) 1fr;
-            align-items: center;
-            margin: 1rem;
-
-            #InputForm {
-                grid-column: 2;
-                margin-right: 1rem;
-
-
-
-            }
-        }
-    }
-
-
-
-
-    #TaskCard {
-        padding-bottom: 1rem;
-    }
-
-
+  #TaskCard {
+    padding-bottom: 1rem;
+  }
 }
