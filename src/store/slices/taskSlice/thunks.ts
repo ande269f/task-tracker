@@ -12,7 +12,7 @@ export const deleteTaskThunk = createAsyncThunk<
   { uuid: UUIDTypes; }, // Return type
   taskObject, // Argument type
   { rejectValue: string; } // error handling
->("tasks/deleteTaskThunk", async (task, { rejectWithValue }) => {
+>("tasks/deleteTask/thunk", async (task, { rejectWithValue }) => {
   const response = await TaskDataHandler.deleteTasks([task]);
   if (response === "SUCCESS") {
     return { uuid: task.taskUuid };
@@ -26,7 +26,7 @@ export const deleteTasksThunk = createAsyncThunk<
   { taskObjects: taskObject[]; }, // Return type
   void, // Argument type
   { rejectValue: string; } // error handling
->("tasks/deleteTasksThunk", async (_, { getState, rejectWithValue }) => {
+>("tasks/deleteTasks/thunk", async (_, { getState, rejectWithValue }) => {
   try {
     const state = getState() as RootState;
     const deletedTasks = state.form.tasks.filter(
@@ -48,7 +48,7 @@ export const updateTask = createAsyncThunk<
   { task: taskObject; }, // Return type
   taskObject, // Argument type
   { rejectValue: string; } // error handling
->("tasks/updateTask", async (task, { rejectWithValue }) => {
+>("tasks/updateTask/thunk", async (task, { rejectWithValue }) => {
   try {
     const response = await TaskDataHandler.updateTask(task);
     if (response === "SUCCESS") {
@@ -67,7 +67,7 @@ export const loadUserData = createAsyncThunk<
   { tasks: taskObject[]; sortTasks: interactiveTaskOrder[]; }, // return type
   void, // payload type (ingen payload her)
   { rejectValue: string; }
->("tasks/loadUserData", async (_) => {
+>("tasks/loadUserData/thunk", async (_) => {
   try {
     const userData = (await TaskDataHandler.loadUserData()) as UserTaskDataDto;
 

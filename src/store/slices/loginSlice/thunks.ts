@@ -1,31 +1,35 @@
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LoginState, setUserLoggedOut, logoutUser, loadLoginDetails } from "./loginSlice";
+import {
+  LoginState,
+  setUserLoggedOut,
+  logoutUser,
+  loadLoginDetails,
+} from "./loginSlice";
 import { loadJwtTokenDataService } from "./functions";
 import Login from "../../../API/Login";
-import { setDetailsDialogStateToDefault, setDialogBoxTypeClosed } from "../detailsDialogSlice/detailsDialogSlice";
+import {
+  setDetailsDialogStateToDefault,
+  setDialogBoxTypeClosed,
+} from "../detailsDialogSlice/detailsDialogSlice";
 import { setTaskEditsToDefault } from "../taskEditsSlice/taskEditsSlice";
 import { setTasksToDefault } from "../taskSlice/taskSlice";
 import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
-// tjekker om localstorage har en jwt.
-// hvis nej, sæt state til not logged in.
-// hvis ja, tjek backend om den er gyldig.
 
 
 export const logout = createAsyncThunk(
-  "loginState/logout",
-  (_, { dispatch }) => { 
+  "loginState/logout/thunk",
+  (_, { dispatch }) => {
     try {
       localStorage.removeItem("jwt");
-      dispatch(logoutUser())
+      dispatch(logoutUser());
 
       //reset alle slices til default state ved logout
-      dispatch(setTaskEditsToDefault())
-      dispatch(setTasksToDefault())
-      dispatch(setSortOrderToDefault())
-      dispatch(setSortOrderToDefault())
-      dispatch(setDetailsDialogStateToDefault())
+      dispatch(setTaskEditsToDefault());
+      dispatch(setTasksToDefault());
+      dispatch(setSortOrderToDefault());
+      dispatch(setSortOrderToDefault());
+      dispatch(setDetailsDialogStateToDefault());
     } catch (err) {
       console.warn("Kunne ikke få adgang til localStorage:", err);
     }
@@ -33,7 +37,7 @@ export const logout = createAsyncThunk(
 );
 
 export const validateLogin = createAsyncThunk(
-  "loginState/validateLogin",
+  "loginState/validateLogin/thunk",
   // i en thunk funktion er der (dispatch, getState). her bruger vi ikke nogen payload, så første parameter sættes som "unused"
   async (_, { rejectWithValue }) => {
     try {
@@ -42,7 +46,6 @@ export const validateLogin = createAsyncThunk(
       if (!jwt) {
         return { loginState: "LOGOUT_USER" as LoginState["loginState"] };
       }
-
 
       const response = await Login.checkLogin();
 
@@ -54,22 +57,9 @@ export const validateLogin = createAsyncThunk(
   }
 );
 
-export const checkLoginExpiration = createAsyncThunk(
-  "loginState/checkLoginExpiration",
-  async (expirationDate: number | null, { dispatch }) => {
-        if (expirationDate != null) {
-          const dateToday = (Math.floor(Date.now() / 1000)) as number;
-          if (dateToday > expirationDate) {
-            localStorage.removeItem("jwt");
-            dispatch(setUserLoggedOut());
-          } 
-        }
-  });
-
-
 export const login = createAsyncThunk(
-  "loginState/login",
-  async (payload: { username: string; password: string | null; }) => {
+  "loginState/login/thunk",
+  async (payload: { username: string; password: string | null }) => {
     const response = await Login.submit(payload.username, payload.password);
     try {
       return { loginState: response as LoginState["loginState"] };
@@ -81,8 +71,8 @@ export const login = createAsyncThunk(
 );
 
 export const createNewUser = createAsyncThunk(
-  "loginState/createNewUser",
-  async (payload: { username: string; }) => {
+  "loginState/createNewUser/thunk",
+  async (payload: { username: string }) => {
     try {
       let response = await Login.createNewUser(payload.username);
 
@@ -102,8 +92,11 @@ export const createNewUser = createAsyncThunk(
 );
 
 export const setUserPassword = createAsyncThunk(
-  "loginState/setUserPassword",
-  async (payload: { username: string | null; password: string; }, { dispatch }) => {
+  "loginState/setUserPassword/thunk",
+  async (
+    payload: { username: string | null; password: string },
+    { dispatch }
+  ) => {
     if (payload.username == null) {
       console.error(
         "create new user returnere ikke success og skaber derfor fejl"
@@ -122,5 +115,3 @@ export const setUserPassword = createAsyncThunk(
     }
   }
 );
-
-

@@ -1,4 +1,3 @@
-import { TaskEdits } from "./slices/taskEditsSlice/taskEditsSlice";
 import UserState from './slices//loginSlice/loginSlice';
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import textInputReducer from "./slices/taskSlice/taskSlice"
@@ -6,6 +5,7 @@ import dialogOpener from "./slices/detailsDialogSlice/detailsDialogSlice"
 import sortTasks from "./slices/taskOrderSlice/taskOrderSlice"
 import sortState from "./slices/sortTaskSlice/sortTaskSlice";
 import taskEdits from "./slices/taskEditsSlice/taskEditsSlice"
+import { checkLoginExpiration } from './middleware/checkLoginExpiration';
 const store = configureStore({
     reducer: {
         form: textInputReducer,
@@ -17,7 +17,8 @@ const store = configureStore({
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false,
-    }),
+        // tjekker jwt er expired ved hvert thunk dispatch
+    }).concat(checkLoginExpiration)
 });
 
 

@@ -7,7 +7,7 @@ export const pushTaskEdit = createAsyncThunk<
   { taskEdit: TaskEdits }, // Return type
   TaskEdits, // Argument type
   { rejectValue: string } // error handling
->("taskEdits/pushTaskEdit", async (taskEdit, { rejectWithValue }) => {
+>("taskEdits/pushTaskEdit/thunk", async (taskEdit, { rejectWithValue }) => {
   try {
     const taskEditResponse = await TaskDataHandler.unloadtaskEdit(taskEdit);
     if (taskEditResponse === "SUCCESS") {
@@ -26,7 +26,7 @@ export const fetchTaskEdits = createAsyncThunk<
   // Return type
   UUIDTypes | undefined | null, // Argument type
   { rejectValue: string } // error handling
->("taskEdits/fetchTaskEdits", async (taskUuid, { rejectWithValue }) => {
+>("taskEdits/fetchTaskEdits/thunk", async (taskUuid, { rejectWithValue }) => {
   if (!taskUuid || taskUuid.length < 1 || taskUuid.length == undefined) {
     return rejectWithValue("No task UUID provided");
   }
