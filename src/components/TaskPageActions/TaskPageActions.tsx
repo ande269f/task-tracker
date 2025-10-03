@@ -1,5 +1,5 @@
 import { SettingsButton } from "./SettingsButton";
-import OrderButton from "./OrderButton";
+import OrderButton from "../OrderButton";
 import { Flex } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
