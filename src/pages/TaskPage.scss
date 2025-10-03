@@ -30,12 +30,14 @@
         #flexbox-top-part {
             box-sizing: border-box;
             display: grid;
-            grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+            grid-template-columns: 1fr minmax(0,40rem) 1fr;
             align-items: center;
+            margin: 1rem;
 
-            #InputField {
+            #InputForm {
                 grid-column: 2;
-                margin-right: 40px;
+                margin-right: 1rem;
+
 
 
             }
