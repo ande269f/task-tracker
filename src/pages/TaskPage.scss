@@ -12,8 +12,8 @@
     #ActionBar {
       align-items: flex-start;
 
-      #OrderButton,
-      #SettingsButton {
+      .OrderButton,
+      .SettingsButton {
         margin: 0.5rem 0;
         margin-right: 0.5rem;
       }
@@ -39,11 +39,14 @@
       }
     }
   }
-  #TaskCardInputField {
+
+  .TaskCardInputField {
     padding: 1rem;
+    word-break: break-all;
+    white-space: pre-wrap;
   }
 
-  #TaskCard {
+  .TaskCard {
     padding-bottom: 1rem;
   }
 }

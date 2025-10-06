@@ -1,5 +1,5 @@
 
-import "./App.scss";
+import "/App.scss"
 import DisplayDialog from "./components/dialogbox/DisplayDialog";
 import { Provider } from "./components/ui/provider";
 import { Toaster } from "./components/ui/toaster";
@@ -18,7 +18,7 @@ function App() {
       <Toaster />
       <Router>
         <AppRoutes />
-        <DisplayDialog />
+        <DisplayDialog/>
       </Router>
     </Provider>
   );

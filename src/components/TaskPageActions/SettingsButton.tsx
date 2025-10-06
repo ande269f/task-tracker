@@ -6,6 +6,14 @@ import { setSortingState } from "../../store/slices/sortTaskSlice/sortTaskSlice"
 import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { setUserLoggedOut } from "../../store/slices/loginSlice/loginSlice";
 
+export const SettingsOptionStyling = {
+  padding: "0.5rem"
+};
+
+export const SegmentGroupStyling = {
+  padding: "0 0.5rem"
+}
+
 
 export const SettingsButton = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
@@ -40,7 +48,7 @@ export const SettingsButton = () => {
   };
 
   return (
-    <div id="SettingsButton">
+    <div className="Dropdown SettingsButton">
     <Menu.Root >
       <Menu.Trigger asChild>
         <IconButton aria-label="Settings" variant="subtle">
@@ -50,22 +58,22 @@ export const SettingsButton = () => {
       <Menu.Positioner>
         <Menu.Content>
           <Menu.ItemGroup>
-            <Menu.ItemGroupLabel> Sortering </Menu.ItemGroupLabel>
-            <SegmentGroup.Root
+            <Menu.ItemGroupLabel {...SettingsOptionStyling}> Sortering </Menu.ItemGroupLabel>
+            <SegmentGroup.Root {...SettingsOptionStyling}
               size="xs"
               value={decideSortStateValue(currentSortState.sortingState)}
               onValueChange={(e) => handleSortChange(e.value)}
             >
               <SegmentGroup.Indicator />
-              <SegmentGroup.Items
+              <SegmentGroup.Items {...SegmentGroupStyling}
                 items={[sortingOption1, sortingOption2, sortingOption3]}
               />
             </SegmentGroup.Root>
           </Menu.ItemGroup>
           <Menu.Separator />
           <Menu.ItemGroup>
-            <Menu.ItemGroupLabel> Andet</Menu.ItemGroupLabel>
-            <Menu.Item
+            <Menu.ItemGroupLabel {...SettingsOptionStyling}> Andet</Menu.ItemGroupLabel>
+            <Menu.Item {...SettingsOptionStyling}
               value="openDeleteHistoryDialog"
               onClick={() =>
                 dispatch(setDetailsDialogState({
@@ -77,7 +85,7 @@ export const SettingsButton = () => {
             >
               Slettede opgaver
             </Menu.Item>
-            <Menu.Item
+            <Menu.Item {...SettingsOptionStyling}
               value="logout"
               onClick={() => 
                 dispatch(setUserLoggedOut())

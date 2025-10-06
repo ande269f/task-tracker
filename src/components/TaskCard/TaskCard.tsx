@@ -1,62 +1,39 @@
 import { AppDispatch, RootState } from "../../store";
-import { Card, IconButton, Button, Textarea, Grid, GridItem } from "@chakra-ui/react";
-import { MdDelete, MdModeEdit } from "react-icons/md";
+import { Card, Button, Textarea, Grid, GridItem } from "@chakra-ui/react";
 import {
-  setTaskDeleted,
   setTaskCompleted,
   setTaskText,
 } from "../../store/slices/taskSlice/taskSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useRef, useEffect } from "react";
-import { DetailsButton } from "./DetailsButton";
+import { useState, useRef, useEffect, createContext } from "react";
 import useTaskEditsLogger from "../../hooks/taskChangesLogger";
 import TaskCheckbox from "./TaskCheckbox";
-import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { taskObject } from "../../store/slices/taskSlice/taskSlice";
+import { TaskActionsDropdown } from "./TaskActionsDropdown/TaskActionsDropdown";
 
-const DeleteButton = ({ handleDelete }: { handleDelete: Function }) => {
-  return (
-    <IconButton
-      aria-label="Search database"
-      onClick={(e) => {
-        e.stopPropagation();
-        handleDelete();
-      }}
-    >
-      <MdDelete />
-    </IconButton>
-  );
+type TaskCardContextType = {
+  dispatch?: AppDispatch;
+  isEditOff: boolean;
+  setIsEditOff: React.Dispatch<React.SetStateAction<boolean>>;
+  inputRef: React.RefObject<HTMLTextAreaElement>;
+  task?: taskObject;
 };
 
-const EditTaskButton = ({ handleEdit }: { handleEdit: Function }) => {
-  return (
-    <IconButton
-      aria-label="Edit Task"
-      onClick={(e) => {
-        e.stopPropagation();
-        handleEdit();
-      }}
-    >
-      <MdModeEdit />
-    </IconButton>
-  );
-};
+export const TaskCardContext = createContext<TaskCardContextType | undefined>(
+  undefined
+);
 
 const TaskCard = ({ task }: { task: taskObject }) => {
   const { logTaskEdit } = useTaskEditsLogger(task);
-
-  useEffect(() => {
-    // kører første gang taskcard renderes, så derefter hver gang text complete eller delete ændrer sig
-    logTaskEdit();
-  }, [task.taskText, task.taskCompleted, task.taskDeleted]);
-
   const [isEditOff, setIsEditOff] = useState<boolean>(true);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleDelete = () => {
-    dispatch(setTaskDeleted({ uuid: task.taskUuid, taskDeleted: new Date() }));
-  };
+  useEffect(() => {
+    // kører første gang taskcard renderes,
+    // så derefter hver gang text complete eller delete ændrer sig
+    logTaskEdit();
+  }, [task.taskText, task.taskCompleted, task.taskDeleted]);
 
   const handleComplete = () => {
     if (isEditOff) {
@@ -68,60 +45,60 @@ const TaskCard = ({ task }: { task: taskObject }) => {
       );
     }
   };
-  const handleEdit = () => {
-    setIsEditOff(!isEditOff);
-    isEditOff ? inputRef.current?.focus() : inputRef.current?.blur();
-  };
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setTaskText({ uuid: task.taskUuid, taskText: e.target.value }));
   };
 
-  const showDialogBox = () => {
-    dispatch(
-      setDetailsDialogState({
-        taskObject: task,
-        dialogboxOpened: true,
-        dialogboxType: "taskDetailsDialog",
-      })
-    );
-  };
-
   if (!task.taskDeleted) {
     return (
-      <div id="TaskCard">
-        <Card.Root
-          onClick={() => {
-            handleComplete();
-          }}
-        >
-          <Card.Header />
-          <Card.Body>
-            <Card.Description>
+      <TaskCardContext.Provider
+        value={{
+          dispatch,
+          isEditOff,
+          setIsEditOff,
+          inputRef,
+          task,
+        }}
+      >
+        <div className="TaskCard">
+          <Card.Root
+            variant={task.taskCompleted ? "subtle" : "outline"}
+            backgroundColor={task.taskCompleted ? "green.300" : "white"}
+            onClick={() => {
+              handleComplete();
+            }}
+          >
+            <Card.Header />
+            <Card.Body>
               <Grid templateColumns="1fr auto" alignItems="center" gap={2}>
-                <GridItem>
-                <Textarea
-                  id="TaskCardInputField"
-                  borderWidth={0}
-                  autoresize
-                  value={task.taskText}
-                  onChange={handleChange}
-                  readOnly={isEditOff}
-                  ref={inputRef}
-                  onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
-                />
-                </GridItem> 
+                <GridItem className="TaskCardTaskText">
+                  {isEditOff ? (
+                    <p className="TaskCardPlainText">{task.taskText}</p>
+                  ) : (
+                    <Textarea
+                      size={"xl"}
+                      className="TaskCardInputField"
+                      focusRing="none"
+                      borderWidth={0}
+                      autoresize
+                      value={task.taskText}
+                      onChange={handleChange}
+                      ref={inputRef}
+                      onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
+                    />
+                  )}
+                </GridItem>
 
-                <GridItem>
-                <EditTaskButton handleEdit={handleEdit} />
-                <TaskCheckbox taskCompleted={task.taskCompleted} />
-                <DeleteButton handleDelete={handleDelete} />
-                <DetailsButton handleDetailsButton={showDialogBox} />
+                <GridItem height={"100%"}>
+                  <TaskActionsDropdown />
+                  <TaskCheckbox taskCompleted={task.taskCompleted} />
                 </GridItem>
               </Grid>
-            </Card.Description>
-          </Card.Body>
-        </Card.Root>
-      </div>
+            </Card.Body>
+          </Card.Root>
+        </div>
+      </TaskCardContext.Provider>
     );
   }
 };

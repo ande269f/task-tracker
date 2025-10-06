@@ -1,15 +1,31 @@
-import { Checkbox } from "@chakra-ui/react"
+import { Checkbox } from "@chakra-ui/react";
 
-const TaskCheckbox = ({taskCompleted}: {taskCompleted: boolean}) => {
-    return (
-        <Checkbox.Root readOnly checked={taskCompleted}>
-            <Checkbox.HiddenInput />
-                <Checkbox.Control>
-                    <Checkbox.Indicator />
-                </Checkbox.Control>
-            <Checkbox.Label />
-        </Checkbox.Root>
-    )
-}
+const removeBackground = {
+  border: "none",
+  bg: "transparent",
+};
 
-export default TaskCheckbox
+const centerCheckbox = {
+  position: "absolute",
+  top: "50%",
+  right: "20px",
+  transform: "translateY(-50%)",
+};
+
+const TaskCheckbox = ({ taskCompleted }: { taskCompleted: boolean }) => {
+  return (
+    <Checkbox.Root
+      {...centerCheckbox}
+      readOnly
+      checked={taskCompleted}
+      variant={"subtle"}
+    >
+      <Checkbox.Control {...removeBackground}>
+        <Checkbox.Indicator />
+      </Checkbox.Control>
+      <Checkbox.Label />
+    </Checkbox.Root>
+  );
+};
+
+export default TaskCheckbox;

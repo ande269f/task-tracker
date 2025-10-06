@@ -1,11 +1,8 @@
-import TaskDetailsDialog from "./TaskDetailsDialog";
+import TaskDetailsDialog from "./TaskDetailsDialog/TaskDetailsDialog";
 import DeleteHistoryDialog from "./DeleteHistoryDialog";
 import {useSelector } from "react-redux";
 import { RootState } from "../../store";
 import NewUserDialog from "./NewUserDialog";
-
-
-
 
 const DisplayDialog = () => {
     const detailsDialog = useSelector((state: RootState) => state.detailsOpener)
@@ -24,7 +21,10 @@ const DisplayDialog = () => {
     }
 
     return (
-        renderDialog(detailsDialog.dialogboxType)
+        <div className="Dialog">
+        {renderDialog(detailsDialog.dialogboxType)}
+
+        </div>    
     )
 }
 
