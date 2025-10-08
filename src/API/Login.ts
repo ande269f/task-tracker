@@ -26,6 +26,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("login fails " + e);
+      return "ERROR"
     }
   };
 
@@ -36,6 +37,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("create new user fails");
+      return "ERROR"
     }
   };
 
@@ -48,6 +50,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("setting user password fails");
+      return "ERROR"
     }
   };
 
@@ -58,6 +61,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("deleting user fails");
+      return "ERROR"
     }
   };
 
@@ -68,6 +72,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("deactivating user fails");
+      return "ERROR"
     }
   };
 
@@ -78,7 +83,7 @@ export default class Login {
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("checkLogin fails" + e);
-      return "";
+      return "ERROR"
     }
   };
 }

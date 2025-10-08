@@ -1,19 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 
-
 import store, { RootState } from "../..";
-import TaskDataHandler, { UserTaskDataDto, taskDto } from "../../../API/TaskDataHandler";
+import TaskDataHandler, { UserTaskDataDto } from "../../../API/TaskDataHandler";
+import { taskDto } from "./taskSlice";
 import { interactiveTaskOrder } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
-
+import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
 
 export const deleteTaskThunk = createAsyncThunk<
-  { uuid: UUIDTypes; }, // Return type
+  { uuid: UUIDTypes }, // Return type
   taskObject, // Argument type
-  { rejectValue: string; } // error handling
+  { rejectValue: string } // error handling
 >("tasks/deleteTask/thunk", async (task, { rejectWithValue }) => {
   const response = await TaskDataHandler.deleteTasks([task]);
+
+  createToasterOnErrorResponse(response, "Fejl ved sletning af to-do's");
+
   if (response === "SUCCESS") {
     return { uuid: task.taskUuid };
   } else {
@@ -21,11 +24,10 @@ export const deleteTaskThunk = createAsyncThunk<
   }
 });
 
-
 export const deleteTasksThunk = createAsyncThunk<
-  { taskObjects: taskObject[]; }, // Return type
+  { taskObjects: taskObject[] }, // Return type
   void, // Argument type
-  { rejectValue: string; } // error handling
+  { rejectValue: string } // error handling
 >("tasks/deleteTasks/thunk", async (_, { getState, rejectWithValue }) => {
   try {
     const state = getState() as RootState;
@@ -33,6 +35,9 @@ export const deleteTasksThunk = createAsyncThunk<
       (task) => task.taskDeleted != null
     );
     const response = await TaskDataHandler.deleteTasks(deletedTasks);
+
+    createToasterOnErrorResponse(response, "Fejl ved sletning af to-do's");
+
     if (response === "SUCCESS") {
       return { taskObjects: deletedTasks };
     } else {
@@ -45,12 +50,29 @@ export const deleteTasksThunk = createAsyncThunk<
 });
 
 export const updateTask = createAsyncThunk<
-  { task: taskObject; }, // Return type
+  { task: taskObject }, // Return type
   taskObject, // Argument type
-  { rejectValue: string; } // error handling
+  { rejectValue: string } // error handling
 >("tasks/updateTask/thunk", async (task, { rejectWithValue }) => {
   try {
-    const response = await TaskDataHandler.updateTask(task);
+    const taskDeleted =
+      task.taskDeleted === null ? null : task.taskDeleted?.toDateString();
+
+    const taskDto: taskDto = {
+      taskUuid: task.taskUuid,
+      taskText: task.taskText,
+      taskCompleted: task.taskCompleted,
+      taskCreated: task.taskCreated.toString(),
+      taskDeleted: taskDeleted,
+    };
+
+    const response = await TaskDataHandler.updateTask(taskDto);
+
+    createToasterOnErrorResponse(
+      response,
+      "Der er sket en fejl. Det betyder at din to'do er ikke opdateret"
+    );
+
     if (response === "SUCCESS") {
 
       return { task };
@@ -64,12 +86,17 @@ export const updateTask = createAsyncThunk<
 });
 
 export const loadUserData = createAsyncThunk<
-  { tasks: taskObject[]; sortTasks: interactiveTaskOrder[]; }, // return type
+  { tasks: taskObject[]; sortTasks: interactiveTaskOrder[] }, // return type
   void, // payload type (ingen payload her)
-  { rejectValue: string; }
+  { rejectValue: string }
 >("tasks/loadUserData/thunk", async (_) => {
   try {
     const userData = (await TaskDataHandler.loadUserData()) as UserTaskDataDto;
+
+    createToasterOnErrorResponse(
+      userData,
+      "Der er sket en fejl ved indlæsning af dine to-do's"
+    );
 
     // Konverter date strings til Date objekter
     const tasks: taskObject[] = userData.tasks.map((task) => ({
@@ -86,20 +113,27 @@ export const loadUserData = createAsyncThunk<
 });
 
 export const pushTask = createAsyncThunk<
-  { task: taskObject; }, // Return type (skal matche dit task-objekt)
-  { task: taskDto; userId: number | null; }, // Argument type
-  { rejectValue: string; } // Error handling
->(
-  "tasks/pushTask",
-  async ({ task, userId }, { rejectWithValue, dispatch }) => {
-    const response = await TaskDataHandler.unloadTasks(task, userId);
+  void, // Return type (skal matche dit task-objekt)
+  { task: taskDto; userId: number | null }, // Argument type
+  { rejectValue: string } // Error handling
+>("tasks/pushTask", async ({ task, userId }, { rejectWithValue, dispatch }) => {
+  const response = await TaskDataHandler.unloadTasks(task, userId);
 
-    if (response === "SUCCESS") {
-      dispatch(setTextInput(task));
-      return { task };
-    } else {
-      return rejectWithValue("Failed to push task");
-    }
+  createToasterOnErrorResponse(
+    response,
+    "Der er sket en fejl ved oprettelse af din to-do"
+  );
+
+  if (response === "SUCCESS") {
+    const taskObject: taskObject = {
+      taskUuid: task.taskUuid,
+      taskText: task.taskText,
+      taskCompleted: task.taskCompleted,
+      taskCreated: new Date(task.taskCreated),
+      taskDeleted: null,
+    };
+    dispatch(setTextInput(taskObject));
+  } else {
+    return rejectWithValue("Failed to push task");
   }
-);
-
+});

@@ -5,7 +5,7 @@ import { pushTask } from "../store/slices/taskSlice/thunks";
 import { useState } from "react";
 import { v4 as uuid, UUIDTypes } from "uuid";
 import { toaster } from "./ui/toaster";
-import { taskDto } from "../API/TaskDataHandler";
+import { taskDto } from "../store/slices/taskSlice/taskSlice";
 
 const InputField = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,7 +35,12 @@ const InputField = () => {
         taskUuid: newUuid,
         taskText: localInput,
         taskCompleted: false,
-        taskCreated: new Date(),
+        //fjerner timezone offset fra date objektet da det er drilsk
+        taskCreated: new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .slice(0, -1),
 
         taskDeleted: null,
       };

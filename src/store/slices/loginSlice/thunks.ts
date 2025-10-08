@@ -15,7 +15,7 @@ import {
 import { setTaskEditsToDefault } from "../taskEditsSlice/taskEditsSlice";
 import { setTasksToDefault } from "../taskSlice/taskSlice";
 import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
-
+import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
 
 export const logout = createAsyncThunk(
   "loginState/logout/thunk",
@@ -31,6 +31,10 @@ export const logout = createAsyncThunk(
       dispatch(setSortOrderToDefault());
       dispatch(setDetailsDialogStateToDefault());
     } catch (err) {
+      createToasterOnErrorResponse(
+        "ERROR",
+        "Noget gik galt da du loggede ud. Prøv at opdatere siden for at løse det"
+      );
       console.warn("Kunne ikke få adgang til localStorage:", err);
     }
   }
@@ -49,6 +53,11 @@ export const validateLogin = createAsyncThunk(
 
       const response = await Login.checkLogin();
 
+      createToasterOnErrorResponse(
+        response,
+        "Hov, der gik noget galt med dit login legitimisering"
+      );
+
       return { loginState: response as LoginState["loginState"] };
     } catch (err) {
       console.error("checkLogin fejlede:", err);
@@ -61,6 +70,12 @@ export const login = createAsyncThunk(
   "loginState/login/thunk",
   async (payload: { username: string; password: string | null }) => {
     const response = await Login.submit(payload.username, payload.password);
+
+    createToasterOnErrorResponse(
+      response,
+      "Dit login fejlede. Det kan skyldes en serverfejl"
+    );
+
     try {
       return { loginState: response as LoginState["loginState"] };
     } catch {
@@ -75,6 +90,11 @@ export const createNewUser = createAsyncThunk(
   async (payload: { username: string }) => {
     try {
       let response = await Login.createNewUser(payload.username);
+
+      createToasterOnErrorResponse(
+        response,
+        "Der gik noget galt da du oprettede en ny bruger"
+      );
 
       if (response === "SUCCESS") {
         response = await Login.submit(payload.username);
@@ -108,6 +128,12 @@ export const setUserPassword = createAsyncThunk(
         payload.username,
         payload.password
       );
+
+      createToasterOnErrorResponse(
+        response,
+        "Der gik noget galt da du oprettede et kodeord til din bruger"
+      );
+
       dispatch(setDialogBoxTypeClosed());
       return { loginState: response as LoginState["loginState"] };
     } catch (e) {

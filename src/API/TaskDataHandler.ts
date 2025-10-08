@@ -1,20 +1,11 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
 import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
-import { taskObject } from "../store/slices/taskSlice/taskSlice";
+import { taskDto, taskObject } from "../store/slices/taskSlice/taskSlice";
 import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
 
-export interface taskDto {
-  taskUuid: UUIDTypes;
-  taskText: string;
-  taskCompleted: boolean;
-  taskDeleted: Date | null;
-  taskCreated: Date;
-}
-
-
 export interface UserTaskDataDto {
-    tasks: taskObject[],
+    tasks: taskDto[],
     sortTasks: interactiveTaskOrder[],
   }
 
@@ -53,6 +44,7 @@ export default class TaskDataHandler {
         return "ERROR";
       }
 
+
       const response = await axios.post("data/unloadTask/" + userId, task);
       return response.data;
     } catch (e) {
@@ -61,20 +53,12 @@ export default class TaskDataHandler {
     }
   };
 
-  static loadTasks = async () => {
-    try {
-      const tasks = await axios.get("data/loadTasks/");
-      return tasks.data
-    } catch (e) {
-      console.log("load tasks failed " + e);
-      return "ERROR";
-    }
-  }
 
   static loadtaskEdits = async (taskUuid: UUIDTypes) => {
     try {
-      const taskEdits = await axios.get("data/loadTaskEdits/" + taskUuid);
-      return taskEdits.data
+      const response = await axios.get("data/loadTaskEdits/" + taskUuid);
+
+      return response.data
     } catch (e) {
       console.log("loadtaskEdits failed " + e);
       return "ERROR";

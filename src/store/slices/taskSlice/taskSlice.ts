@@ -15,6 +15,13 @@ type TaskState = {
   error: string | null;
   refreshed: boolean;
 };
+export interface taskDto {
+  taskUuid: UUIDTypes;
+  taskText: string;
+  taskCompleted: boolean;
+  taskDeleted: string | null;
+  taskCreated: string;
+}
 const initialState: TaskState = {
   tasks: [],
   loading: false,
@@ -116,4 +123,5 @@ export const {
   setTasksToDefault, setTextInput, setTaskDeleted, setTaskCompleted, setTaskText, deleteTasks, deleteTask, setTasks,
 } = inputSlice.actions;
 export default inputSlice.reducer;
+
 
