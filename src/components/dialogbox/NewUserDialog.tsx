@@ -123,11 +123,11 @@ const NewUserDialog = () => {
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="subtle" className="CancelDialogButton">Cancel</Button>
               </Dialog.ActionTrigger>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
-              <CloseButton size="sm" />
+              <CloseButton size="xl" />
             </Dialog.CloseTrigger>
           </Dialog.Content>
         </Dialog.Positioner>

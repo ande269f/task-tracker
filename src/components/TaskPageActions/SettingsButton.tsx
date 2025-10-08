@@ -83,7 +83,7 @@ export const SettingsButton = () => {
                 }))
               }
             >
-              Slettede opgaver
+              Papirkurv
             </Menu.Item>
             <Menu.Item {...SettingsOptionStyling}
               value="logout"

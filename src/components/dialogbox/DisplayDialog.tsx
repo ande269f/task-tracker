@@ -3,6 +3,7 @@ import DeleteHistoryDialog from "./DeleteHistoryDialog";
 import {useSelector } from "react-redux";
 import { RootState } from "../../store";
 import NewUserDialog from "./NewUserDialog";
+import "./DialogBox.scss"
 
 const DisplayDialog = () => {
     const detailsDialog = useSelector((state: RootState) => state.detailsOpener)

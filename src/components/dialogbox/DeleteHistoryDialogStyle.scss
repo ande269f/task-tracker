@@ -1,0 +1,26 @@
+.DeleteHistoryDialogBody {
+  .UpperCardArea {
+    text-align: left;
+
+    .DeleteAllTasksPermanentlyButton {
+      padding: 0.5rem;
+      margin: 0.2rem 0rem;
+    }
+  }
+
+  .LowerCardArea {
+    margin-top: 1rem;
+
+    .DeletedTaskContainer {
+       margin-bottom: 1.5rem; 
+      .ButtonArea {
+        align-items: center;
+        justify-content: center;
+        .RestoreTaskButton,
+        .DeleteTaskPermanentlyButton {
+          margin: 0.2rem 0.5rem;
+        }
+      }
+    }
+  }
+}

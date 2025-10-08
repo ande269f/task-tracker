@@ -10,13 +10,12 @@ import "./style.scss"
 export const TaskPageActions = () => {
         const dispatch = useDispatch<AppDispatch>()
         const sortState = useSelector((state: RootState) => state.sortState);
-        const tasks = useSelector((state: RootState) => state.form)
+
 
         const handleOrder = () => {
         dispatch(setSortDirection({sortDirection: !sortState.sortDirection}))
         }
 
-        const completedTasks = tasks.tasks.filter((task) => task.taskCompleted)
         
 
 
