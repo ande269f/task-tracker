@@ -1,0 +1,17 @@
+
+
+    .TaskPageActions {
+      align-items: flex-start;
+
+      .OrderButton,
+      .SettingsButton,
+      .RemoveFinishedTasksButton {
+        margin: 0.5rem 0;
+        margin-right: 0.5rem;
+      }
+
+
+      .RemoveFinishedTasksButton {
+        padding: 0 0.5rem;
+      }
+    }

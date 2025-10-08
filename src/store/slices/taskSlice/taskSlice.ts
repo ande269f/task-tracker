@@ -51,6 +51,8 @@ const inputSlice = createSlice({
       }
     },
     setTasksToDefault: () => initialState,
+    //setTaskDeleted opdatere state -> det fanger taskChangesLogger og 
+    // opdatere backend som så opdatere frontend
     setTaskDeleted: (
       state,
       action: PayloadAction<{ uuid: UUIDTypes; taskDeleted: Date | null; }>
