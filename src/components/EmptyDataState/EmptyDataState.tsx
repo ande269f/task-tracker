@@ -9,7 +9,7 @@ const EmptyDataState = ({ icon, text }: { icon: ReactNode; text: string }) => {
   return (
     <EmptyState.Root
       colorPalette="white"
-      backgroundColor="gray.100"
+      //backgroundColor="gray.100"
       className="EmptyState"
       borderRadius="md"
       rounded="xl"

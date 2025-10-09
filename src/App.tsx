@@ -12,6 +12,7 @@ import { AppRoutes } from "./AppRoutes";
 
 function App() {
 
+
   return (
     <Provider>
       <div className="App"></div>

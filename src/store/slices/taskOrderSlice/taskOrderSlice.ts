@@ -3,6 +3,7 @@ import { loadUserData } from "../taskSlice/thunks";
 import { setTextInput, deleteTasks, taskObject, deleteTask } from "../taskSlice/taskSlice";
 
 import { UUIDTypes } from "uuid";
+import { setSortDirection } from "../sortTaskSlice/sortTaskSlice";
 
 export interface interactiveTaskOrder {
   sortOrder: number;
@@ -13,18 +14,18 @@ const sortTasks = createSlice({
   name: "sortTasks",
   initialState,
   reducers: {
-    setTaskOrder: (state, action: PayloadAction<interactiveTaskOrder[]>) => {
-        // Erstat hele state arrayet med det nye array
-      state.splice(0, state.length, ...action.payload);
+    // setTaskOrder: (state, action: PayloadAction<interactiveTaskOrder[]>) => {
+    //     // tøm state arrayet
+    //   state.splice(0, state.length, ...action.payload);
 
-      // Sortér arrayet in-place efter sortOrder
-      state.sort((a, b) => a.sortOrder - b.sortOrder);
+    //   // Sortér arrayet in-place efter sortOrder
+    //   state.sort((a, b) => a.sortOrder - b.sortOrder);
 
-      // Sørg for at sortOrder matcher index + 1
-      state.forEach((item, index) => {
-        item.sortOrder = index + 1;
-      });
-    },
+    //   // Sørg for at sortOrder matcher index + 1
+    //   state.forEach((item, index) => {
+    //     item.sortOrder = index + 1;
+    //   });
+    // },
     setSortOrderToDefault: () => initialState,
     updateSortOrder: (
       state,
@@ -35,9 +36,9 @@ const sortTasks = createSlice({
       }>
     ) => {
       // klon elementerne ([...state] mutere kun et array klon, da den ikke laver en deep klon)
+      //sørg for at rækkefølgen er korrekt, så den afspejler ui
       const updated = state.map((item) => ({ ...item }));
 
-      if (action.payload.sortDirection) {
         // hvis det er normal rækkefølge (sortDirection = true = asc)
         const [moved] = updated.splice(action.payload.from, 1);
         updated.splice(action.payload.to, 0, moved);
@@ -48,28 +49,23 @@ const sortTasks = createSlice({
           update.sortOrder = sortOrderValue;
           sortOrderValue = sortOrderValue - 1;
         });
-      } else {
-        //hvis det ikke er normal rækkefølge, reverse og lav skift
-        updated.reverse();
-        const [moved] = updated.splice(action.payload.from, 1);
-        updated.splice(action.payload.to, 0, moved);
 
-        //opdater sortOrder til ny værdi
-        var sortOrderValue = updated.length;
-        updated.forEach((update) => {
-          update.sortOrder = sortOrderValue;
-          sortOrderValue = sortOrderValue - 1;
-        });
-        updated.reverse();
-      }
-
-      return updated;
+      state.length = 0;
+      state.push(...updated);
     },
   },
   //extrareducers til at reagere på ændring i taskobject listen (tilføjelse - sletning af tasks)
   // reagere i ui selvom backenden ikke følger med - men skulle være sikker på at orders.length == tasks.len dat task api kaldet laver order
   extraReducers: (builder) => {
     builder
+      .addCase(setSortDirection, (state,action) => {
+        //synker sortstate med sortDirection
+        if (action.payload.sortDirection) {
+          return [...state].sort((a, b) => a.sortOrder - b.sortOrder);
+        }
+        else 
+          return [...state].sort((a, b) => b.sortOrder - a.sortOrder);
+      })
       .addCase(setTextInput, (state, action) => {
         const newElement: interactiveTaskOrder = {
           uuid: action.payload.taskUuid,
@@ -97,9 +93,11 @@ const sortTasks = createSlice({
         return updated;
       }) // til sync med taskSlice
       .addCase(loadUserData.fulfilled, (state, action) => {
-        return action.payload.sortTasks;
+        // organisere sortTasks, da det ikke er organiseret fra backend
+        //samme type sort hver gang -> hack da sortdirection resetter ved hver rerender af browser
+        return action.payload.sortTasks.sort((a, b) => b.sortOrder - a.sortOrder);
       });
   },
 });
-export const { setTaskOrder, setSortOrderToDefault, updateSortOrder } = sortTasks.actions;
+export const { setSortOrderToDefault, updateSortOrder } = sortTasks.actions;
 export default sortTasks.reducer;
