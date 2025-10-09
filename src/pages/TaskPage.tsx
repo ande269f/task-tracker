@@ -12,7 +12,6 @@ const TaskPage = () => {
           <InputField />
           <TaskPageActions />
         </Flex>
-
         <TaskField />
       </div>
     </div>
