@@ -1,29 +1,46 @@
-
 import UsernameForm from "../components/UsernameForm";
 import PasswordForm from "../components/PasswordForm";
-import { Button } from "@chakra-ui/react";
+import { Box, Button, ButtonProps, HTMLChakraProps } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { usePasswordFormVisibility } from "../hooks/passwordFormVisibility";
 import { useLoginActions } from "../hooks/loginActions";
+import "./LoginPage.scss";
 
 export interface FormValues {
   username: string;
   password: string;
 }
 
+const loginButtonStyling: ButtonProps = {
+  variant: "subtle",
+  colorPalette: "green",
+};
+
 const LoginPage = () => {
   const methods = useForm<FormValues>();
   const showPasswordForm = usePasswordFormVisibility();
-  const { onSubmit } = useLoginActions()
+  const { onSubmit } = useLoginActions();
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <UsernameForm />
-        {showPasswordForm && <PasswordForm />}
-        <Button type="submit">Log ind</Button>
-      </form>
-    </FormProvider>
+    <div className="LoginBackground">
+      <div className="LoginPage">
+        <Box className="loginBox" bg="gray.200" rounded="2xl">
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <UsernameForm />
+              {showPasswordForm && <PasswordForm />}
+              <Button
+                type="submit"
+                className="LoginButton"
+                {...loginButtonStyling}
+              >
+                Log ind
+              </Button>
+            </form>
+          </FormProvider>
+        </Box>
+      </div>
+    </div>
   );
 };
 

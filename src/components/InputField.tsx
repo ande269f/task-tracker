@@ -74,6 +74,7 @@ const InputField = () => {
             value={localInput}
             placeholder="Indtast en todo"
             autoresize
+            variant={"subtle"}
             onChange={(e) => setLocalInput(e.target.value)}
             rows={1}
           />
@@ -81,9 +82,11 @@ const InputField = () => {
             type="submit"
             id="SubmitButton"
             bg="bg.subtle"
+            rounded={"md"}
             variant="outline"
+            backgroundColor="gray.200"
           >
-            Indsæt
+            Opret
           </Button>
         </Group>
       </form>

@@ -1,0 +1,29 @@
+
+.LoginBackground {
+  min-height: 100vh; //får containeren til at fylde hele skærmen
+
+  background-image: url("baggrund.svg");
+  background-size: cover;
+  background-position: center;
+
+  .LoginPage {
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .loginBox {
+      width: 70%;
+      margin-top: 3rem;
+
+      padding: 1rem;
+      .UsernameForm {
+      }
+      .LoginButton {
+        margin-top: 1rem;
+        padding: 1rem;
+      }
+    }
+  }
+}

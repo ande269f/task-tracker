@@ -5,16 +5,16 @@ import { Flex } from "@chakra-ui/react";
 import "./TaskPage.scss";
 
 const TaskPage = () => {
-
   return (
-    <div id="TaskPage">
-      <Flex id="flexbox-top-part">
-        <InputField />
-        <TaskPageActions />
-      </Flex>
+    <div className="TaskPageBackground">
+      <div id="TaskPage">
+        <Flex id="flexbox-top-part">
+          <InputField />
+          <TaskPageActions />
+        </Flex>
 
-
-      <TaskField />
+        <TaskField />
+      </div>
     </div>
   );
 };

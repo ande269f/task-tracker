@@ -1,16 +1,15 @@
-import { AppDispatch, RootState } from "../../store";
+import { AppDispatch } from "../../store";
 import { Card, Button, Textarea, Grid, GridItem, Box } from "@chakra-ui/react";
 import {
   setTaskCompleted,
   setTaskText,
 } from "../../store/slices/taskSlice/taskSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   useState,
   useRef,
   useEffect,
   createContext,
-  useLayoutEffect,
 } from "react";
 import useTaskEditsLogger from "../../hooks/taskChangesLogger";
 import TaskCheckbox from "./TaskCheckbox";
