@@ -9,3 +9,15 @@ word-break: break-all;
 white-space: pre-wrap;
 }
 
+// læs op på det her
+
+.TaskCard {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+#TaskPage:has(.TaskCardInputField:focus-within)
+  .TaskCard:not(:focus-within) {
+  filter: blur(5px);
+  opacity: 0.2;
+  pointer-events: none;
+}

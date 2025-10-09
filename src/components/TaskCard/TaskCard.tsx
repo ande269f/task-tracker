@@ -1,11 +1,17 @@
 import { AppDispatch, RootState } from "../../store";
-import { Card, Button, Textarea, Grid, GridItem } from "@chakra-ui/react";
+import { Card, Button, Textarea, Grid, GridItem, Box } from "@chakra-ui/react";
 import {
   setTaskCompleted,
   setTaskText,
 } from "../../store/slices/taskSlice/taskSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useRef, useEffect, createContext } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  createContext,
+  useLayoutEffect,
+} from "react";
 import useTaskEditsLogger from "../../hooks/taskChangesLogger";
 import TaskCheckbox from "./TaskCheckbox";
 import { taskObject } from "../../store/slices/taskSlice/taskSlice";
@@ -61,7 +67,7 @@ const TaskCard = ({ task }: { task: taskObject }) => {
           task,
         }}
       >
-        <div className="TaskCard">
+        <Box className="TaskCard">
           <Card.Root
             variant={task.taskCompleted ? "subtle" : "outline"}
             backgroundColor={task.taskCompleted ? "green.300" : "white"}
@@ -73,23 +79,23 @@ const TaskCard = ({ task }: { task: taskObject }) => {
             <Card.Body>
               <Grid templateColumns="1fr auto" alignItems="center" gap={2}>
                 <GridItem className="TaskCardTaskText">
-                  {isEditOff ? (
-                    <p className="TaskCardPlainText">{task.taskText}</p>
-                  ) : (
-                    <Textarea
-                      size={"xl"}
-                      className="TaskCardInputField"
-                      focusRing="none"
-                      borderWidth={0}
-                      autoresize
-                      value={task.taskText}
-                      onChange={handleChange}
-                      ref={inputRef}
-                      onBlur={logTaskEdit} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
-                    />
-                  )}
+                  <Textarea
+                    id={task.taskUuid.toString()}
+                    size={"xl"}
+                    className="TaskCardInputField Input"
+                    focusRing="none"
+                    pointerEvents={isEditOff ? "none" : "all"}
+                    borderWidth={0}
+                    autoresize
+                    value={task.taskText}
+                    onChange={handleChange}
+                    ref={inputRef}
+                    onBlur={() => {
+                      logTaskEdit(); // log ændringen
+                      setIsEditOff(true); // slå edit-mode fra
+                    }} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
+                  />
                 </GridItem>
-
                 <GridItem height={"100%"}>
                   <TaskActionsDropdown />
                   <TaskCheckbox taskCompleted={task.taskCompleted} />
@@ -97,7 +103,20 @@ const TaskCard = ({ task }: { task: taskObject }) => {
               </Grid>
             </Card.Body>
           </Card.Root>
-        </div>
+        </Box>
+
+        {!isEditOff && (
+          <Button className="TextEditButton"
+          animationName=" fade-in" 
+          animationDuration="0.5s"
+          position="absolute"
+          padding={"0.5rem"}
+          zIndex={11} //så den rent visuelt ikke bliver påvirket at elementer under den
+          colorPalette={"green"}
+          >
+            Gem ændringer
+          </Button>
+        )}
       </TaskCardContext.Provider>
     );
   }
