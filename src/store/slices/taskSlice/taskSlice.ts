@@ -35,7 +35,6 @@ const inputSlice = createSlice({
   reducers: {
     setTextInput: (state, action: PayloadAction<taskObject>) => {
       state.tasks.push(action.payload);
-      console.log(state.tasks);
     },
     setTasks: (state, action: PayloadAction<taskObject[]>) => {
       state.tasks = action.payload;

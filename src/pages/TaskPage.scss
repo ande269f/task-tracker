@@ -1,10 +1,7 @@
 .TaskPageBackground {
   min-height: 100vh; //får containeren til at fylde hele skærmen
 
-  background-image: url("to-do baggrund.svg");
-  background-size: cover;
-  background-position: center;
-    background-attachment: fixed;
+  background-color: #cfab93;
 
   #TaskPage {
     padding: 2vw;
@@ -23,7 +20,7 @@
     }
 
     // desktop settings
-    @media (min-width: 440px) {
+    @media (min-width: 750px) {
       #flexbox-top-part {
         box-sizing: border-box;
         display: grid;
@@ -35,6 +32,8 @@
           grid-column: 2;
           margin-right: 1rem;
         }
+
+
       }
     }
 
@@ -45,7 +44,10 @@
     }
 
     .TaskCard {
+
       padding-bottom: 0.55rem;
+
+
     }
   }
 }

@@ -27,7 +27,7 @@ export const useHandleLoginState = (loginState: string) => {
       case "LOGIN_FAILED":
         queueMicrotask(() => {
           toaster.create({
-            description: "Kunne ikke logge ind, brugernavn eller adgangskode er forkert",
+            description: "Brugernavn eller adgangskode er forkert",
             type: "error",
           });
         });

@@ -1,4 +1,3 @@
-
 .LoginBackground {
   min-height: 100vh; //får containeren til at fylde hele skærmen
 
@@ -8,13 +7,12 @@
   background-attachment: fixed;
 
   .LoginPage {
-
-
     display: flex;
     align-items: center;
     justify-content: center;
 
     .loginBox {
+      max-width: 25rem;
       width: 70%;
       margin-top: 3rem;
 
@@ -24,6 +22,9 @@
       .LoginButton {
         margin-top: 1rem;
         padding: 1rem;
+      }
+      .PasswordForm {
+        margin-top: 0.6rem;
       }
     }
   }

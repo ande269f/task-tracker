@@ -7,6 +7,7 @@ import { taskDto } from "./taskSlice";
 import { interactiveTaskOrder } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
 import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
+import { toaster } from "../../../components/ui/toaster";
 
 export const deleteTaskThunk = createAsyncThunk<
   { uuid: UUIDTypes }, // Return type
@@ -39,6 +40,12 @@ export const deleteTasksThunk = createAsyncThunk<
     createToasterOnErrorResponse(response, "Fejl ved sletning af to-do's");
 
     if (response === "SUCCESS") {
+
+      toaster.create({
+      description: "Papirkurven er ryddet",
+      type: "success",
+    });
+
       return { taskObjects: deletedTasks };
     } else {
       return rejectWithValue("Delete failed");

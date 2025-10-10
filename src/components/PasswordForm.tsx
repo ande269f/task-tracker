@@ -8,12 +8,14 @@ const PasswordForm = () => {
   } = useFormContext<{ password: string }>();
 
   return (
-    <Flex gap="4" align="flex-start" maxW="sm">
+    <Flex gap="4" align="flex-start" className="PasswordForm">
       <Field.Root required>
         <Input
           type="password"
+          textIndent="0.5rem"
+          variant="subtle"
           {...register("password")}
-          placeholder="Password"
+          placeholder="Indtast her"
         />
         <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
       </Field.Root>

@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadUserData } from "../taskSlice/thunks";
-import { setTextInput, deleteTasks, taskObject, deleteTask } from "../taskSlice/taskSlice";
+import { deleteTasksThunk, loadUserData } from "../taskSlice/thunks";
+import {
+  setTextInput,
+  deleteTasks,
+  taskObject,
+  deleteTask,
+} from "../taskSlice/taskSlice";
 
 import { UUIDTypes } from "uuid";
 import { setSortDirection } from "../sortTaskSlice/sortTaskSlice";
@@ -39,16 +44,16 @@ const sortTasks = createSlice({
       //sørg for at rækkefølgen er korrekt, så den afspejler ui
       const updated = state.map((item) => ({ ...item }));
 
-        // hvis det er normal rækkefølge (sortDirection = true = asc)
-        const [moved] = updated.splice(action.payload.from, 1);
-        updated.splice(action.payload.to, 0, moved);
+      //foretag flytning af element 
+      const [moved] = updated.splice(action.payload.from, 1);
+      updated.splice(action.payload.to, 0, moved);
 
-        //opdater sortOrder til ny værdi
-        var sortOrderValue = updated.length;
-        updated.forEach((update) => {
-          update.sortOrder = sortOrderValue;
-          sortOrderValue = sortOrderValue - 1;
-        });
+      //opdater sortOrder til ny værdi i alle elementer
+      var sortOrderValue = updated.length;
+      updated.forEach((update) => {
+        update.sortOrder = sortOrderValue;
+        sortOrderValue = sortOrderValue - 1;
+      });
 
       state.length = 0;
       state.push(...updated);
@@ -58,24 +63,31 @@ const sortTasks = createSlice({
   // reagere i ui selvom backenden ikke følger med - men skulle være sikker på at orders.length == tasks.len dat task api kaldet laver order
   extraReducers: (builder) => {
     builder
-      .addCase(setSortDirection, (state,action) => {
+      .addCase(setSortDirection, (state, action) => {
         //synker sortstate med sortDirection
         if (action.payload.sortDirection) {
           return [...state].sort((a, b) => a.sortOrder - b.sortOrder);
-        }
-        else 
-          return [...state].sort((a, b) => b.sortOrder - a.sortOrder);
+        } else return [...state].sort((a, b) => b.sortOrder - a.sortOrder);
       })
       .addCase(setTextInput, (state, action) => {
+        // når der bliver sat et nyt element, sæt det ind 
+        // i taskOrder med sortOrder: state.length + 1
         const newElement: interactiveTaskOrder = {
           uuid: action.payload.taskUuid,
-          sortOrder: state.length,
+          sortOrder: state.length + 1,
         };
-        state.push(newElement);
+        const firstElement = state[0].sortOrder;
+        const lastElement = state[state.length - 1].sortOrder;
+        
+        //sørg for at nyt element altid placeres efter element 
+        //med sortOrder: state.length + 1
+        firstElement > lastElement
+          ? state.unshift(newElement)
+          : state.push(newElement);
       })
-      .addCase(deleteTasks, (state, action) => {
+      .addCase(deleteTasksThunk.fulfilled, (state, action) => {
         // laver et nyt array kun med payloadens tasks uuid'er
-        const uuidsToDelete = action.payload.map(
+        const uuidsToDelete = action.payload.taskObjects.map(
           (task: taskObject) => task.taskUuid
         );
         //filtrere state så de uuid'er fra uuidsToDelete ikke er der
@@ -95,7 +107,9 @@ const sortTasks = createSlice({
       .addCase(loadUserData.fulfilled, (state, action) => {
         // organisere sortTasks, da det ikke er organiseret fra backend
         //samme type sort hver gang -> hack da sortdirection resetter ved hver rerender af browser
-        return action.payload.sortTasks.sort((a, b) => b.sortOrder - a.sortOrder);
+        return action.payload.sortTasks.sort(
+          (a, b) => b.sortOrder - a.sortOrder
+        );
       });
   },
 });

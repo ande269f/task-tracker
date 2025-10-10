@@ -1,0 +1,43 @@
+.NewUserDialogBody {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centrer alt som default */
+
+  .UpperText {
+    margin: 1rem;
+    justify-content: center;
+  }
+
+  .PasswordText {
+    margin-top: 1rem;
+  }
+  .PasswordForm {
+    margin: 0.5rem;
+    width: 17rem;
+  }
+  .GoToTaskPageButton {
+    padding: 1.3rem 1rem;
+    margin: 0 0.5rem;
+    margin-top: 1rem;
+    align-self: flex-end; /* flyt kun denne til højre */
+  }
+
+  .ButtonArea {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    .CreateNewUserButton {
+      grid-column: 2;
+      padding: 1.3rem 1rem;
+      margin: 1rem 0.5rem;
+    }
+    .CancelDialogButton {
+      grid-column: 1;
+      padding: 1.3rem 1rem;
+      margin: 1rem 0.5rem;
+    }
+  }
+}
