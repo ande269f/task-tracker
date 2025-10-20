@@ -1,124 +1,68 @@
-import { AppDispatch } from "../../store";
-import { Card, Button, Textarea, Grid, GridItem, Box } from "@chakra-ui/react";
+
+import { Card,Grid, GridItem, Box } from "@chakra-ui/react";
 import {
   setTaskCompleted,
-  setTaskText,
 } from "../../store/slices/taskSlice/taskSlice";
-import { useDispatch } from "react-redux";
-import {
-  useState,
-  useRef,
-  useEffect,
-  createContext,
-} from "react";
-import useTaskEditsLogger from "../../hooks/taskChangesLogger";
-import TaskCheckbox from "./TaskCheckbox";
-import { taskObject } from "../../store/slices/taskSlice/taskSlice";
+import { } from "react-redux";
+import { useEffect } from "react";
+
+import TaskCheckbox from "./TaskCardProps/TaskCheckbox";
+
 import { TaskActionsDropdown } from "./TaskActionsDropdown/TaskActionsDropdown";
+import EditTaskCardButton from "./TaskCardProps/EditTaskCardButton";
+import TaskCardTextArea from "./TaskCardProps/TaskCardTextArea";
 
-type TaskCardContextType = {
-  dispatch?: AppDispatch;
-  isEditOff: boolean;
-  setIsEditOff: React.Dispatch<React.SetStateAction<boolean>>;
-  inputRef: React.RefObject<HTMLTextAreaElement>;
-  task?: taskObject;
-};
+import { useTaskCardContext } from "../../hooks/taskCardContext";
 
-export const TaskCardContext = createContext<TaskCardContextType | undefined>(
-  undefined
-);
+const TaskCard = () => {
+  const context = useTaskCardContext();
+  if (!context) return null;
 
-const TaskCard = ({ task }: { task: taskObject }) => {
-  const { logTaskEdit } = useTaskEditsLogger(task);
-  const [isEditOff, setIsEditOff] = useState<boolean>(true);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // kører første gang taskcard renderes,
-    // så derefter hver gang text complete eller delete ændrer sig
-    logTaskEdit();
-  }, [task.taskText, task.taskCompleted, task.taskDeleted]);
+    context.logTaskEdit();
+  }, [context.task.taskText, context.task.taskCompleted, context.task.taskDeleted]);
 
   const handleComplete = () => {
-    if (isEditOff) {
-      dispatch(
+    if (context.isEditOff) {
+      context.dispatch(
         setTaskCompleted({
-          taskUuid: task.taskUuid,
-          taskCompleted: !task.taskCompleted,
+          taskUuid: context.task.taskUuid,
+          taskCompleted: !context.task.taskCompleted,
         })
       );
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setTaskText({ uuid: task.taskUuid, taskText: e.target.value }));
-  };
+  if (context.task.taskDeleted) return null;
 
-  if (!task.taskDeleted) {
-    return (
-      <TaskCardContext.Provider
-        value={{
-          dispatch,
-          isEditOff,
-          setIsEditOff,
-          inputRef,
-          task,
-        }}
-      >
-        <Box className="TaskCard">
+  return (
+    <>
+      <Box className="TaskCard">
           <Card.Root
-            variant={task.taskCompleted ? "subtle" : "outline"}
-            backgroundColor={task.taskCompleted ? "green.300" : "white"}
+            variant={context.task.taskCompleted ? "subtle" : "outline"}
+            backgroundColor={context.task.taskCompleted ? "green.300" : "white"}
             onClick={() => {
               handleComplete();
             }}
           >
-            <Card.Header />
             <Card.Body>
               <Grid templateColumns="1fr auto" alignItems="center" gap={2}>
                 <GridItem className="TaskCardTaskText">
-                  <Textarea
-                    id={task.taskUuid.toString()}
-                    size={"xl"}
-                    className="TaskCardInputField Input"
-                    focusRing="none"
-                    pointerEvents={isEditOff ? "none" : "all"}
-                    borderWidth={0}
-                    autoresize
-                    value={task.taskText}
-                    onChange={handleChange}
-                    ref={inputRef}
-                    onBlur={() => {
-                      logTaskEdit(); // log ændringen
-                      setIsEditOff(true); // slå edit-mode fra
-                    }} //håndtere logning af ændring i taskText anderledes end andre ændringer for at undgå hver nyt bogstav trigger en ny record
-                  />
+                  <TaskCardTextArea />
                 </GridItem>
                 <GridItem height={"100%"}>
                   <TaskActionsDropdown />
-                  <TaskCheckbox taskCompleted={task.taskCompleted} />
+                  <TaskCheckbox taskCompleted={context.task.taskCompleted} />
                 </GridItem>
               </Grid>
             </Card.Body>
           </Card.Root>
         </Box>
-
-        {!isEditOff && (
-          <Button className="TextEditButton"
-          animationName=" fade-in" 
-          animationDuration="0.5s"
-          position="absolute"
-          padding={"0.5rem"}
-          zIndex={11} //så den rent visuelt ikke bliver påvirket at elementer under den
-          colorPalette={"green"}
-          >
-            Gem ændringer
-          </Button>
-        )}
-      </TaskCardContext.Provider>
+        <EditTaskCardButton />
+      </>
     );
   }
-};
+
 
 export default TaskCard;

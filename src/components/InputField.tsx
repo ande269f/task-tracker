@@ -1,4 +1,4 @@
-import { Button, Group, Input, Textarea } from "@chakra-ui/react";
+import { Button, Group, Textarea } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { pushTask } from "../store/slices/taskSlice/thunks";

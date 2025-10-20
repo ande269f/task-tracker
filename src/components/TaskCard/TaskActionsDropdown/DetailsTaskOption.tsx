@@ -1,13 +1,11 @@
 import { Menu, Box } from "@chakra-ui/react";
-import { useContext } from "react";
 import { CgDetailsMore } from "react-icons/cg";
 import { setDetailsDialogState } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
-import { TaskCardContext } from "../TaskCard";
-import { useTaskOptionData } from "../../../hooks/taskOptionData";
+import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { TaskOptionStyling } from "./TaskActionsDropdown";
 
 export const DetailsTaskOption = () => {
-  const { dispatch, task } = useTaskOptionData() as {
+  const { dispatch, task } = useTaskCardContext() as {
     dispatch: any;
     task: any;
   };

@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setDetailsDialogState, setDialogBoxTypeClosed } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
-import TaskCheckbox from "../TaskCard/TaskCheckbox";
+import TaskCheckbox from "../TaskCard/TaskCardProps/TaskCheckbox";
 import { taskObject } from "../../store/slices/taskSlice/taskSlice";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import {

@@ -7,7 +7,7 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import TaskCheckbox from "../../TaskCard/TaskCheckbox";
+import TaskCheckbox from "../../TaskCard/TaskCardProps/TaskCheckbox";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import {

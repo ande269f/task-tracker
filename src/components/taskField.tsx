@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { createContext, useContext } from "react";
 import { pushSortOrder } from "../store/slices/taskOrderSlice/thunks";
 import { handleSorting } from "../utils/sortingUtils";
+import TaskCardContextProvider from "./TaskCard/TaskCardContextProvider";
 
 // TaskField printer alle task komponenterne i en liste ved map()
 // TaskField bruger @hello-pangea/dnd til at håndtere brugerens egen ændring i rækkefølge
@@ -120,7 +121,9 @@ const DraggableTaskPrinter = ({
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              <TaskCard task={input} />
+              <TaskCardContextProvider task={input}>
+                <TaskCard />
+              </TaskCardContextProvider>
             </Box>
           )}
         </Draggable>

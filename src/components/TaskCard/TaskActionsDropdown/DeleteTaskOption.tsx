@@ -1,12 +1,12 @@
 import { Box, Menu } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
 import { setTaskDeleted } from "../../../store/slices/taskSlice/taskSlice";
-import { useTaskOptionData } from "../../../hooks/taskOptionData";
+import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { TaskOptionStyling } from "./TaskActionsDropdown";
 
 
 export const DeleteTaskOption = () => {
-  const { dispatch, task } = useTaskOptionData() as { dispatch: any; task: any };
+  const { dispatch, task } = useTaskCardContext() as { dispatch: any; task: any };
 
 
   return (
