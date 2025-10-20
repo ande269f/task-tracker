@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toaster } from "../components/ui/toaster";
 import { AppDispatch } from "../store";
-import { setDetailsDialogState } from "../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { logout } from "../store/slices/loginSlice/thunks";
 import { loadUserData } from "../store/slices/taskSlice/thunks";
 import { loadLoginDetails, setLoginState } from "../store/slices/loginSlice/loginSlice";

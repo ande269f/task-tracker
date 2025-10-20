@@ -8,7 +8,7 @@ const removeBackground = {
 const centerCheckbox = {
   position: "absolute",
   top: "50%",
-  right: "20px",
+  right: "30px",
   transform: "translateY(-50%)",
 };
 

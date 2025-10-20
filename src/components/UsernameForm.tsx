@@ -19,7 +19,7 @@ const UsernameForm = () => {
   return (
     <Stack gap="4" align="flex-start" className="UsernameForm"  >
       <Field.Root invalid={!!errors.username} required  >
-        <Input {...register("username")} placeholder="Intast dit brugernavn"  {...usernameFormStyling}  />
+        <Input {...register("username")} placeholder="Indtast et brugernavn for at fortsætte"  {...usernameFormStyling}  />
         <Field.ErrorText>{errors.username?.message}</Field.ErrorText>
       </Field.Root>
     </Stack>

@@ -7,13 +7,12 @@ import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/det
 import { setUserLoggedOut } from "../../store/slices/loginSlice/loginSlice";
 
 export const SettingsOptionStyling = {
-  padding: "0.5rem"
+  padding: "0.5rem",
 };
 
 export const SegmentGroupStyling = {
-  padding: "0 0.5rem"
-}
-
+  padding: "0 0.5rem",
+};
 
 export const SettingsButton = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
@@ -49,54 +48,65 @@ export const SettingsButton = () => {
 
   return (
     <div className="Dropdown SettingsButton">
-    <Menu.Root >
-      <Menu.Trigger asChild>
-        <IconButton aria-label="Settings" variant="subtle">
-          <IoSettingsSharp />
-        </IconButton>
-      </Menu.Trigger>
-      <Menu.Positioner>
-        <Menu.Content>
-          <Menu.ItemGroup>
-            <Menu.ItemGroupLabel {...SettingsOptionStyling}> Sortering </Menu.ItemGroupLabel>
-            <SegmentGroup.Root {...SettingsOptionStyling}
-              size="xs"
-              value={decideSortStateValue(currentSortState.sortingState)}
-              onValueChange={(e) => handleSortChange(e.value)}
-            >
-              <SegmentGroup.Indicator />
-              <SegmentGroup.Items {...SegmentGroupStyling}
-                items={[sortingOption1, sortingOption2, sortingOption3]}
-              />
-            </SegmentGroup.Root>
-          </Menu.ItemGroup>
-          <Menu.Separator />
-          <Menu.ItemGroup>
-            <Menu.ItemGroupLabel {...SettingsOptionStyling}> Andet</Menu.ItemGroupLabel>
-            <Menu.Item {...SettingsOptionStyling}
-              value="openDeleteHistoryDialog"
-              onClick={() =>
-                dispatch(setDetailsDialogState({
-                  taskObject: null,
-                  dialogboxOpened: true,
-                  dialogboxType: "deleteHistoryDialog",
-                }))
-              }
-            >
-              Papirkurv
-            </Menu.Item>
-            <Menu.Item {...SettingsOptionStyling}
-              value="logout"
-              onClick={() => 
-                dispatch(setUserLoggedOut())
-              }
+      <Menu.Root>
+        <Menu.Trigger asChild>
+          <IconButton aria-label="Settings" variant="subtle">
+            <IoSettingsSharp />
+          </IconButton>
+        </Menu.Trigger>
+        <Menu.Positioner>
+          <Menu.Content>
+            <Menu.ItemGroup>
+              <Menu.ItemGroupLabel className="SegmentGroup">
+                {" "}
+                Sortering{" "}
+              </Menu.ItemGroupLabel>
+              <SegmentGroup.Root
+                className="SettingsOption"
+                size="xs"
+                value={decideSortStateValue(currentSortState.sortingState)}
+                onValueChange={(e) => handleSortChange(e.value)}
               >
-              Log ud
-            </Menu.Item>
-          </Menu.ItemGroup>
-        </Menu.Content>
-      </Menu.Positioner>
-    </Menu.Root>
+                <SegmentGroup.Indicator />
+                <SegmentGroup.Items
+                  className="SegmentGroup"
+                  focusRing={"none"}
+                  items={[sortingOption1, sortingOption2, sortingOption3]}
+                />
+              </SegmentGroup.Root>
+            </Menu.ItemGroup>
+            <Menu.Separator />
+            <Menu.ItemGroup>
+              <Menu.ItemGroupLabel className="SettingsOption">
+                {" "}
+                Andet
+              </Menu.ItemGroupLabel>
+              <Menu.Item
+                className="SettingsOption"
+                value="openDeleteHistoryDialog"
+                onClick={() =>
+                  dispatch(
+                    setDetailsDialogState({
+                      taskObject: null,
+                      dialogboxOpened: true,
+                      dialogboxType: "deleteHistoryDialog",
+                    })
+                  )
+                }
+              >
+                Papirkurv
+              </Menu.Item>
+              <Menu.Item
+                className="SettingsOption"
+                value="logout"
+                onClick={() => dispatch(setUserLoggedOut())}
+              >
+                Log ud
+              </Menu.Item>
+            </Menu.ItemGroup>
+          </Menu.Content>
+        </Menu.Positioner>
+      </Menu.Root>
     </div>
   );
 };

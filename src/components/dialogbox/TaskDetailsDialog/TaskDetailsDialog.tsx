@@ -10,7 +10,10 @@ import {
 import TaskCheckbox from "../../TaskCard/TaskCheckbox";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
-import { setDetailsDialogState, setDialogBoxTypeClosed } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import {
+  setDetailsDialogState,
+  setDialogBoxTypeClosed,
+} from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { TaskEdits } from "../../../store/slices/taskEditsSlice/taskEditsSlice";
 import { useEffect, useState } from "react";
 import { fetchTaskEdits } from "../../../store/slices/taskEditsSlice/thunks";
@@ -61,12 +64,21 @@ export const TaskDetailsDialog = () => {
   const taskEdits = useSelector((state: RootState) => state.taskEdits);
   const dispatch = useDispatch<AppDispatch>();
 
+  // henter data
   useEffect(() => {
     if (detailsDialog.taskObject)
-      dispatch(fetchTaskEdits(detailsDialog.taskObject.taskUuid)).then(() => {
-        setShowPlaceholderBox(taskEdits.length === 0);
-      });
+      dispatch(fetchTaskEdits(detailsDialog.taskObject.taskUuid));
   }, [detailsDialog.taskObject]);
+
+
+  // viser placeholder hvis der ikke er data
+  useEffect(() => {
+    if (taskEdits.length === 0) {
+      setShowPlaceholderBox(true);
+    } else {
+      setShowPlaceholderBox(false);
+    }
+  }, [taskEdits]);
 
   return (
     <Dialog.Root
@@ -110,11 +122,14 @@ export const TaskDetailsDialog = () => {
               </Flex>
             </Dialog.Body>
             <Dialog.Footer>
-
-                <Button variant="subtle" onClick={(e) => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
-                  Cancel
-                </Button>
-
+              <Button
+                variant="subtle"
+                focusRing="none"
+                onClick={(e) => dispatch(setDialogBoxTypeClosed())}
+                className="CancelDialogButton"
+              >
+                Cancel
+              </Button>
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size="xl" />

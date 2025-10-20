@@ -171,7 +171,7 @@ const NewUserDialog = () => {
                     <PasswordForm />
                   </form>
  
-                    <Button variant="subtle" onClick={() => dispatch(setDialogBoxTypeClosed())} className="GoToTaskPageButton">
+                    <Button variant="subtle" focusRing="none" onClick={() => dispatch(setDialogBoxTypeClosed())} className="GoToTaskPageButton">
                       Fortsæt uden <IoMdArrowRoundForward />
                     </Button>
                 </FormProvider>

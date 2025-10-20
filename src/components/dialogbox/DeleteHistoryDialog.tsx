@@ -201,7 +201,7 @@ const DeleteHistoryDialog = () => {
 
             <Dialog.Footer>
 
-                <Button variant="subtle" onClick={(e) => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
+                <Button variant="subtle" focusRing="none" onClick={(e) => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
                   Cancel
                 </Button>
 

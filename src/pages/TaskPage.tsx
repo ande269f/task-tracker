@@ -12,7 +12,6 @@ const TaskPage = () => {
         <InputField />
         <TaskPageActions />
         <RemoveCompletedTasksButton />
-
         <TaskField />
       </div>
     </div>

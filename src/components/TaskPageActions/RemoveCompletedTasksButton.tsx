@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
+import { MdOutlineRemoveDone } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useEffect, useState } from "react";
@@ -33,7 +33,7 @@ const RemoveCompletedTasksButton = () => {
       variant="subtle"
       backgroundColor="green.300"
     >
-      Fjern to-do's <FaCheck />
+      Fjern to-do's <MdOutlineRemoveDone />
     </Button>
   );
 };

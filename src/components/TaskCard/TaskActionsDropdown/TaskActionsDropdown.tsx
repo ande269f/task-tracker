@@ -18,6 +18,7 @@ export const TaskActionsDropdown = () => {
       <Menu.Root>
         <Menu.Trigger asChild>
           <Button
+          focusRing={"none"}
             aria-label="Open details"
             onClick={(e) => {
               e.stopPropagation();

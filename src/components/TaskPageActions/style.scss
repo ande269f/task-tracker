@@ -1,11 +1,18 @@
+.TaskPageActions {
+  .OrderButton,
+  .SettingsButton {
+    margin: 0.5rem 0;
+    margin-right: 0.5rem;
+  }
 
+  .OrderButton {
+  }
+}
 
-    .TaskPageActions {
+.SettingsOption {
+  padding: 0.5rem;
+}
 
-      .OrderButton,
-      .SettingsButton {
-        margin: 0.5rem 0;
-        margin-right: 0.5rem;
-      }
-    }
-
+.SegmentGroup {
+  padding: 0 0.5rem;
+}
