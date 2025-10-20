@@ -33,7 +33,7 @@ const RemoveCompletedTasksButton = () => {
       variant="subtle"
       backgroundColor="green.300"
     >
-      Fjern færdige to-do's <FaCheck />
+      Fjern to-do's <FaCheck />
     </Button>
   );
 };

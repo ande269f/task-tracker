@@ -7,45 +7,12 @@
     padding: 2rem;
 
     // mobil settings - basis
-    #flexbox-top-part {
-      flex-direction: column;
-
-      #InputField {
-        padding: 0.55rem 1rem;
-      }
-
-      #SubmitButton {
-        padding: 0 0.7rem;
-      }
-
-      .TaskPageActions {
-        padding-left: 1rem;
-      }
+    #InputField {
+      padding: 0.55rem 1rem;
     }
 
-    // desktop settings
-    @media (min-width: 750px) {
-      #flexbox-top-part {
-        box-sizing: border-box;
-        display: grid;
-        grid-template-columns: 1fr minmax(0, 40rem) 1fr;
-        align-items: center;
-        margin: 1rem;
-
-        #InputForm {
-          grid-column: 2;
-        }
-      }
-      #flexbox-bottom-part {
-        box-sizing: border-box;
-        display: grid;
-        grid-template-columns: 1fr minmax(0, 40rem) 1fr;
-        align-items: center;
-
-        #TaskField {
-          grid-column: 2;
-        }
-      }
+    #SubmitButton {
+      padding: 0 0.7rem;
     }
 
     .TaskCardInputField {
@@ -56,6 +23,53 @@
 
     .TaskCard {
       padding-bottom: 0.55rem;
+    }
+
+    .TaskPageActions {
+      display: inline-flex;
+      flex-direction: row-reverse;
+    }
+
+    .RemoveFinishedTasksButton {
+      padding: 0 0.5rem;
+    }
+  }
+
+  // desktop settings
+  @media (min-width: 750px) {
+    #TaskPage {
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+      align-items: center;
+
+      #InputForm {
+        grid-column: 2;
+      }
+
+      #TaskField {
+        grid-column: 2;
+      }
+
+      .TaskPageActions {
+        grid-column: 3;
+        padding-left: 1rem;
+        flex-direction: row;
+      }
+      .RemoveFinishedTasksButton {
+        // størrelse på knap
+        width: 100%;
+        max-width: fit-content;
+
+        //grid placering
+        grid-column: 3;
+        grid-row: none;
+        align-self: start;
+
+        //afstand til andre knapper
+        margin-bottom: 0.5rem;
+        margin: 0 1rem 1rem 1rem;
+      }
     }
   }
 }

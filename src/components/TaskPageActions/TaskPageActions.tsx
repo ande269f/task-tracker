@@ -23,7 +23,7 @@ export const TaskPageActions = () => {
         <Flex className="TaskPageActions">
             <OrderButton handleOrder={handleOrder}/>
             <SettingsButton />
-            <RemoveCompletedTasksButton />
+
             
         </Flex>
     )
