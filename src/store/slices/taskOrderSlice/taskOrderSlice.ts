@@ -44,7 +44,7 @@ const sortTasks = createSlice({
       //sørg for at rækkefølgen er korrekt, så den afspejler ui
       const updated = state.map((item) => ({ ...item }));
 
-      //foretag flytning af element 
+      //foretag flytning af element
       const [moved] = updated.splice(action.payload.from, 1);
       updated.splice(action.payload.to, 0, moved);
 
@@ -70,20 +70,26 @@ const sortTasks = createSlice({
         } else return [...state].sort((a, b) => b.sortOrder - a.sortOrder);
       })
       .addCase(setTextInput, (state, action) => {
-        // når der bliver sat et nyt element, sæt det ind 
+        // når der bliver sat et nyt element, sæt det ind
         // i taskOrder med sortOrder: state.length + 1
         const newElement: interactiveTaskOrder = {
           uuid: action.payload.taskUuid,
           sortOrder: state.length + 1,
         };
-        const firstElement = state[0].sortOrder;
-        const lastElement = state[state.length - 1].sortOrder;
-        
-        //sørg for at nyt element altid placeres efter element 
-        //med sortOrder: state.length + 1
-        firstElement > lastElement
-          ? state.unshift(newElement)
-          : state.push(newElement);
+
+        if (!state[0]) {
+          state.push(newElement);
+        } else {
+          const firstElement = state[0].sortOrder;
+          const lastElement = state[state.length - 1].sortOrder;
+
+          //sørg for at nyt element altid placeres efter element
+          //med sortOrder: state.length + 1
+
+          firstElement > lastElement
+            ? state.unshift(newElement)
+            : state.push(newElement);
+        }
       })
       .addCase(deleteTasksThunk.fulfilled, (state, action) => {
         // laver et nyt array kun med payloadens tasks uuid'er
@@ -107,9 +113,10 @@ const sortTasks = createSlice({
       .addCase(loadUserData.fulfilled, (state, action) => {
         // organisere sortTasks, da det ikke er organiseret fra backend
         //samme type sort hver gang -> hack da sortdirection resetter ved hver rerender af browser
-        return action.payload.sortTasks.sort(
-          (a, b) => b.sortOrder - a.sortOrder
-        );
+        if (action.payload.sortTasks.length > 0)
+          return action.payload.sortTasks.sort(
+            (a, b) => b.sortOrder - a.sortOrder
+          );
       });
   },
 });

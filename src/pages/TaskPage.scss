@@ -4,7 +4,7 @@
   background-color: #cfab93;
 
   #TaskPage {
-    padding: 2vw;
+    padding: 2rem;
 
     // mobil settings - basis
     #flexbox-top-part {
@@ -16,6 +16,10 @@
 
       #SubmitButton {
         padding: 0 0.7rem;
+      }
+
+      .TaskPageActions {
+        padding-left: 1rem;
       }
     }
 
@@ -30,10 +34,17 @@
 
         #InputForm {
           grid-column: 2;
-          margin-right: 1rem;
         }
+      }
+      #flexbox-bottom-part {
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: 1fr minmax(0, 40rem) 1fr;
+        align-items: center;
 
-
+        #TaskField {
+          grid-column: 2;
+        }
       }
     }
 
@@ -44,10 +55,7 @@
     }
 
     .TaskCard {
-
       padding-bottom: 0.55rem;
-
-
     }
   }
 }

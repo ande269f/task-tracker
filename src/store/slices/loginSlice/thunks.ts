@@ -9,6 +9,7 @@ import {
 import { loadJwtTokenDataService } from "./functions";
 import Login from "../../../API/Login";
 import {
+  setDetailsDialogState,
   setDetailsDialogStateToDefault,
   setDialogBoxTypeClosed,
 } from "../detailsDialogSlice/detailsDialogSlice";
@@ -68,8 +69,21 @@ export const validateLogin = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "loginState/login/thunk",
-  async (payload: { username: string; password: string | null }) => {
+  async (
+    payload: { username: string; password: string | null },
+    { dispatch }
+  ) => {
     const response = await Login.submit(payload.username, payload.password);
+
+    if (response === "USER_NOT_FOUND") {
+      dispatch(
+        setDetailsDialogState({
+          taskObject: null,
+          dialogboxType: "newUserDialog",
+          dialogboxOpened: true,
+        })
+      );
+    }
 
     createToasterOnErrorResponse(
       response,

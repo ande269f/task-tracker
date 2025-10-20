@@ -10,7 +10,7 @@ import {
 import TaskCheckbox from "../../TaskCard/TaskCheckbox";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
-import { setDetailsDialogState } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import { setDetailsDialogState, setDialogBoxTypeClosed } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { TaskEdits } from "../../../store/slices/taskEditsSlice/taskEditsSlice";
 import { useEffect, useState } from "react";
 import { fetchTaskEdits } from "../../../store/slices/taskEditsSlice/thunks";
@@ -110,11 +110,11 @@ export const TaskDetailsDialog = () => {
               </Flex>
             </Dialog.Body>
             <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant="subtle" className="CancelDialogButton">
+
+                <Button variant="subtle" onClick={(e) => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
                   Cancel
                 </Button>
-              </Dialog.ActionTrigger>
+
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size="xl" />

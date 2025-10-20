@@ -138,12 +138,9 @@ const NewUserDialog = () => {
       open={detailsDialog.dialogboxOpened}
       onOpenChange={() => {
         dispatch(setDialogBoxTypeClosed());
-        dispatch(setLoginState({ loginState: "NOT_LOGGED_IN" }));
+
       }}
     >
-      <Dialog.Trigger asChild>
-        <Button style={{ display: "none" }}></Button>
-      </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -155,11 +152,12 @@ const NewUserDialog = () => {
               {!showPasswordForm && <DialogProse />}
               {!showPasswordForm && (
                 <Flex className="ButtonArea">
-                  <Dialog.ActionTrigger asChild>
-                    <Button variant="subtle" className="CancelDialogButton">
+
+
+                    <Button variant="subtle" onClick={() => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
                       Fortryd
                     </Button>
-                  </Dialog.ActionTrigger>
+
                   <CreateNewUserButton
                     handleCreateNewUser={handleCreateNewUser}
                   />
@@ -172,11 +170,10 @@ const NewUserDialog = () => {
                   <form onSubmit={methods.handleSubmit(onSubmitPassword)}>
                     <PasswordForm />
                   </form>
-                  <Dialog.ActionTrigger asChild>
-                    <Button variant="subtle" className="GoToTaskPageButton">
+ 
+                    <Button variant="subtle" onClick={() => dispatch(setDialogBoxTypeClosed())} className="GoToTaskPageButton">
                       Fortsæt uden <IoMdArrowRoundForward />
                     </Button>
-                  </Dialog.ActionTrigger>
                 </FormProvider>
               )}
             </Dialog.Body>

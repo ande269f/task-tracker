@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import { loadUserData, deleteTaskThunk, deleteTasksThunk } from "./thunks";
+import { loadUserData, deleteTaskThunk, deleteTasksThunk, pushTask } from "./thunks";
 import { setSortDirection } from "../sortTaskSlice/sortTaskSlice";
 
 export interface taskObject {
@@ -34,6 +34,7 @@ const inputSlice = createSlice({
   initialState,
   reducers: {
     setTextInput: (state, action: PayloadAction<taskObject>) => {
+
       state.tasks.push(action.payload);
     },
     setTasks: (state, action: PayloadAction<taskObject[]>) => {
@@ -101,6 +102,10 @@ const inputSlice = createSlice({
       .addCase(loadUserData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Unknown error";
+      })
+      .addCase(pushTask.rejected, (state,action) => {
+        console.log("pushtask failed");
+        state.error = action.payload ?? "pushtask failed";
       })
       .addCase(deleteTaskThunk.fulfilled, (state, action) => {
         // Brug din eksisterende reducer til at fjerne tasken

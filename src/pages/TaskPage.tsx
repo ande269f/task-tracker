@@ -12,7 +12,10 @@ const TaskPage = () => {
           <InputField />
           <TaskPageActions />
         </Flex>
+        <Flex id="flexbox-bottom-part">
         <TaskField />
+        </Flex>
+
       </div>
     </div>
   );

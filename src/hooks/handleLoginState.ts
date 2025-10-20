@@ -15,15 +15,6 @@ export const useHandleLoginState = (loginState: string) => {
 
   useEffect(() => {
     switch (loginState) {
-      case "USER_NOT_FOUND":
-        dispatch(
-          setDetailsDialogState({
-            taskObject: null,
-            dialogboxType: "newUserDialog",
-            dialogboxOpened: true,
-          })
-        );
-        break;
       case "LOGIN_FAILED":
         queueMicrotask(() => {
           toaster.create({

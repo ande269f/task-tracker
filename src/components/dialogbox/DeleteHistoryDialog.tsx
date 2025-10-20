@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
+import { setDetailsDialogState, setDialogBoxTypeClosed } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import TaskCheckbox from "../TaskCard/TaskCheckbox";
 import { taskObject } from "../../store/slices/taskSlice/taskSlice";
 import { FaArrowRotateLeft } from "react-icons/fa6";
@@ -200,11 +200,11 @@ const DeleteHistoryDialog = () => {
             </Dialog.Body>
 
             <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant="subtle" className="CancelDialogButton">
+
+                <Button variant="subtle" onClick={(e) => dispatch(setDialogBoxTypeClosed())} className="CancelDialogButton">
                   Cancel
                 </Button>
-              </Dialog.ActionTrigger>
+
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size="xl" />
