@@ -1,9 +1,9 @@
 import { TaskPageActions } from "../components/TaskPageActions/TaskPageActions";
 import InputField from "../components/InputField/InputField";
-import TaskField from "../components/taskField";
-import { Flex } from "@chakra-ui/react";
+import TaskField from "../components/TaskField/taskField";
 import "./TaskPage.scss";
 import RemoveCompletedTasksButton from "../components/TaskPageActions/RemoveCompletedTasksButton";
+import TaskCard from "../components/TaskCard/TaskCard";
 
 const TaskPage = () => {
   return (
@@ -12,7 +12,10 @@ const TaskPage = () => {
         <InputField />
         <TaskPageActions />
         <RemoveCompletedTasksButton />
-        <TaskField />
+
+          <TaskField>
+            <TaskCard />
+          </TaskField>
       </div>
     </div>
   );
