@@ -1,8 +1,5 @@
 import { EmptyState, VStack } from "@chakra-ui/react";
-import { LuShoppingCart } from "react-icons/lu";
-import { TbTimeDurationOff } from "react-icons/tb";
 import "./style.scss";
-import { IconType } from "react-icons/lib";
 import { ReactNode } from "react";
 
 const EmptyDataState = ({ icon, text }: { icon: ReactNode; text: string }) => {

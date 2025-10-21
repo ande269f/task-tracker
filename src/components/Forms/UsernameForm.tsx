@@ -1,4 +1,4 @@
-import { Stack, Field, Input, HTMLChakraProps, InputProps } from "@chakra-ui/react";
+import { Stack, Field, Input, InputProps } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 
 

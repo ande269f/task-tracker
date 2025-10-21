@@ -2,62 +2,23 @@ import {
   Dialog,
   Button,
   Portal,
-  CloseButton,
-  Card,
   Box,
   Flex,
 } from "@chakra-ui/react";
-import TaskCheckbox from "../../TaskCard/TaskCardProps/TaskCheckbox";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import {
-  setDetailsDialogState,
   setDialogBoxTypeClosed,
 } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
-import { TaskEdits } from "../../../store/slices/taskEditsSlice/taskEditsSlice";
 import { useEffect, useState } from "react";
 import { fetchTaskEdits } from "../../../store/slices/taskEditsSlice/thunks";
 import { TaskDetailsTable } from "./TaskDetailsTable";
-import { dateTaskEditsSort } from "../../../utils/sortingUtils";
 import EmptyDataState from "../../EmptyDataState/EmptyDataState";
 import { TbTimeDurationOff } from "react-icons/tb";
+import TaskChanges from "./Taskchanges";
+import { FooterButton } from "../dialogButtons/FooterButton";
+import { XButton } from "../dialogButtons/XButton";
 
-const TaskChange = ({ taskEdit }: { taskEdit: TaskEdits }) => {
-  return (
-    <div>
-      <Dialog.Description>
-        {taskEdit.dateEdited?.toLocaleString("en-UK")}
-      </Dialog.Description>
-      <Card.Root>
-        <Card.Header />
-        <Card.Body>
-          <Card.Description className="TaskCardPlainText">
-            {taskEdit.taskText}
-          </Card.Description>
-        </Card.Body>
-        <Card.Footer>
-          <TaskCheckbox taskCompleted={taskEdit.taskCompleted} />
-        </Card.Footer>
-      </Card.Root>
-    </div>
-  );
-};
-
-export const DisplayTaskChanges = ({
-  taskEdits,
-}: {
-  taskEdits: TaskEdits[];
-}) => {
-  const sortedTaskEdits = dateTaskEditsSort(taskEdits);
-  return (
-    //printer alle inputs
-    sortedTaskEdits.map((taskEdit) => (
-      <div key={taskEdit.taskEditsUuid.toString()}>
-        {<TaskChange taskEdit={taskEdit} />}
-      </div>
-    ))
-  );
-};
 export const TaskDetailsDialog = () => {
   const detailsDialog = useSelector((state: RootState) => state.detailsOpener);
   const [showPlaceholderBox, setShowPlaceholderBox] = useState<boolean>(false);
@@ -87,11 +48,7 @@ export const TaskDetailsDialog = () => {
       open={detailsDialog.dialogboxOpened}
       onOpenChange={() =>
         dispatch(
-          setDetailsDialogState({
-            taskObject: detailsDialog.taskObject,
-            dialogboxOpened: false,
-            dialogboxType: "taskDetailsDialog",
-          })
+          setDialogBoxTypeClosed()
         )
       }
     >
@@ -117,23 +74,14 @@ export const TaskDetailsDialog = () => {
                     text={"Denne to-do har ikke noget historik endnu"}
                   />
                 ) : (
-                  <DisplayTaskChanges taskEdits={taskEdits} />
+                  <TaskChanges taskEdits={taskEdits} />
                 )}
               </Flex>
             </Dialog.Body>
             <Dialog.Footer>
-              <Button
-                variant="subtle"
-                focusRing="none"
-                onClick={(e) => dispatch(setDialogBoxTypeClosed())}
-                className="CancelDialogButton"
-              >
-                Cancel
-              </Button>
+              <FooterButton />
             </Dialog.Footer>
-            <Dialog.CloseTrigger asChild>
-              <CloseButton size="xl" />
-            </Dialog.CloseTrigger>
+            <XButton />
           </Dialog.Content>
         </Dialog.Positioner>
       </Portal>

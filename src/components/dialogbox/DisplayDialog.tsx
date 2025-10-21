@@ -1,8 +1,8 @@
 import TaskDetailsDialog from "./TaskDetailsDialog/TaskDetailsDialog";
-import DeleteHistoryDialog from "./DeleteHistoryDialog";
+import DeleteHistoryDialog from "./DeleteHistoryDialog/DeleteHistoryDialog";
 import {useSelector } from "react-redux";
 import { RootState } from "../../store";
-import NewUserDialog from "./NewUserDialog";
+import NewUserDialog from "./NewUserDialog/NewUserDialog";
 import "./DialogBox.scss"
 
 const DisplayDialog = () => {

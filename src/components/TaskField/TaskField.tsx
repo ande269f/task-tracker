@@ -1,4 +1,3 @@
-
 import { TaskFieldContextProvider } from "./TaskFieldContextProvider";
 import DragDropContextProvider from "./DragDropContextProvider";
 
@@ -12,16 +11,13 @@ export interface DragDropTaskContext {
   placeholder: React.ReactNode;
 }
 
-const TaskField = ({children}: {children: React.ReactNode}) => {
-
+const TaskField = ({ children }: { children: React.ReactNode }) => {
   return (
-    <TaskFieldContextProvider>
-        <DragDropContextProvider>
-            {children}
-        </DragDropContextProvider>
-    </TaskFieldContextProvider>
-
-
+    <div id="TaskField">
+      <TaskFieldContextProvider>
+        <DragDropContextProvider>{children}</DragDropContextProvider>
+      </TaskFieldContextProvider>
+    </div>
   );
 };
 
