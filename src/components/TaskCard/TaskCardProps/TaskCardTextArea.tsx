@@ -1,4 +1,4 @@
-import { Card, Button, Textarea, Grid, GridItem, Box } from "@chakra-ui/react";
+import { Textarea } from "@chakra-ui/react";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { setTaskText } from "../../../store/slices/taskSlice/taskSlice";
 

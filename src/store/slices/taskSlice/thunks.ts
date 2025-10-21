@@ -8,6 +8,7 @@ import { interactiveTaskOrder } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
 import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
 import { toaster } from "../../../components/ui/toaster";
+import { detectDuplicates } from "../../../utils/arrayUtils";
 
 export const deleteTaskThunk = createAsyncThunk<
   { uuid: UUIDTypes }, // Return type
@@ -40,11 +41,10 @@ export const deleteTasksThunk = createAsyncThunk<
     createToasterOnErrorResponse(response, "Fejl ved sletning af to-do's");
 
     if (response === "SUCCESS") {
-
       toaster.create({
-      description: "Papirkurven er ryddet",
-      type: "success",
-    });
+        description: "Papirkurven er ryddet",
+        type: "success",
+      });
 
       return { taskObjects: deletedTasks };
     } else {
@@ -81,7 +81,6 @@ export const updateTask = createAsyncThunk<
     );
 
     if (response === "SUCCESS") {
-
       return { task };
     } else {
       return rejectWithValue("Update failed");
@@ -120,10 +119,28 @@ export const loadUserData = createAsyncThunk<
 });
 
 export const pushTask = createAsyncThunk<
-  void, // Return type (skal matche dit task-objekt)
+  void, // Return type 
   { task: taskDto; userId: number | null }, // Argument type
   { rejectValue: string } // Error handling
->("tasks/pushTask", async ({ task, userId }, { rejectWithValue, dispatch }) => {
+>("tasks/pushTask", async ({ task, userId }, { rejectWithValue, dispatch, getState }) => {
+  
+  const existingTasks = (getState() as RootState).form.tasks;
+  const newTaskText = task.taskText;
+
+  if (newTaskText.trim() === "") {
+    return;
+  }
+
+  const duplicateDetected = detectDuplicates(existingTasks.map(task => task.taskText), newTaskText);
+
+  if (duplicateDetected) {
+    toaster.create({
+      description: "Den indtastede task findes allerede",
+      type: "warning",
+    });
+    return;
+  }
+
   const response = await TaskDataHandler.unloadTasks(task, userId);
 
   createToasterOnErrorResponse(

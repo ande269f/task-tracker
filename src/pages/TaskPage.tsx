@@ -1,5 +1,5 @@
 import { TaskPageActions } from "../components/TaskPageActions/TaskPageActions";
-import InputField from "../components/InputField";
+import InputField from "../components/InputField/InputField";
 import TaskField from "../components/taskField";
 import { Flex } from "@chakra-ui/react";
 import "./TaskPage.scss";

@@ -16,7 +16,7 @@ import { Prose } from "../ui/prose";
 import { FaPlus } from "react-icons/fa6";
 import Login from "../../API/Login";
 import { toaster } from "../ui/toaster";
-import PasswordForm from "../PasswordForm";
+import PasswordForm from "../Forms/PasswordForm";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {

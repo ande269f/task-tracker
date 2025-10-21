@@ -1,6 +1,6 @@
-import UsernameForm from "../components/UsernameForm";
-import PasswordForm from "../components/PasswordForm";
-import { Box, Button, ButtonProps, HTMLChakraProps } from "@chakra-ui/react";
+import UsernameForm from "../components/Forms/UsernameForm";
+import PasswordForm from "../components/Forms/PasswordForm";
+import { Box, Button, ButtonProps } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { usePasswordFormVisibility } from "../hooks/passwordFormVisibility";
 import { useLoginActions } from "../hooks/loginActions";
