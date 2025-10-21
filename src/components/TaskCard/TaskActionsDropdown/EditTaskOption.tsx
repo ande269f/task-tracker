@@ -3,7 +3,7 @@ import {  useEffect } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { TaskOptionStyling } from "./TaskActionsDropdown";
-
+import "../TaskCardStyles.scss";
 
 export const EditTaskOption = () => {
   const context = useTaskCardContext();

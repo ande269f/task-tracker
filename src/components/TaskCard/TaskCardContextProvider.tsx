@@ -5,7 +5,7 @@ import { AppDispatch } from '../../store';
 import { taskObject } from '../../store/slices/taskSlice/taskSlice';
 import { useDispatch } from 'react-redux';
 import useTaskEditsLogger from '../../hooks/taskChangesLogger';
-
+import "./TaskCardStyles.scss";
 
 type TaskCardContextType = {
   dispatch?: AppDispatch;

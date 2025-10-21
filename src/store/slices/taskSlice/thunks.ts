@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 
-import store, { RootState } from "../..";
+import { RootState } from "../..";
 import TaskDataHandler, { UserTaskDataDto } from "../../../API/TaskDataHandler";
 import { taskDto } from "./taskSlice";
 import { interactiveTaskOrder } from "../taskOrderSlice/taskOrderSlice";

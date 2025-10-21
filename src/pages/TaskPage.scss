@@ -2,37 +2,9 @@
   min-height: 100vh; //får containeren til at fylde hele skærmen
 
   background-color: #cfab93;
-
+  // mobil settings - basis
   #TaskPage {
     padding: 2rem;
-
-    // mobil settings - basis
-    #InputField {
-      padding: 0.55rem 1rem;
-    }
-
-    #SubmitButton {
-      padding: 0 0.7rem;
-    }
-
-    .TaskCardInputField {
-      padding: 1rem;
-      word-break: break-all;
-      white-space: pre-wrap;
-    }
-
-    .TaskCard {
-      padding-bottom: 0.55rem;
-    }
-
-    .TaskPageActions {
-      display: inline-flex;
-      flex-direction: row-reverse;
-    }
-
-    .RemoveFinishedTasksButton {
-      padding: 0 0.5rem;
-    }
   }
 
   // desktop settings

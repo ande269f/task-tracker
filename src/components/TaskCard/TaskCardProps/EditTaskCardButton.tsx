@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
-
+import "../TaskCardStyles.scss";
 const EditTaskCardButton = () => {
   const context = useTaskCardContext();
   if (!context) return null;

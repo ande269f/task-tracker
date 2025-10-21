@@ -1,5 +1,5 @@
 import { Checkbox } from "@chakra-ui/react";
-
+import "../TaskCardStyles.scss";
 const removeBackground = {
   border: "none",
   bg: "transparent",

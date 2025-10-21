@@ -1,4 +1,5 @@
 import { Dialog, CloseButton } from "@chakra-ui/react";
+import "./dialogButtonsStyle.scss";
 
 export const XButton = () => {
   return (

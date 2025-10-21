@@ -13,6 +13,7 @@ import EditTaskCardButton from "./TaskCardProps/EditTaskCardButton";
 import TaskCardTextArea from "./TaskCardProps/TaskCardTextArea";
 
 import { useTaskCardContext } from "../../hooks/taskCardContext";
+import "./TaskCardStyles.scss";
 
 const TaskCard = () => {
   const context = useTaskCardContext();

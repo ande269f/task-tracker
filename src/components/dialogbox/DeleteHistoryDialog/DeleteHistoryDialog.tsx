@@ -53,7 +53,7 @@ const DeleteHistoryDialog = () => {
             </Dialog.Header>
 
             <Dialog.Body className="DeleteHistoryDialogBody DialogBody">
-              <Box className="UpperCardArea">
+              <Box className="UpperCardArea" textAlign={"left"}>
                 <DeleteAllTasksPermanentlyButton />
               </Box>
               <Box className="LowerCardArea">

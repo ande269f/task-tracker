@@ -3,7 +3,7 @@ import { CgDetailsMore } from "react-icons/cg";
 import { setDetailsDialogState } from "../../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { TaskOptionStyling } from "./TaskActionsDropdown";
-
+import "../TaskCardStyles.scss";
 export const DetailsTaskOption = () => {
   const { dispatch, task } = useTaskCardContext() as {
     dispatch: any;

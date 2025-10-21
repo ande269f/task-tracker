@@ -4,7 +4,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { EditTaskOption } from "./EditTaskOption";
 import { DeleteTaskOption } from "./DeleteTaskOption";
 import { DetailsTaskOption } from "./DetailsTaskOption";
-
+import "../TaskCardStyles.scss";
 
 export const TaskOptionStyling = {
   padding: "0.5rem"

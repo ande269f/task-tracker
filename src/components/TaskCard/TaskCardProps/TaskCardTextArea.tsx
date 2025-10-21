@@ -1,7 +1,7 @@
 import { Textarea } from "@chakra-ui/react";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { setTaskText } from "../../../store/slices/taskSlice/taskSlice";
-
+import "../TaskCardStyles.scss";
 const TaskCardTextArea = () => {
       const context = useTaskCardContext();
       if (!context) return null;
@@ -14,6 +14,8 @@ const TaskCardTextArea = () => {
       id={context.task.taskUuid.toString()}
       size={"xl"}
       className="TaskCardInputField Input"
+      wordBreak={"break-all"}
+      whiteSpace={"pre-wrap"}
       focusRing="none"
       pointerEvents={context.isEditOff ? "none" : "all"}
       borderWidth={0}

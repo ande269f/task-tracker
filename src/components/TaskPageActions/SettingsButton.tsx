@@ -6,14 +6,6 @@ import { setSortingState } from "../../store/slices/sortTaskSlice/sortTaskSlice"
 import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { setUserLoggedOut } from "../../store/slices/loginSlice/loginSlice";
 
-export const SettingsOptionStyling = {
-  padding: "0.5rem",
-};
-
-export const SegmentGroupStyling = {
-  padding: "0 0.5rem",
-};
-
 export const SettingsButton = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
   const sortingOption1 = "Custom";

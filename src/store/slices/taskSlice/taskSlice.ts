@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 import { loadUserData, deleteTaskThunk, deleteTasksThunk, pushTask } from "./thunks";
-import { setSortDirection } from "../sortTaskSlice/sortTaskSlice";
 
 export interface taskObject {
   taskCreated: Date;

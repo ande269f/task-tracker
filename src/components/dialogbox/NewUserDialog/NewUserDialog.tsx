@@ -65,7 +65,11 @@ const NewUserDialog = () => {
             <Dialog.Header className="DialogHeader">
               <Dialog.Title></Dialog.Title>
             </Dialog.Header>
-            <Dialog.Body className="NewUserDialogBody DialogBody">
+            <Dialog.Body className="NewUserDialogBody DialogBody"
+            textAlign={"center"}
+            display={"flex"}
+            flexDirection={"column"}
+            alignItems={"center"}>
               {!showPasswordForm && <DialogProse />}
               {!showPasswordForm && (
                 <Flex className="ButtonArea">

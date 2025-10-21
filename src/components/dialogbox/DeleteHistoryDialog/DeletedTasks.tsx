@@ -41,7 +41,12 @@ const DeletedTask = ({ task }: { task: taskObject }) => {
           </Card.Footer>
         </Card.Root>
 
-        <Flex className="ButtonArea" direction="column">
+        <Flex
+          className="ButtonArea"
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction="column"
+        >
           <RestoreTaskButton taskUuid={task.taskUuid} />
           <DeleteTaskPermanentlyButton task={task} />
         </Flex>

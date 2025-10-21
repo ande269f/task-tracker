@@ -1,6 +1,6 @@
 import { Flex, Field, Input } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
-
+import "./formStyles.scss";
 const PasswordForm = () => {
   const {
     register,
@@ -8,11 +8,11 @@ const PasswordForm = () => {
   } = useFormContext<{ password: string }>();
 
   return (
-    <Flex gap="4" align="flex-start" className="PasswordForm">
+    <Flex gap="4">
       <Field.Root required>
         <Input
+          className="PasswordForm"
           type="password"
-          textIndent="0.5rem"
           variant="subtle"
           {...register("password")}
           placeholder="Indtast her"

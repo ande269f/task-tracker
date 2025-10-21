@@ -3,7 +3,7 @@ import { MdDelete } from "react-icons/md";
 import { setTaskDeleted } from "../../../store/slices/taskSlice/taskSlice";
 import { useTaskCardContext } from "../../../hooks/taskCardContext";
 import { TaskOptionStyling } from "./TaskActionsDropdown";
-
+import "../TaskCardStyles.scss";
 
 export const DeleteTaskOption = () => {
   const { dispatch, task } = useTaskCardContext() as { dispatch: any; task: any };

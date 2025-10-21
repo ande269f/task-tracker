@@ -13,7 +13,7 @@ export const TaskPageActions = () => {
         dispatch(setSortDirection({sortDirection: !sortState.sortDirection}))
         }
     return (
-        <Flex className="TaskPageActions">
+        <Flex className="TaskPageActions" display={"inline-flex"} flexDirection={"row-reverse"}>
             <OrderButton handleOrder={handleOrder}/>
             <SettingsButton />
         </Flex>

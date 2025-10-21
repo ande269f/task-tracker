@@ -1,6 +1,5 @@
 import { TaskEdits } from "./../store/slices/taskEditsSlice/taskEditsSlice";
 import {
-  setSortDirection,
   sortTaskState,
 } from "../store/slices/sortTaskSlice/sortTaskSlice";
 import { taskObject } from "../store/slices/taskSlice/taskSlice";
