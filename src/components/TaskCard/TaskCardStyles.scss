@@ -1,5 +1,11 @@
     .TaskCard {
       padding-bottom: 0.55rem;
+      transition: transform 0.08s ease-in-out;
+
+      &.clicked {
+       transform: scale(0.98);
+
+      }
     }
 
         .TaskCardInputField {

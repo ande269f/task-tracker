@@ -4,7 +4,7 @@ import {
   setTaskCompleted,
 } from "../../store/slices/taskSlice/taskSlice";
 import { } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import TaskCheckbox from "./TaskCardProps/TaskCheckbox";
 
@@ -17,6 +17,7 @@ import "./TaskCardStyles.scss";
 
 const TaskCard = () => {
   const context = useTaskCardContext();
+  const [isClicked, setIsClicked] = useState(false);
   if (!context) return null;
 
 
@@ -35,16 +36,25 @@ const TaskCard = () => {
     }
   };
 
+    const handleClick = () => {
+    //animation
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 160);
+    //logik
+    handleComplete();
+  };
+
   if (context.task.taskDeleted) return null;
 
   return (
     <>
-      <Box className="TaskCard">
+      <Box className={`TaskCard ${isClicked ? "clicked" : ""}`}>
           <Card.Root
             variant={context.task.taskCompleted ? "subtle" : "outline"}
+            border={"none"}
             backgroundColor={context.task.taskCompleted ? "green.300" : "white"}
             onClick={() => {
-              handleComplete();
+              handleClick();
             }}
           >
             <Card.Body>
