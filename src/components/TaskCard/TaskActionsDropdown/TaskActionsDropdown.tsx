@@ -17,7 +17,7 @@ export const TaskActionsDropdown = () => {
     <div className="TaskActionsDropdown">
       <Menu.Root>
         <Menu.Trigger asChild>
-          <Button
+          <Button className="TaskActionsDropdownButton"
           focusRing={"none"}
             aria-label="Open details"
             onClick={(e) => {

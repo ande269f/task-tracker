@@ -12,7 +12,12 @@ const centerCheckbox = {
   transform: "translateY(-50%)",
 };
 
+
+
 const TaskCheckbox = ({ taskCompleted }: { taskCompleted: boolean }) => {
+
+  if (!taskCompleted) return null;
+
   return (
     <Checkbox.Root
       {...centerCheckbox}
