@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 
-function App() {
+const App = () => {
 
 
   return (

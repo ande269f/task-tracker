@@ -34,8 +34,9 @@ export const DraggableTaskProvider = ({ innerRef, droppableProps, placeholder, c
         <Draggable
           draggableId={input.taskUuid.toString()}
           index={index}
-          key={input.taskUuid.toString()}
+          key={index}
           isDragDisabled={sortState.sortingState !== "interactiveOrdering"}
+          
         >
           {(provided) => (
             <Box

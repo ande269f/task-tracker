@@ -4,7 +4,7 @@ import {
   setTaskCompleted,
 } from "../../store/slices/taskSlice/taskSlice";
 import { } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import TaskCheckbox from "./TaskCardProps/TaskCheckbox";
 
@@ -14,8 +14,9 @@ import TaskCardTextArea from "./TaskCardProps/TaskCardTextArea";
 
 import { useTaskCardContext } from "../../hooks/taskCardContext";
 import "./TaskCardStyles.scss";
-
+ 
 const TaskCard = () => {
+  const id = useId();
   const context = useTaskCardContext();
   const [isClicked, setIsClicked] = useState(false);
   if (!context) return null;
@@ -50,6 +51,7 @@ const TaskCard = () => {
     <>
       <Box className={`TaskCard ${isClicked ? "clicked" : ""}`}>
           <Card.Root
+            id={id}
             variant={context.task.taskCompleted ? "subtle" : "outline"}
             border={"none"}
             backgroundColor={context.task.taskCompleted ? "green.300" : "white"}

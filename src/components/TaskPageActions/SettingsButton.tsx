@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from "../../store";
 import { setSortingState } from "../../store/slices/sortTaskSlice/sortTaskSlice";
 import { setDetailsDialogState } from "../../store/slices/detailsDialogSlice/detailsDialogSlice";
 import { setUserLoggedOut } from "../../store/slices/loginSlice/loginSlice";
+import { deleteUserAndLogout } from "../../store/slices/loginSlice/thunks";
 
 export const SettingsButton = () => {
   // sorteringsmulighederne defineres her - det er dem der vises for brugeren;
@@ -94,6 +95,14 @@ export const SettingsButton = () => {
                 onClick={() => dispatch(setUserLoggedOut())}
               >
                 Log ud
+              </Menu.Item>
+              <Menu.Item
+                className="SettingsOption"
+                value="deleteUser"
+                color={"red"}
+                onClick={() => dispatch(deleteUserAndLogout())}
+              >
+                Slet bruger
               </Menu.Item>
             </Menu.ItemGroup>
           </Menu.Content>

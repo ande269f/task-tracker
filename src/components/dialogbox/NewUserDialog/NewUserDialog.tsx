@@ -94,6 +94,7 @@ const NewUserDialog = () => {
 
                   <Button
                     variant="subtle"
+                    aria-label="continueWithoutPassword"
                     focusRing="none"
                     onClick={() => dispatch(setDialogBoxTypeClosed())}
                     className="GoToTaskPageButton"

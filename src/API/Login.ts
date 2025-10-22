@@ -54,10 +54,10 @@ export default class Login {
     }
   };
 
-  deleteUser = async (username = this.username) => {
+  static deleteUser = async (username: string) => {
     try {
       const response = await axios.post("users/deleteUser/" + username);
-      return response;
+      return response.data;
     } catch (e) {
       //der er ikke forbindelse til back-enden
       console.log("deleting user fails");

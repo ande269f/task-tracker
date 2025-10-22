@@ -16,7 +16,8 @@ import {
 import { setTaskEditsToDefault } from "../taskEditsSlice/taskEditsSlice";
 import { setTasksToDefault } from "../taskSlice/taskSlice";
 import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
-import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
+import { createToasterOnErrorResponse, createToasterOnSuccessResponse } from "../../../utils/thunkErrorUtils";
+import store from "../..";
 
 export const logout = createAsyncThunk(
   "loginState/logout/thunk",
@@ -37,6 +38,46 @@ export const logout = createAsyncThunk(
         "Noget gik galt da du loggede ud. Prøv at opdatere siden for at løse det"
       );
       console.warn("Kunne ikke få adgang til localStorage:", err);
+    }
+  }
+);
+
+export const deleteUserAndLogout = createAsyncThunk(
+  "loginState/deleteUserAndLogout/thunk",
+  async (_, { dispatch }) => {
+    const username = store.getState().UserState.username;
+    if (username == null) {
+      createToasterOnErrorResponse(
+        "ERROR",
+        "Brugernavn kunne ikke findes"
+      );
+      return;
+    }
+    try {
+      const response = await Login.deleteUser(username);
+
+      createToasterOnErrorResponse(
+        response,
+        "Der gik noget galt med serveren da vi forsøgte at slette din bruger"
+      );
+
+        if (response === "SUCCESS") {
+        dispatch(setUserLoggedOut());
+
+          createToasterOnSuccessResponse(
+            "SUCCESS",
+            "Din bruger er blevet slettet"
+          );
+
+      }
+
+
+    } catch (err) {
+      createToasterOnErrorResponse(
+        "ERROR",
+        "Der gik noget galt på klienten da vi forsøgte at slette din bruger"
+      );
+      console.error("deleteUserAndLogout fejlede:", err);
     }
   }
 );

@@ -11,3 +11,14 @@ export const createToasterOnErrorResponse = (response: any, toasterContext: stri
         })
     }
 }
+
+
+export const createToasterOnSuccessResponse = (response: any, toasterContext: string) => {
+    if (!response || response == null) return
+    if (response == "SUCCESS") {
+        toaster.create({
+        description: toasterContext,
+        type: "success"
+        })
+    }
+}
