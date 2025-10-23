@@ -1,9 +1,9 @@
 
 
-import { createContext, useRef, useState, type ReactNode } from 'react';
-import { AppDispatch } from '../../store';
+import { createContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { AppDispatch, RootState } from '../../store';
 import { taskObject } from '../../store/slices/taskSlice/taskSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useTaskEditsLogger from '../../hooks/taskChangesLogger';
 import "./TaskCardStyles.scss";
 
@@ -21,6 +21,7 @@ export const TaskCardContext = createContext<TaskCardContextType | undefined>(
 );
 
 const TaskCardContextProvider = ({children, task}: { children: ReactNode, task: taskObject } ) => {
+
 
 
   const { logTaskEdit } = useTaskEditsLogger(task);

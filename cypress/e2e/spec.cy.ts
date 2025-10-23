@@ -14,9 +14,9 @@ export const visitSite = () => {
   });
 }
 
-// CreateDeleteUserTest(existingUsername, newUsername);
-//SortingTasksTest();
-// CreateDeleteTaskTest();
-// EditTaskTest();
+CreateDeleteUserTest(existingUsername, newUsername);
+SortingTasksTest();
+CreateDeleteTaskTest();
+EditTaskTest();
 
 
