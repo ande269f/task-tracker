@@ -4,11 +4,16 @@ import { UUIDTypes } from "uuid";
 import { RootState } from "../..";
 import TaskDataHandler, { UserTaskDataDto } from "../../../API/TaskDataHandler";
 import { taskDto } from "./taskSlice";
-import { interactiveTaskOrder } from "../taskOrderSlice/taskOrderSlice";
+import {
+  addSortOrder,
+  interactiveTaskOrder,
+  setSortOrder,
+} from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
 import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
 import { toaster } from "../../../components/ui/toaster";
 import { detectDuplicates } from "../../../utils/arrayUtils";
+import { determineInteractiveOrderDirection } from "../taskOrderSlice/functions";
 
 export const deleteTaskThunk = createAsyncThunk<
   { uuid: UUIDTypes }, // Return type
@@ -92,10 +97,10 @@ export const updateTask = createAsyncThunk<
 });
 
 export const loadUserData = createAsyncThunk<
-  { tasks: taskObject[]; sortTasks: interactiveTaskOrder[] }, // return type
+  { tasks: taskObject[] }, // return type
   void, // payload type (ingen payload her)
   { rejectValue: string }
->("tasks/loadUserData/thunk", async (_) => {
+>("tasks/loadUserData/thunk", async (_, { dispatch, getState }) => {
   try {
     const userData = (await TaskDataHandler.loadUserData()) as UserTaskDataDto;
 
@@ -111,8 +116,16 @@ export const loadUserData = createAsyncThunk<
       taskDeleted: task.taskDeleted ? new Date(task.taskDeleted) : null,
     }));
 
+    const state = getState() as RootState;
 
-    return { tasks, sortTasks: userData.sortTasks };
+    const sortedTasks = determineInteractiveOrderDirection(
+      state.sortState.sortDirection,
+      userData.sortTasks
+    );
+
+    dispatch(setSortOrder(sortedTasks));
+
+    return { tasks };
   } catch (err) {
     console.error("loadUserData fejlede:", err);
     return { tasks: [], sortTasks: [] };
@@ -120,45 +133,61 @@ export const loadUserData = createAsyncThunk<
 });
 
 export const pushTask = createAsyncThunk<
-  void, // Return type 
+  void, // Return type
   { task: taskDto; userId: number | null }, // Argument type
   { rejectValue: string } // Error handling
->("tasks/pushTask", async ({ task, userId }, { rejectWithValue, dispatch, getState }) => {
-  
-  const existingTasks = (getState() as RootState).form.tasks;
-  const newTaskText = task.taskText;
+>(
+  "tasks/pushTask",
+  async ({ task, userId }, { rejectWithValue, dispatch, getState }) => {
+    const existingTasks = (getState() as RootState).form.tasks;
+    const newTaskText = task.taskText;
 
-  if (newTaskText.trim() === "") {
-    return;
+    if (newTaskText.trim() === "") {
+      return;
+    }
+
+    const duplicateDetected = detectDuplicates(
+      existingTasks
+        // så vi kun tjekker imod ikke-slettede tasks
+        .filter((task) => task.taskDeleted === null)
+        .map((task) => task.taskText),
+      newTaskText
+    );
+
+    if (duplicateDetected) {
+      toaster.create({
+        description: "Den indtastede task findes allerede",
+        type: "warning",
+      });
+      return;
+    }
+
+    const response = await TaskDataHandler.unloadTasks(task, userId);
+
+    createToasterOnErrorResponse(
+      response,
+      "Der er sket en fejl ved oprettelse af din to-do"
+    );
+
+    if (response === "SUCCESS") {
+      const taskObject: taskObject = {
+        taskUuid: task.taskUuid,
+        taskText: task.taskText,
+        taskCompleted: task.taskCompleted,
+        taskCreated: new Date(task.taskCreated),
+        taskDeleted: null,
+      };
+
+      const sortDirection = (getState() as RootState).sortState.sortDirection;
+      dispatch(setTextInput(taskObject));
+      dispatch(
+        addSortOrder({
+          newTaskUuid: task.taskUuid,
+          sortDirection: sortDirection,
+        })
+      );
+    } else {
+      return rejectWithValue("Failed to push task");
+    }
   }
-
-  const duplicateDetected = detectDuplicates(existingTasks.map(task => task.taskText), newTaskText);
-
-  if (duplicateDetected) {
-    toaster.create({
-      description: "Den indtastede task findes allerede",
-      type: "warning",
-    });
-    return;
-  }
-
-  const response = await TaskDataHandler.unloadTasks(task, userId);
-
-  createToasterOnErrorResponse(
-    response,
-    "Der er sket en fejl ved oprettelse af din to-do"
-  );
-
-  if (response === "SUCCESS") {
-    const taskObject: taskObject = {
-      taskUuid: task.taskUuid,
-      taskText: task.taskText,
-      taskCompleted: task.taskCompleted,
-      taskCreated: new Date(task.taskCreated),
-      taskDeleted: null,
-    };
-    dispatch(setTextInput(taskObject));
-  } else {
-    return rejectWithValue("Failed to push task");
-  }
-});
+);

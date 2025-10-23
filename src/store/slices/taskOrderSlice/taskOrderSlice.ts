@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { deleteTasksThunk, loadUserData } from "../taskSlice/thunks";
+import { deleteTasksThunk } from "../taskSlice/thunks";
 import {
-  setTextInput,
-  deleteTasks,
+
   taskObject,
   deleteTask,
 } from "../taskSlice/taskSlice";
 
 import { UUIDTypes } from "uuid";
 import { setSortDirection } from "../sortTaskSlice/sortTaskSlice";
+import { determineInteractiveOrderDirection } from "./functions";
+
 
 export interface interactiveTaskOrder {
   sortOrder: number;
@@ -19,18 +20,27 @@ const sortTasks = createSlice({
   name: "sortTasks",
   initialState,
   reducers: {
-    // setTaskOrder: (state, action: PayloadAction<interactiveTaskOrder[]>) => {
-    //     // tøm state arrayet
-    //   state.splice(0, state.length, ...action.payload);
-
-    //   // Sortér arrayet in-place efter sortOrder
-    //   state.sort((a, b) => a.sortOrder - b.sortOrder);
-
-    //   // Sørg for at sortOrder matcher index + 1
-    //   state.forEach((item, index) => {
-    //     item.sortOrder = index + 1;
-    //   });
-    // },
+    setSortOrder: (state, action: PayloadAction<interactiveTaskOrder[]>) => {
+      return action.payload;
+    },
+    addSortOrder: (
+      state,
+      action: PayloadAction<{ newTaskUuid: UUIDTypes; sortDirection: boolean }>
+    ) => {
+      const newElement: interactiveTaskOrder = {
+        uuid: action.payload.newTaskUuid,
+        sortOrder: state.length + 1,
+      };
+      if (!state[0]) {
+        //hvis arrayet er tomt
+        state.push(newElement);
+        return;
+      } 
+      // afhængig af sortDirection, tilføj element i starten af arrayet eller i slutningen
+      action.payload.sortDirection
+        ? state.unshift(newElement)
+        : state.push(newElement);
+    },
     setSortOrderToDefault: () => initialState,
     updateSortOrder: (
       state,
@@ -65,31 +75,10 @@ const sortTasks = createSlice({
     builder
       .addCase(setSortDirection, (state, action) => {
         //synker sortstate med sortDirection
-        if (action.payload.sortDirection) {
-          return [...state].sort((a, b) => a.sortOrder - b.sortOrder);
-        } else return [...state].sort((a, b) => b.sortOrder - a.sortOrder);
-      })
-      .addCase(setTextInput, (state, action) => {
-        // når der bliver sat et nyt element, sæt det ind
-        // i taskOrder med sortOrder: state.length + 1
-        const newElement: interactiveTaskOrder = {
-          uuid: action.payload.taskUuid,
-          sortOrder: state.length + 1,
-        };
-
-        if (!state[0]) {
-          state.push(newElement);
-        } else {
-          const firstElement = state[0].sortOrder;
-          const lastElement = state[state.length - 1].sortOrder;
-
-          //sørg for at nyt element altid placeres efter element
-          //med sortOrder: state.length + 1
-
-          firstElement > lastElement
-            ? state.unshift(newElement)
-            : state.push(newElement);
-        }
+        return determineInteractiveOrderDirection(
+          action.payload.sortDirection,
+          [...state]
+        );
       })
       .addCase(deleteTasksThunk.fulfilled, (state, action) => {
         // laver et nyt array kun med payloadens tasks uuid'er
@@ -109,16 +98,9 @@ const sortTasks = createSlice({
           updated.splice(taskIndex, 1);
         }
         return updated;
-      }) // til sync med taskSlice
-      .addCase(loadUserData.fulfilled, (state, action) => {
-        // organisere sortTasks, da det ikke er organiseret fra backend
-        //samme type sort hver gang -> hack da sortdirection resetter ved hver rerender af browser
-        if (action.payload.sortTasks.length > 0)
-          return action.payload.sortTasks.sort(
-            (a, b) => b.sortOrder - a.sortOrder
-          );
-      });
+      }); // til sync med taskSlice
   },
 });
-export const { setSortOrderToDefault, updateSortOrder } = sortTasks.actions;
+export const { setSortOrderToDefault, updateSortOrder, setSortOrder, addSortOrder } =
+  sortTasks.actions;
 export default sortTasks.reducer;

@@ -3,11 +3,18 @@ import { IconButton } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setSortDirection } from "../../store/slices/sortTaskSlice/sortTaskSlice";
+import { useEffect } from "react";
 
 
 const OrderButton = () => {
     const sortState = useSelector((state: RootState) => state.sortState);
     const dispatch = useDispatch<AppDispatch>();
+
+    // useEffect(() => {
+    //     // synkroniser sortDirection i taskOrderSlice med sortState i sortTaskSlice ved mount
+    //     dispatch(setSortDirection({ sortDirection: sortState.sortDirection }));
+    // }, [])
+    
 
       const handleOrder = (e: React.MouseEvent) => {
         e.stopPropagation();

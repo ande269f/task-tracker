@@ -4,7 +4,7 @@ export interface sortTaskState {
     sortingState: string;
 }
 const initialState: sortTaskState = {
-    sortDirection: false,
+    sortDirection: true,
     sortingState: "interactiveOrdering"
 };
 const sortTaskSlice = createSlice({
