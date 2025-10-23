@@ -17,9 +17,9 @@ export const loginWithUsername = (username: string) => {
 export const loginWithUsernameFull = (username: string) => {
   cy.get("input").should("have.class", "UsernameForm").type(username);
   cy.get("button").contains("Log ind").click();
-cy.contains("brugernavn du har indtastet er i brug").should("be.visible");
-    cy.get(".CreateNewUserButton").click();
-    cy.get("button").contains("Fortsæt").click();
+  cy.contains("brugernavn du har indtastet er i brug").should("be.visible");
+  cy.get(".CreateNewUserButton").click();
+  cy.get("button").contains("Fortsæt").click();
 };
 
 export const createTasks = (numberOfTasks: number, taskName: string) => {
@@ -34,3 +34,45 @@ export const deleteUser = () => {
   cy.get(".SettingsButton").click();
   cy.contains("Slet bruger").click();
 };
+
+export const openDeletedTasksAndMakeAction = (
+  taskText: string,
+  buttonClass: string
+) => {
+  cy.get(".SettingsButton").click();
+  cy.contains("Papirkurv").click();
+  if (taskText === "") {
+    cy.get(buttonClass).click();
+    return;
+  } else {
+    cy.get(".DeletedTaskContainer")
+      .contains(taskText)
+      .parent()
+      .parent()
+      .parent()
+      .find(buttonClass)
+      .click();
+    cy.get(".DeleteHistoryDialogBody").contains(taskText).should("not.exist");
+  }
+};
+
+export const openTaskActionsDropdownAndMakeAction = (
+  taskText: string,
+  buttonText: string
+) => {
+  cy.get(".TaskCardTaskText")
+    .contains(taskText)
+    .parent()
+    .next()
+    .children()
+    .first()
+    .click();
+  cy.get(".chakra-menu__item").contains(buttonText).click();
+};
+
+export const checkNumberOfTaskEditsInDialog = (taskText: string, expectedCount: number) => { 
+          openTaskActionsDropdownAndMakeAction(taskText, "Detaljer");
+           cy.get(".TaskDetailsDialogBody")
+         .find(".TaskEdit")
+         .should("have.length", expectedCount);
+}

@@ -62,7 +62,7 @@ export const TaskDetailsDialog = () => {
             <Dialog.Header className="DialogHeader">
               <Dialog.Title>Detaljer</Dialog.Title>
             </Dialog.Header>
-            <Dialog.Body className="DialogBody">
+            <Dialog.Body className="DialogBody TaskDetailsDialogBody">
               <Flex gap="4" direction="column">
                 <Box>
                   <TaskDetailsTable />

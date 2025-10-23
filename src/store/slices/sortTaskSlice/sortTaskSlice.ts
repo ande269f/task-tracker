@@ -25,5 +25,5 @@ const sortTaskSlice = createSlice({
     }
 });
 
-export const { setSortDirection, setSortingState } = sortTaskSlice.actions;
+export const { setSortDirection, setSortingState, setSortStateToDefault } = sortTaskSlice.actions;
 export default sortTaskSlice.reducer;

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 import { pushTaskEdit, fetchTaskEdits } from "./thunks";
 export interface TaskEdits {

@@ -1,12 +1,10 @@
-import { useNavigate } from "react-router-dom";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   LoginState,
   setUserLoggedOut,
   logoutUser,
-  loadLoginDetails,
 } from "./loginSlice";
-import { loadJwtTokenDataService } from "./functions";
 import Login from "../../../API/Login";
 import {
   setDetailsDialogState,
@@ -17,6 +15,7 @@ import { setTaskEditsToDefault } from "../taskEditsSlice/taskEditsSlice";
 import { setTasksToDefault } from "../taskSlice/taskSlice";
 import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
 import { createToasterOnErrorResponse, createToasterOnSuccessResponse } from "../../../utils/thunkErrorUtils";
+import { setSortStateToDefault } from "../sortTaskSlice/sortTaskSlice";
 import store from "../..";
 
 export const logout = createAsyncThunk(
@@ -30,7 +29,7 @@ export const logout = createAsyncThunk(
       dispatch(setTaskEditsToDefault());
       dispatch(setTasksToDefault());
       dispatch(setSortOrderToDefault());
-      dispatch(setSortOrderToDefault());
+      dispatch(setSortStateToDefault());
       dispatch(setDetailsDialogStateToDefault());
     } catch (err) {
       createToasterOnErrorResponse(

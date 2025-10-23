@@ -111,6 +111,7 @@ export const loadUserData = createAsyncThunk<
       taskDeleted: task.taskDeleted ? new Date(task.taskDeleted) : null,
     }));
 
+
     return { tasks, sortTasks: userData.sortTasks };
   } catch (err) {
     console.error("loadUserData fejlede:", err);

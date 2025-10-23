@@ -1,6 +1,9 @@
 /// <reference types="cypress" />
 import { generateRandomString } from "./utils";
-import { InteractiveSortingTest } from "./InteractiveSortingTest";
+import { SortingTasksTest } from "./SortingTasksTest";
+import { CreateDeleteTaskTest } from "./CreateDeleteTaskTest";
+import { EditTaskTest } from "./EditTaskTest";
+import { CreateDeleteUserTest } from "./CreateDeleteUser";
 
 const existingUsername = "anders1";
 const newUsername = generateRandomString(15);
@@ -11,8 +14,9 @@ export const visitSite = () => {
   });
 }
 
-//CreateDeleteUserTest(existingUsername, newUsername);
-
-InteractiveSortingTest(newUsername);
+// CreateDeleteUserTest(existingUsername, newUsername);
+SortingTasksTest();
+// CreateDeleteTaskTest();
+// EditTaskTest();
 
 

@@ -23,6 +23,7 @@ export const Confetti = () => {
 
   return (
     <ConfettiComponent
+    className="ConfettiComponent"
       width={width}
       height={height}
       confettiSource={{x:0,y:height/10, w: width, h: height}}
