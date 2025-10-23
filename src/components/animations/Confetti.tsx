@@ -25,13 +25,14 @@ export const Confetti = () => {
     <ConfettiComponent
       width={width}
       height={height}
-      confettiSource={{x:0,y:height/4, w: width, h: height}}
-      gravity={0.2}
+      confettiSource={{x:0,y:height/10, w: width, h: height}}
+      gravity={0.6}
+      friction={1}
       numberOfPieces={40}
-      initialVelocityY={{min: -5, max: -10}}
+      initialVelocityY={{min: -10, max: -20}}
       recycle={false}
       onConfettiComplete={() => dispatch(setAnimation("none"))}
-      tweenDuration={500}
+      tweenDuration={100}
       />
   )
 }
