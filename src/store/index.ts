@@ -11,6 +11,7 @@ import sortTasks from "./slices/taskOrderSlice/taskOrderSlice";
 import sortState from "./slices/sortTaskSlice/sortTaskSlice";
 import taskEdits from "./slices/taskEditsSlice/taskEditsSlice";
 import { checkLoginExpiration } from "./middleware/checkLoginExpiration";
+import animationState from "./slices/animationSlice/animationSlice";
 
 const rootReducer = combineReducers({
   form: textInputReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   sortState: sortState,
   UserState: UserState,
   taskEdits: taskEdits,
+  animationState: animationState,
 });
 
 const store = configureStore({

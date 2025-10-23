@@ -5,6 +5,8 @@ import { AppDispatch, RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { setTaskDeleted } from "../../store/slices/taskSlice/taskSlice";
 import "./style.scss";
+import { Confetti } from "../animations/Confetti";
+import { setAnimation } from "../../store/slices/animationSlice/animationSlice";
 
 const RemoveCompletedTasksButton = () => {
   const [showButton, setShowButton] = useState<Boolean>(false);
@@ -18,8 +20,8 @@ const RemoveCompletedTasksButton = () => {
     );
   }, [tasks]);
 
-  const handleClick = () => {
-
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
 
     const completedTasks = tasks.filter(
       (task) => task.taskCompleted && !task.taskDeleted
@@ -27,6 +29,8 @@ const RemoveCompletedTasksButton = () => {
     completedTasks.map((task) =>
       dispatch(setTaskDeleted({ uuid: task.taskUuid, taskDeleted: new Date() }))
     );
+
+    dispatch(setAnimation("confetti"));
   };
 
   if (!showButton) return null;
@@ -36,8 +40,7 @@ const RemoveCompletedTasksButton = () => {
       className={"RemoveFinishedTasksButton"}
       aria-label="RemoveFinishedTasksButton"
       onClick={(e) => {
-        e.stopPropagation();
-        handleClick();
+        handleClick(e);
       }}
       animationName=" fade-in"
       animationDuration="0.2s"

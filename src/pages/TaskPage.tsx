@@ -4,6 +4,7 @@ import TaskField from "../components/TaskField/TaskField";
 import "./TaskPage.scss";
 import RemoveCompletedTasksButton from "../components/TaskPageActions/RemoveCompletedTasksButton";
 import TaskCard from "../components/TaskCard/TaskCard";
+import { Confetti } from "../components/animations/Confetti";
 
 const TaskPage = () => {
   return (
@@ -12,6 +13,7 @@ const TaskPage = () => {
         <InputField />
         <TaskPageActions />
         <RemoveCompletedTasksButton />
+        <Confetti />
 
           <TaskField>
             <TaskCard />
