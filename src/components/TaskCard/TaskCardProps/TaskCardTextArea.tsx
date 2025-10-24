@@ -9,9 +9,6 @@ const TaskCardTextArea = () => {
       if (!context) return null;
       const [localText, setLocalText] = useState<string>(context.task.taskText  );
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => 
-    context.dispatch(setTaskText({ uuid: context.task.taskUuid, taskText: e.target.value }));
-
   return (
     <Textarea
       id={context.task.taskUuid.toString()}

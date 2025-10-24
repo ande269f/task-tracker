@@ -1,12 +1,11 @@
 import { Button } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { MdOutlineRemoveDone } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { useEffect, useState } from "react";
+import { setAnimation } from "../../store/slices/animationSlice/animationSlice";
 import { setTaskDeleted } from "../../store/slices/taskSlice/taskSlice";
 import "./style.scss";
-import { Confetti } from "../animations/Confetti";
-import { setAnimation } from "../../store/slices/animationSlice/animationSlice";
 
 const RemoveCompletedTasksButton = () => {
   const [showButton, setShowButton] = useState<Boolean>(false);

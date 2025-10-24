@@ -3,7 +3,7 @@ import { v4 as uuid, UUIDTypes } from "uuid";
 import { UserTaskDataDto } from "../../API/TaskDataHandler";
 import { TaskEdits } from "../../store/slices/taskEditsSlice/taskEditsSlice";
 import { interactiveTaskOrder } from "../../store/slices/taskOrderSlice/taskOrderSlice";
-import { taskObject, taskDto } from "../../store/slices/taskSlice/taskSlice";
+import { taskObject } from "../../store/slices/taskSlice/taskSlice";
 
 const task1Uuid: UUIDTypes = uuid();
 const task2Uuid: UUIDTypes = uuid();
@@ -90,7 +90,7 @@ const taskDataHandlers = [
     }),
 
     // --- unloadTasks ---
-    http.post("*/data/unloadTask/:userId", async ({ request }) => {
+    http.post("*/data/unloadTask/:userId", async () => {
         // const task: taskDto = await request.json();
         // const userId = request.params.userId;
 
@@ -109,17 +109,17 @@ const taskDataHandlers = [
     }),
 
     // --- loadTaskEdits ---
-    http.get("*/data/loadTaskEdits/:taskUuid", ({ params }) => {
+    http.get("*/data/loadTaskEdits/:taskUuid", () => {
         return HttpResponse.json(taskEdits);
     }),
 
     // --- unloadTaskEdit ---
-    http.post("*/data/unloadTaskEdit/", async ({ request }) => {
+    http.post("*/data/unloadTaskEdit/", async () => {
         return HttpResponse.json("SUCCESS");
     }),
 
     // --- updateTask ---
-    http.post("*/data/updateTask/", async ({ request }) => {
+    http.post("*/data/updateTask/", async () => {
         // const taskUpdate: taskDto = await request.json();
         // const taskIndex = tasks.findIndex(t => t.taskUuid === taskUpdate.taskUuid);
         // if (taskIndex >= 0) {
@@ -136,14 +136,14 @@ const taskDataHandlers = [
     }),
 
     // --- updateTaskOrder ---
-    http.post("*/data/updateTaskOrder/", async ({ request }) => {
+    http.post("*/data/updateTaskOrder/", async () => {
         // const newOrders: interactiveTaskOrder[] = await request.json();
         // taskOrders = newOrders;
         return HttpResponse.json({ status: "SUCCESS" });
     }),
 
     // --- deleteTasks ---
-    http.delete("*/data/deleteTasks/", async ({ request }) => {
+    http.delete("*/data/deleteTasks/", async () => {
         // const deletedTasks: taskObject[] = (await request.json()) as taskObject[];
         // deletedTasks.forEach(d => {
         //     const idx = tasks.findIndex(t => t.taskUuid === d.taskUuid);

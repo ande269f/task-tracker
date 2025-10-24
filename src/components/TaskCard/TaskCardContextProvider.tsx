@@ -1,10 +1,10 @@
 
 
-import { createContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import { AppDispatch, RootState } from '../../store';
-import { taskObject } from '../../store/slices/taskSlice/taskSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { createContext, useRef, useState, type ReactNode } from 'react';
+import { useDispatch } from 'react-redux';
 import useTaskEditsLogger from '../../hooks/taskChangesLogger';
+import { AppDispatch } from '../../store';
+import { taskObject } from '../../store/slices/taskSlice/taskSlice';
 import "./TaskCardStyles.scss";
 
 type TaskCardContextType = {

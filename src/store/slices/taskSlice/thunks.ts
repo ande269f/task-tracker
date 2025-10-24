@@ -6,7 +6,6 @@ import TaskDataHandler, { UserTaskDataDto } from "../../../API/TaskDataHandler";
 import { taskDto } from "./taskSlice";
 import {
   addSortOrder,
-  interactiveTaskOrder,
   setSortOrder,
 } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";

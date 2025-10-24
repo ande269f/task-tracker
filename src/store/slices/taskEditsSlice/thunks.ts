@@ -1,9 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
-import { TaskEdits } from "../taskEditsSlice/taskEditsSlice";
 import TaskDataHandler from "../../../API/TaskDataHandler";
-import { toaster } from "../../../components/ui/toaster";
 import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
+import { TaskEdits } from "../taskEditsSlice/taskEditsSlice";
 
 export const pushTaskEdit = createAsyncThunk<
   { taskEdit: TaskEdits }, // Return type
@@ -35,7 +34,7 @@ export const fetchTaskEdits = createAsyncThunk<
   { rejectValue: string } // error handling
 >(
   "taskEdits/fetchTaskEdits/thunk",
-  async (taskUuid, { rejectWithValue, dispatch }) => {
+  async (taskUuid, { rejectWithValue }) => {
     if (!taskUuid || taskUuid.length < 1 || taskUuid.length == undefined) {
       return rejectWithValue("No task UUID provided");
     }

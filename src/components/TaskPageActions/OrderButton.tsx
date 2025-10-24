@@ -1,9 +1,8 @@
+import { IconButton } from "@chakra-ui/react";
 import { FaSortDown, FaSortUp } from "react-icons/fa6";
-import { IconButton } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setSortDirection } from "../../store/slices/sortTaskSlice/sortTaskSlice";
-import { useEffect } from "react";
 
 
 const OrderButton = () => {

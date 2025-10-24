@@ -23,6 +23,7 @@ const taskEditsSlice = createSlice({
     });
 
     builder.addCase(fetchTaskEdits.fulfilled, (state, action) => {
+      const hej = state; hej //bruges ikke
       return action.payload.taskEdits;
     });
   },

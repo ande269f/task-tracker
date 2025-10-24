@@ -1,9 +1,6 @@
-import { v4 as uuid } from "uuid";
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { isRejected, isFulfilled } from "@reduxjs/toolkit";
-import { UUIDTypes } from "uuid";
+import { createSlice, isFulfilled, isRejected, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuid, UUIDTypes } from "uuid";
 import { loadJwtTokenDataService } from "./functions";
-import { RootState } from "../..";
 export interface LoginState {
   username: string | null;
   password: string | null;
@@ -73,7 +70,7 @@ const loginSlice = createSlice({
     setUserLoggedOut: (state) => {
         state.loginState = "LOGOUT_USER"
     },
-    logoutUser: (state) => {
+    logoutUser: () => {
         return loggedOutState;
     },
     loadLoginDetails: () => loadJwtTokenDataService(),
@@ -112,7 +109,7 @@ const loginSlice = createSlice({
             }
         }
       })
-      .addMatcher(isRejected, (state, action) => {
+      .addMatcher(isRejected, (state) => {
         state.loginState = "ERROR";
       });
   },

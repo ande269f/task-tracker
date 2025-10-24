@@ -1,4 +1,3 @@
-import { LoginStateDto } from "../../store/slices/loginSlice/loginSlice";
 
 
 export const fakeJWT = (username: string, password: string | null): string => {

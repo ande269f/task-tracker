@@ -35,7 +35,7 @@ const TaskChanges = ({
   const sortedTaskEdits = dateTaskEditsSort(taskEdits);
   return (
     //printer alle inputs
-    sortedTaskEdits.map((taskEdit, index) => (
+    sortedTaskEdits.map((taskEdit) => (
       <div key={taskEdit.taskEditsUuid.toString()}  className={"TaskEdit"}>
         {<TaskChange taskEdit={taskEdit} />}
       </div>

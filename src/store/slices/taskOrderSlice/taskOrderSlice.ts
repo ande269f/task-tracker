@@ -21,6 +21,7 @@ const sortTasks = createSlice({
   initialState,
   reducers: {
     setSortOrder: (state, action: PayloadAction<interactiveTaskOrder[]>) => {
+      const hej = state; hej //bruges ikke
       return action.payload;
     },
     addSortOrder: (

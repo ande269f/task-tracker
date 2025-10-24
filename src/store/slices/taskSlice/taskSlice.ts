@@ -83,6 +83,7 @@ const inputSlice = createSlice({
     },
 
     deleteTasks: (state, action: PayloadAction<taskObject[]>) => {
+      const hej = action.payload; hej //bruges ikke
       state.tasks = state.tasks.filter((t) => t.taskDeleted === null);
     },
   },
