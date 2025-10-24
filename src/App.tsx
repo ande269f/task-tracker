@@ -17,7 +17,7 @@ const App = () => {
     <Provider>
       <div className="App"></div>
       <Toaster />
-      <Router>
+      <Router basename="/task-tracker">
         <AppRoutes />
         <DisplayDialog/>
       </Router>
