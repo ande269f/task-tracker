@@ -34,10 +34,13 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload production-ready files
-        uses: actions/upload-pages-artifact@v3
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
         with:
-          path: dist
+          start: npm run preview  # starter din Vite-server (eller brug npm run dev)
+          wait-on: 'http://localhost:3000'  # venter på serveren er klar
+          wait-on-timeout: 60
+          browser: chrome
 
   deploy:
     environment:
