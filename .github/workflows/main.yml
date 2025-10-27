@@ -43,7 +43,6 @@ jobs:
           wait-on-timeout: 60
           browser: chrome
 
-        # Upload artifacts
       - name: Upload production-ready files
         uses: actions/upload-artifact@v4
         with:
@@ -51,12 +50,14 @@ jobs:
           path: dist/
 
       - name: Upload Cypress screenshots
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots/
 
       - name: Upload Cypress videos
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos

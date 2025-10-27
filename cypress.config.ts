@@ -12,4 +12,6 @@ export default defineConfig({
     screenshotsFolder: "cypress/screenshots",
     // videoUploadOnPasses findes ikke i TS config – det styres nu af CI/upload
   },
+  video: true, // optag video
+  screenshotOnRunFailure: true, // screenshot ved failure
 });
