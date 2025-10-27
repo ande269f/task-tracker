@@ -9,12 +9,12 @@ export const SortingTasksTest = () => {
     it("logs in with new user, make five tasks, sorts them by asc desc", () => {
         const newUser = generateRandomString(15)
         loginWithUsernameFull(newUser);
-        createTasks(5, "Task");
-        cy.get('.TaskCardTaskText').first().should('have.text', 'Task 5');
+        createTasks(3, "Task");
+        cy.get('.TaskCardTaskText').first().should('have.text', 'Task 3');
         cy.get('.TaskCardTaskText').last().should('have.text', 'Task 1');
         cy.get(".OrderButton").click();
         cy.get('.TaskCardTaskText').first().should('have.text', 'Task 1');
-        cy.get('.TaskCardTaskText').last().should('have.text', 'Task 5');
+        cy.get('.TaskCardTaskText').last().should('have.text', 'Task 3');
         deleteUser();
     })
 

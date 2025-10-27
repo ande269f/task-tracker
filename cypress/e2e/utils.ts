@@ -1,4 +1,4 @@
-import { logout } from './../../src/store/slices/loginSlice/thunks';
+import { logout } from "./../../src/store/slices/loginSlice/thunks";
 export const generateRandomString = (length: number) => {
   let result = "";
   const characters =
@@ -33,22 +33,16 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
       .should("be.visible")
       .should("be.enabled")
       .clear()
-      .type(taskText, { delay: 20 }) 
-      .should("have.value", taskText); 
+      .type(taskText, { delay: 20 })
+      .should("have.value", taskText);
 
     // Klik på submit
-    cy.get("#SubmitButton")
-      .should("be.visible")
-      .should("be.enabled")
-      .click();
+    cy.get("#SubmitButton").should("be.visible").should("be.enabled").click();
 
     // Vent på at task faktisk oprettes i DOM
-    cy.get(".TaskCardTaskText")
-      .contains(taskText)
-      .should("be.visible");
+    cy.get(".TaskCardTaskText").contains(taskText).should("be.visible");
   }
 };
-
 
 export const deleteUser = () => {
   cy.get(".SettingsButton").click();
@@ -79,6 +73,7 @@ export const openDeletedTasksAndMakeAction = (
       .find(buttonClass)
       .click();
     cy.get(".DeleteHistoryDialogBody").contains(taskText).should("not.exist");
+    cy.wait(500);
   }
 };
 
@@ -93,12 +88,20 @@ export const openTaskActionsDropdownAndMakeAction = (
     .children()
     .first()
     .click();
+  cy.wait(500);
   cy.get(".chakra-menu__item").contains(buttonText).click();
+  cy.wait(500);
 };
 
-export const checkNumberOfTaskEditsInDialog = (taskText: string, expectedCount: number) => { 
-          openTaskActionsDropdownAndMakeAction(taskText, "Detaljer");
-           cy.get(".TaskDetailsDialogBody")
-         .find(".TaskEdit")
-         .should("have.length", expectedCount);
-}
+export const checkNumberOfTaskEditsInDialog = (
+  taskText: string,
+  expectedCount: number
+) => {
+  openTaskActionsDropdownAndMakeAction(taskText, "Detaljer");
+  cy.wait(300);
+  cy.get(".TaskDetailsDialogBody")
+    .find(".TaskEdit")
+    .should("have.length", expectedCount);
+  cy.wait(300);
+  
+};
