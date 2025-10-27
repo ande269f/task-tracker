@@ -1,7 +1,7 @@
 
 Beskrivelse:
 
-Klassisk to-do web app med 
+Klassisk to-do web app med:
 * sikker login feature
 * simpel account management med opret bruger og slet bruger
 * simpel data tracking der logger ændringer ved to-do's

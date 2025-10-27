@@ -15,7 +15,7 @@ export const CreateDeleteTaskTest = () => {
     it("creates a task, deletes it by dropdown, restores it", () => {
         const username = generateRandomString(15)
         loginWithUsernameFull(username);
-        //creates and deletes a task
+        //creates and deletes task
         createTasks(2, "Task to delete");
         cy.contains("Task to delete 1").should("be.visible");
         openTaskActionsDropdownAndMakeAction("Task to delete 1", "Slet");
