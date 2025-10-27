@@ -28,7 +28,7 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
     cy.wait(400);
     const taskText = `${taskName} ${i}`;
 
-    // Sørg for input er klar og tom tom
+    // Sørg for input er klar og tom
     cy.get("#InputField")
       .should("be.visible")
       .should("be.enabled")
