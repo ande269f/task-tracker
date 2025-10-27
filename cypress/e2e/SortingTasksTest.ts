@@ -5,7 +5,6 @@ import { createTasks, deleteUser, generateRandomString, loginWithUsername, login
 export const SortingTasksTest = () => {
   describe("Interactive Sorting Test", () => {
     visitSite();
-    // jeg ved at den her fejler, derfor er den udkommenteret lige foreløblig
     it("logs in with new user, make five tasks, sorts them by asc desc", () => {
         const newUser = generateRandomString(15)
         loginWithUsernameFull(newUser);
