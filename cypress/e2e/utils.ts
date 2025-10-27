@@ -25,6 +25,7 @@ export const loginWithUsernameFull = (username: string) => {
 
 export const createTasks = (numberOfTasks: number, taskName: string) => {
   for (let i = 1; i <= numberOfTasks; i++) {
+    cy.wait(400);
     const taskText = `${taskName} ${i}`;
 
     // Sørg for input er klar og tom
@@ -43,10 +44,8 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
 
     // Vent på at task faktisk oprettes i DOM
     cy.get(".TaskCardTaskText")
-      .contains(taskText, { timeout: 5000 })
+      .contains(taskText)
       .should("be.visible");
-
-    cy.wait(100);
   }
 };
 
