@@ -55,6 +55,7 @@ jobs:
         with:
           name: cypress-screenshots
           path: cypress/screenshots/
+          if-no-files-found: ignore
 
       - name: Upload Cypress videos
         if: always()
@@ -62,6 +63,7 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos/
+          if-no-files-found: ignore
 
   deploy:
     if: success()
