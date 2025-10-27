@@ -26,13 +26,31 @@ export const loginWithUsernameFull = (username: string) => {
 export const createTasks = (numberOfTasks: number, taskName: string) => {
   for (let i = 1; i <= numberOfTasks; i++) {
     const taskText = `${taskName} ${i}`;
-    cy.get("#InputField").should("be.visible").should("be.enabled");
-    cy.get("#InputField").type(taskText);
-    cy.contains(taskText);
-    cy.get("#SubmitButton").click();
-    cy.get(".TaskCardTaskText").contains(taskText, { timeout: 5000 }).should("be.visible");
+
+    // Sørg for input er klar og tom
+    cy.get("#InputField")
+      .should("be.visible")
+      .should("be.enabled")
+      .clear()
+      .type(taskText, { delay: 20 })  // langsommere typing for stabilitet
+      .should("have.value", taskText); // tjek at hele teksten er skrevet
+
+    // Klik på submit
+    cy.get("#SubmitButton")
+      .should("be.visible")
+      .should("be.enabled")
+      .click();
+
+    // Vent på at task faktisk oprettes i DOM
+    cy.get(".TaskCardTaskText")
+      .contains(taskText, { timeout: 5000 })
+      .should("be.visible");
+
+    // Optional: vent lidt, så næste iteration starter stabilt
+    cy.wait(100);
   }
 };
+
 
 export const deleteUser = () => {
   cy.get(".SettingsButton").click();
