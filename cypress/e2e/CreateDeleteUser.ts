@@ -1,7 +1,8 @@
-import { deleteUser, generateRandomString } from "./utils";
+import { deleteUser, generateRandomString, logoutUser } from "./utils";
 import { loginWithUsername } from "./utils";
 import { createTasks } from "./utils";
 import { visitSite } from "./spec.cy";
+import { logout } from "../../src/store/slices/loginSlice/thunks";
 
 
 export const CreateDeleteUserTest = (existingUsername: string, newUsername: string) => {
@@ -17,9 +18,7 @@ describe("create user and log in, then create two tasks and log out, login exist
     cy.get("button").contains("Fortsæt").click();
 
     createTasks(2, "Task");
-
-    cy.contains("Task 1").should("be.visible");
-    cy.contains("Task 2").should("be.visible");
+    //createTasks tjekker om de er visible efter oprettelse
 
     cy.get(".SettingsButton").click();
     cy.contains("Log ud").click();
@@ -31,8 +30,7 @@ describe("create user and log in, then create two tasks and log out, login exist
   });
 
   it("log in with existing user and see if tasks are not there", () => {
-    cy.get("input").should("have.class", "UsernameForm").type(existingUsername);
-    cy.get("button").contains("Log ind").click();
+    loginWithUsername(existingUsername);
     cy.contains("Task 1").should("not.exist");
     cy.contains("Task 2").should("not.exist");
     cy.get(".SettingsButton").click();
@@ -45,6 +43,20 @@ describe("create user and log in, then create two tasks and log out, login exist
     loginWithUsername(newUsername);
     cy.contains("brugernavn du har indtastet er i brug").should("be.visible");
   });
+
+  it("create new user and set password", () => {
+    const newUsername = generateRandomString(15); 
+    loginWithUsername(newUsername);
+    cy.contains("brugernavn du har indtastet er i brug").should("be.visible");
+    cy.get(".CreateNewUserButton").click();
+    cy.get(".PasswordForm").type("SecurePassword123!");
+    cy.get(".PasswordForm").type("{enter}");
+    logoutUser();
+    loginWithUsername(newUsername);
+    cy.get(".PasswordForm").type("SecurePassword123!");
+    cy.get("button").contains("Log ind").click();
+    deleteUser();
+  })
 
 
 });

@@ -10,7 +10,7 @@ const newUsername = generateRandomString(15);
 
 export const visitSite = () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/task-tracker");
+    cy.visit("http://localhost:3000/task-tracker/");
   });
 }
 
