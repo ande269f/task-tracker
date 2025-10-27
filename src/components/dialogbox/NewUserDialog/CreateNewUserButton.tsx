@@ -7,12 +7,14 @@ import "./NewUserDialog.scss";
 
 export const CreateNewUserButton = () => {
   const user = useSelector((state: RootState) => state.UserState);
+  const loginState = useSelector((state: RootState) => state.UserState.loginState);
   const dispatch = useDispatch<AppDispatch>();
   const handleCreateNewUser = async () => {
     if (user.username) dispatch(createNewUser({ username: user.username }));
   };
   return (
     <Button
+      loading={loginState === "PENDING"}
       className="CreateNewUserButton"
       colorPalette={"green"}
       aria-label="create-new-user"

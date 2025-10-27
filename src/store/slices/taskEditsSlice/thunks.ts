@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 import TaskDataHandler from "../../../API/TaskDataHandler";
-import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
+import { createToasterOnErrorResponse } from "../../../utils/toasterUtils";
 import { TaskEdits } from "../taskEditsSlice/taskEditsSlice";
 
 export const pushTaskEdit = createAsyncThunk<

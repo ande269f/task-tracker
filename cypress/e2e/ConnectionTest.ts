@@ -1,5 +1,6 @@
 import { visitSite } from "./spec.cy";
-import { generateRandomString, loginWithUsername } from "./utils";
+import { loginWithUsername } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 
 export const ConnectionTest = () => {
   describe("Connection test to see if app is running", () => {

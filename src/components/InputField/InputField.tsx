@@ -5,7 +5,7 @@ import { pushTask } from "../../store/slices/taskSlice/thunks";
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import { taskDto } from "../../store/slices/taskSlice/taskSlice";
-import "./InputfieldStyles.scss";
+import "./InputFieldStyles.scss";
 
 const InputField = () => {
   const dispatch: AppDispatch = useDispatch();

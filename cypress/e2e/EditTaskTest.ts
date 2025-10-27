@@ -3,10 +3,10 @@ import {
   checkNumberOfTaskEditsInDialog,
   createTasks,
   deleteUser,
-  generateRandomString,
   loginWithUsernameFull,
   openTaskActionsDropdownAndMakeAction,
 } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 
 export const EditTaskTest = () => {
   describe("Editing a task's text and checks task edits to see if the changes is showed", () => {

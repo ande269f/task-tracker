@@ -5,6 +5,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { usePasswordFormVisibility } from "../hooks/passwordFormVisibility";
 import { useLoginActions } from "../hooks/loginActions";
 import "./LoginPage.scss";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
 export interface FormValues {
   username: string;
@@ -19,6 +21,7 @@ const loginButtonStyling: ButtonProps = {
 const LoginPage = () => {
   const methods = useForm<FormValues>();
   const showPasswordForm = usePasswordFormVisibility();
+  const loginState = useSelector((state: RootState) => state.UserState.loginState);
   const { onSubmit } = useLoginActions();
 
 
@@ -33,6 +36,7 @@ const LoginPage = () => {
               <UsernameForm />
               {showPasswordForm && <PasswordForm />}
               <Button
+                loading={loginState === "PENDING"}
                 type="submit"
                 className="LoginButton"
                 {...loginButtonStyling}

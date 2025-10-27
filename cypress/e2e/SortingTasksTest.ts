@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 import { visitSite } from "./spec.cy";
-import { createTasks, deleteUser, generateRandomString, loginWithUsername, loginWithUsernameFull } from "./utils";
+import { createTasks, deleteUser, loginWithUsername, loginWithUsernameFull } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 
 export const SortingTasksTest = () => {
   describe("Interactive Sorting Test", () => {

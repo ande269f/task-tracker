@@ -1,4 +1,4 @@
-import { createSlice, isFulfilled, isRejected, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, isFulfilled, isRejected, isPending, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid, UUIDTypes } from "uuid";
 import { loadJwtTokenDataService } from "./functions";
 export interface LoginState {
@@ -111,7 +111,10 @@ const loginSlice = createSlice({
       })
       .addMatcher(isRejected, (state) => {
         state.loginState = "ERROR";
-      });
+      })
+      .addMatcher(isPending, (state) => {
+      state.loginState = "PENDING";
+    });
   },
 });
 

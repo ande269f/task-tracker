@@ -2,11 +2,11 @@ import { visitSite } from "./spec.cy";
 import {
   createTasks,
   deleteUser,
-  generateRandomString,
   loginWithUsernameFull,
   openDeletedTasksAndMakeAction,
   openTaskActionsDropdownAndMakeAction,
 } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 
 export const CreateDeleteTaskTest = () => {
   describe("Creating a task and then deleting it by dropdown, then restoring it and then deleting by task completed, then deleting it permanently", () => {

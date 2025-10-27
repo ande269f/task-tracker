@@ -1,4 +1,5 @@
-import { deleteUser, generateRandomString, logoutUser } from "./utils";
+import { deleteUser, logoutUser } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 import { loginWithUsername } from "./utils";
 import { createTasks } from "./utils";
 import { visitSite } from "./spec.cy";

@@ -9,7 +9,7 @@ import {
   setSortOrder,
 } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
-import { createToasterOnErrorResponse } from "../../../utils/thunkErrorUtils";
+import { createToasterOnErrorResponse } from "../../../utils/toasterUtils";
 import { toaster } from "../../../components/ui/toaster";
 import { detectDuplicates } from "../../../utils/arrayUtils";
 import { determineInteractiveOrderDirection } from "../taskOrderSlice/functions";

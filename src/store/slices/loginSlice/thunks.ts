@@ -1,10 +1,5 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  LoginState,
-  setUserLoggedOut,
-  logoutUser,
-} from "./loginSlice";
+import { LoginState, setUserLoggedOut, logoutUser } from "./loginSlice";
 import Login from "../../../API/Login";
 import {
   setDetailsDialogState,
@@ -14,7 +9,13 @@ import {
 import { setTaskEditsToDefault } from "../taskEditsSlice/taskEditsSlice";
 import { setTasksToDefault } from "../taskSlice/taskSlice";
 import { setSortOrderToDefault } from "../taskOrderSlice/taskOrderSlice";
-import { createToasterOnErrorResponse, createToasterOnSuccessResponse } from "../../../utils/thunkErrorUtils";
+import {
+  createToasterOnErrorResponse,
+  createToasterOnTimeout,
+  createToasterPending,
+  updateToasterOnError,
+  updateToasterOnSuccess,
+} from "../../../utils/toasterUtils";
 import { setSortStateToDefault } from "../sortTaskSlice/sortTaskSlice";
 import store from "../..";
 
@@ -44,37 +45,42 @@ export const logout = createAsyncThunk(
 export const deleteUserAndLogout = createAsyncThunk(
   "loginState/deleteUserAndLogout/thunk",
   async (_, { dispatch }) => {
+    const toasterId = createToasterPending(
+      "Sletter din bruger..."
+    );
+
     const username = store.getState().UserState.username;
     if (username == null) {
-      createToasterOnErrorResponse(
-        "ERROR",
-        "Brugernavn kunne ikke findes"
-      );
+      createToasterOnErrorResponse("ERROR", "Brugernavn kunne ikke findes");
       return;
     }
+
     try {
       const response = await Login.deleteUser(username);
 
-      createToasterOnErrorResponse(
+      updateToasterOnError(
         response,
-        "Der gik noget galt med serveren da vi forsøgte at slette din bruger"
+        toasterId,
+        "error",
+        "Der gik noget galt da vi forsøgte at slette din bruger"
       );
 
-        if (response === "SUCCESS") {
+      updateToasterOnSuccess(
+        response,
+        toasterId,
+        "success",
+        "Din bruger er blevet slettet"
+      );
+
+      if (response === "SUCCESS") {
         dispatch(setUserLoggedOut());
-
-          createToasterOnSuccessResponse(
-            "SUCCESS",
-            "Din bruger er blevet slettet"
-          );
-
       }
-
-
     } catch (err) {
-      createToasterOnErrorResponse(
+      updateToasterOnError(
         "ERROR",
-        "Der gik noget galt på klienten da vi forsøgte at slette din bruger"
+        toasterId,
+        "error",
+        "Der gik noget galt da vi forsøgte at slette din bruger"
       );
       console.error("deleteUserAndLogout fejlede:", err);
     }
@@ -113,7 +119,15 @@ export const login = createAsyncThunk(
     payload: { username: string; password: string | null },
     { dispatch }
   ) => {
+    const timeoutId = createToasterOnTimeout(
+      "Længere ventetid kan skyldes at serveren er gået i dvale. Vent venligt...",
+      7000
+    );
+
     const response = await Login.submit(payload.username, payload.password);
+
+    // ryd timeout efter response er modtaget
+    clearTimeout(timeoutId);
 
     if (response === "USER_NOT_FOUND") {
       dispatch(
@@ -177,20 +191,40 @@ export const setUserPassword = createAsyncThunk(
       );
       return { loginState: "ERROR" as LoginState["loginState"] };
     }
+
+    const toasterId = createToasterPending(
+      "Opretter kodeord til din bruger..."
+    );
+
+    dispatch(setDialogBoxTypeClosed());
+
     try {
       let response = await Login.setUserPassword(
         payload.username,
         payload.password
       );
-
-      createToasterOnErrorResponse(
+      updateToasterOnSuccess(
         response,
-        "Der gik noget galt da du oprettede et kodeord til din bruger"
+        toasterId,
+        "success",
+        "Kodeord til din bruger er oprettet"
       );
 
-      dispatch(setDialogBoxTypeClosed());
+      updateToasterOnError(
+        response,
+        toasterId,
+        "error",
+        "Der gik noget galt da du forsøgte at oprette et kodeord"
+      );
+
       return { loginState: response as LoginState["loginState"] };
     } catch (e) {
+      updateToasterOnError(
+        "ERROR",
+        toasterId,
+        "error",
+        "Der gik noget galt da du forsøgte at oprette et kodeord"
+      );
       return { loginState: "ERROR" as LoginState["loginState"] };
     }
   }

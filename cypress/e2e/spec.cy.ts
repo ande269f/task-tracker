@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { generateRandomString } from "./utils";
+import { generateRandomString } from "../../src/utils/arrayUtils";
 import { SortingTasksTest } from "./SortingTasksTest";
 import { CreateDeleteTaskTest } from "./CreateDeleteTaskTest";
 import { EditTaskTest } from "./EditTaskTest";
