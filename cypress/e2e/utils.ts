@@ -32,8 +32,8 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
       .should("be.visible")
       .should("be.enabled")
       .clear()
-      .type(taskText, { delay: 20 })  // langsommere typing for stabilitet
-      .should("have.value", taskText); // tjek at hele teksten er skrevet
+      .type(taskText, { delay: 20 }) 
+      .should("have.value", taskText); 
 
     // Klik på submit
     cy.get("#SubmitButton")
@@ -46,7 +46,6 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
       .contains(taskText, { timeout: 5000 })
       .should("be.visible");
 
-    // Optional: vent lidt, så næste iteration starter stabilt
     cy.wait(100);
   }
 };
