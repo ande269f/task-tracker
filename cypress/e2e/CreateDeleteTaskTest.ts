@@ -28,7 +28,7 @@ export const CreateDeleteTaskTest = () => {
         cy.contains("Task to delete 1").should("be.visible");
         cy.contains("Task to delete 2").should("be.visible");
 
-        //deletes the restored task again and deletes it permanently from deleted tasks
+        //deletes restored task again and deletes it permanently from deleted tasks
         openTaskActionsDropdownAndMakeAction("Task to delete 1", "Slet");
         openDeletedTasksAndMakeAction("Task to delete 1", ".DeleteTaskPermanentlyButton");
         cy.get(".CancelDialogButton").click();
