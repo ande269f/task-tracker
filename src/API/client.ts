@@ -5,7 +5,7 @@ const client = axios.create({
 });
 
 // helper til delay for development af ventetid ui
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+//const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Tilføj interceptor (får jwt token til at komme med som header på alle requests)
 client.interceptors.request.use(async (config) => {
@@ -13,7 +13,7 @@ client.interceptors.request.use(async (config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  await delay(2000); // simulerer netværksforsinkelse
+  //await delay(2000); // simulerer netværksforsinkelse
   return config;
 });
 
