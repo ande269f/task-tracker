@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # kør workflow når der pushes til main (du kan ændre branch-navnet)
+      - main # kør workflow når der pushes til main (du kan ændre branch-navnet)
 
 permissions:
   # læserettigheder til repo-indholdet (begrænser hvad workflow kan gøre)
@@ -37,10 +37,16 @@ jobs:
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run preview  # starter din Vite-server (eller brug npm run dev)
-          wait-on: 'http://localhost:3000'  # venter på serveren er klar
+          start: npm run preview # starter din Vite-server (eller brug npm run dev)
+          wait-on: "http://localhost:3000" # venter på serveren er klar
           wait-on-timeout: 60
           browser: chrome
+          
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots/
 
   deploy:
     environment:
