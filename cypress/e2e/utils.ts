@@ -28,7 +28,7 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
     // Klik på submit
     cy.get("#SubmitButton").should("be.visible").should("be.enabled").click();
 
-    // Vent på at task faktisk oprettes i DOM
+    // Vent på at task faktisk oprettes i DOM'
     cy.get(".TaskCardTaskText").contains(taskText).should("be.visible");
   }
 };
