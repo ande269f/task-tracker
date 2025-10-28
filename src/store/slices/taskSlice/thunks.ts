@@ -75,15 +75,12 @@ export const updateTask = createAsyncThunk<
     }
 
     try {
-      const taskDeleted =
-        task.taskDeleted === null ? null : task.taskDeleted?.toDateString();
-
       const taskDto: taskDto = {
         taskUuid: task.taskUuid,
         taskText: task.taskText,
         taskCompleted: task.taskCompleted,
         taskCreated: task.taskCreated.toString(),
-        taskDeleted: taskDeleted,
+        taskDeleted: task.taskDeleted === null ? null : task.taskDeleted?.toString(),
       };
 
       const response = await TaskDataHandler.updateTask(taskDto);
