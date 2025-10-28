@@ -50,7 +50,7 @@ export const createToasterPending = (toasterContext: string) => {
       description: toasterContext,
       type: "info",
     });
-  }, 7000);
+  }, 0);
   return id;
 };
 
