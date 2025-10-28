@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { v4 as uuid, UUIDTypes } from "uuid";
 import { UserTaskDataDto } from "../../API/TaskDataHandler";
-import { TaskEdits } from "../../store/slices/taskEditsSlice/taskEditsSlice";
+import { TaskEdit } from "../../store/slices/taskEditsSlice/taskEditsSlice";
 import { interactiveTaskOrder } from "../../store/slices/taskOrderSlice/taskOrderSlice";
 import { taskObject } from "../../store/slices/taskSlice/taskSlice";
 
@@ -37,7 +37,7 @@ let tasks: taskObject[] = [
 
 ];
 
-let taskEdits: TaskEdits[] = [
+let taskEdits: TaskEdit[] = [
     {
         dateEdited: new Date(),
         taskText: "Demo task 1",

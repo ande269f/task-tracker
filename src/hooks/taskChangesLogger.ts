@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 import { updateTask } from "../store/slices/taskSlice/thunks";
 import { taskObject } from "../store/slices/taskSlice/taskSlice";
 import { pushTaskEdit } from "../store/slices/taskEditsSlice/thunks";
-import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
+import { TaskEdit } from "../store/slices/taskEditsSlice/taskEditsSlice";
 
 export default function useTaskEditsLogger(task: taskObject) {
   const loggedTask = useRef<taskObject>({ ...task });
@@ -29,7 +29,7 @@ export default function useTaskEditsLogger(task: taskObject) {
 
     if (!updateType) return;
 
-    const taskEdit: TaskEdits = {
+    const taskEdit: TaskEdit = {
       taskText: task.taskText,
       dateEdited: new Date(),
       taskCompleted: task.taskCompleted,

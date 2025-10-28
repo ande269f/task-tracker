@@ -1,4 +1,4 @@
-import { TaskEdits } from "./../store/slices/taskEditsSlice/taskEditsSlice";
+import { TaskEdit } from "./../store/slices/taskEditsSlice/taskEditsSlice";
 import {
   sortTaskState,
 } from "../store/slices/sortTaskSlice/sortTaskSlice";
@@ -57,7 +57,7 @@ const dateTaskSort = (sortingProps: sortingProps): taskObject[] => {
   //bruger date.getTime til at omskrive til num værdi
 };
 
-export const dateTaskEditsSort = (sortingProps: TaskEdits[]): TaskEdits[] => {
+export const dateTaskEditsSort = (sortingProps: TaskEdit[]): TaskEdit[] => {
   const copiedUserInput = [...sortingProps]; // laver en kopi og ændre i den, da værdierne kommer direkte fra redux
   return copiedUserInput.sort(
     (a, b) => b.dateEdited.getTime() - a.dateEdited.getTime()

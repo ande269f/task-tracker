@@ -1,6 +1,6 @@
 import { UUIDTypes } from "uuid";
 import axios from "../API/client";
-import { TaskEdits } from "../store/slices/taskEditsSlice/taskEditsSlice";
+import { TaskEdit } from "../store/slices/taskEditsSlice/taskEditsSlice";
 import { taskDto, taskObject } from "../store/slices/taskSlice/taskSlice";
 import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
 
@@ -67,7 +67,7 @@ export default class TaskDataHandler {
 
 
 
-  static unloadtaskEdit = async (taskEdits: TaskEdits) => {
+  static unloadtaskEdit = async (taskEdits: TaskEdit) => {
     try {
       const response = await axios.post("data/unloadTaskEdit/", taskEdits);
       return response.data
