@@ -5,7 +5,7 @@ import { Provider } from "./components/ui/provider";
 import { Toaster } from "./components/ui/toaster";
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
 
 } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
@@ -17,7 +17,7 @@ const App = () => {
     <Provider>
       <div className="App"></div>
       <Toaster />
-      <Router basename="/task-tracker">
+      <Router>
         <AppRoutes />
         <DisplayDialog/>
       </Router>
