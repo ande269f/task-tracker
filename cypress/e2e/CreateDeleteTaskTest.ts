@@ -33,6 +33,7 @@ export const CreateDeleteTaskTest = () => {
         openTaskActionsDropdownAndMakeAction("Task to delete 1", "Slet");
         openDeletedTasksAndMakeAction("Task to delete 1", ".DeleteTaskPermanentlyButton");
         cy.get(".CancelDialogButton").click();
+        
         cy.reload()
         cy.contains("Task to delete 1").should("not.exist");
         cy.contains("Task to delete 2").should("be.visible");
@@ -52,6 +53,7 @@ export const CreateDeleteTaskTest = () => {
       cy.contains("Task 2").should("not.exist");
       cy.contains("Task 3").should("be.visible");
       openDeletedTasksAndMakeAction("", ".DeleteAllTasksPermanentlyButton");
+      cy.contains("Papirkurven er ryddet").should("be.visible");
 
       cy.get(".CancelDialogButton").click();
       cy.contains("Task 1").should("not.exist");
