@@ -1,4 +1,3 @@
-
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
@@ -13,32 +12,37 @@ export default function useTaskEditsLogger(task: taskObject) {
   const dispatch = useDispatch<AppDispatch>();
 
   const logTaskEdit = async () => {
-    if (!loggedTask) return;
+    const prev = loggedTask.current;
+    if (!prev) return;
 
-    //hvis der er sket en ændring, så log
-    const hasChanged =
-      loggedTask.current?.taskText !== task.taskText ||
-      loggedTask.current?.taskCompleted !== task.taskCompleted ||
-      loggedTask.current?.taskDeleted !== task.taskDeleted;
-    if (hasChanged) {
+    // Find ændringstype
+    const updateType =
+      task.taskDeleted !== prev.taskDeleted && task.taskDeleted
+        ? "DELETE"
+        : task.taskCompleted !== prev.taskCompleted
+        ? "COMPLETE"
+        : task.taskText !== prev.taskText
+        ? "UPDATE"
+        : null;
 
-      const taskEdit: TaskEdits = {
-        taskText: task.taskText,
-        dateEdited: new Date(),
-        taskCompleted: task.taskCompleted,
-        taskDeleted: task.taskDeleted,
-        taskEditsUuid: uuid(),
-        taskUuid: task.taskUuid,
-      };
-      // sender taskedit til backend og opdaterer redux state
-      dispatch(pushTaskEdit(taskEdit));
+    if (!updateType) return;
 
-      // opdaterer selve tasken i backend
-      dispatch(updateTask(task)); // <-- forstår ikke hvorfor det her virker
+    const taskEdit: TaskEdits = {
+      taskText: task.taskText,
+      dateEdited: new Date(),
+      taskCompleted: task.taskCompleted,
+      taskDeleted: task.taskDeleted,
+      taskEditsUuid: uuid(),
+      taskUuid: task.taskUuid,
+    };
+    // sender taskedit til backend og opdaterer redux state
+    dispatch(pushTaskEdit(taskEdit));
 
-      // opdater loggedTask til den nyeste state
-      logTask();
-    }
+    // opdaterer selve tasken i backend
+    dispatch(updateTask({ task, updateType })); // <-- forstår ikke hvorfor det her virker
+
+    // opdater loggedTask til den nyeste state
+    logTask();
   };
   const logTask = () => {
     loggedTask.current = { ...task };

@@ -4,12 +4,14 @@ import { UUIDTypes } from "uuid";
 import { RootState } from "../..";
 import TaskDataHandler, { UserTaskDataDto } from "../../../API/TaskDataHandler";
 import { taskDto } from "./taskSlice";
-import {
-  addSortOrder,
-  setSortOrder,
-} from "../taskOrderSlice/taskOrderSlice";
+import { addSortOrder, setSortOrder } from "../taskOrderSlice/taskOrderSlice";
 import { taskObject, setTextInput } from "./taskSlice";
-import { createToasterOnErrorResponse } from "../../../utils/toasterUtils";
+import {
+  createToasterOnErrorResponse,
+  createToasterPending,
+  updateToasterOnError,
+  updateToasterOnSuccess,
+} from "../../../utils/toasterUtils";
 import { toaster } from "../../../components/ui/toaster";
 import { detectDuplicates } from "../../../utils/arrayUtils";
 import { determineInteractiveOrderDirection } from "../taskOrderSlice/functions";
@@ -62,38 +64,61 @@ export const deleteTasksThunk = createAsyncThunk<
 
 export const updateTask = createAsyncThunk<
   { task: taskObject }, // Return type
-  taskObject, // Argument type
+  { task: taskObject; updateType: "DELETE" | "UPDATE" | "COMPLETE" }, // Argument type
   { rejectValue: string } // error handling
->("tasks/updateTask/thunk", async (task, { rejectWithValue }) => {
-  try {
-    const taskDeleted =
-      task.taskDeleted === null ? null : task.taskDeleted?.toDateString();
+>(
+  "tasks/updateTask/thunk",
+  async ({ task, updateType }, { rejectWithValue }) => {
+    var toastId = "none";
+    if (updateType === "UPDATE") {
+      toastId = createToasterPending("Opdaterer to-do...");
+    }
 
-    const taskDto: taskDto = {
-      taskUuid: task.taskUuid,
-      taskText: task.taskText,
-      taskCompleted: task.taskCompleted,
-      taskCreated: task.taskCreated.toString(),
-      taskDeleted: taskDeleted,
-    };
+    try {
+      const taskDeleted =
+        task.taskDeleted === null ? null : task.taskDeleted?.toDateString();
 
-    const response = await TaskDataHandler.updateTask(taskDto);
+      const taskDto: taskDto = {
+        taskUuid: task.taskUuid,
+        taskText: task.taskText,
+        taskCompleted: task.taskCompleted,
+        taskCreated: task.taskCreated.toString(),
+        taskDeleted: taskDeleted,
+      };
 
-    createToasterOnErrorResponse(
-      response,
-      "Der er sket en fejl. Det betyder at din to'do er ikke opdateret"
-    );
+      const response = await TaskDataHandler.updateTask(taskDto);
 
-    if (response === "SUCCESS") {
-      return { task };
-    } else {
+      updateType === "UPDATE" &&
+        updateToasterOnError(
+          response,
+          toastId,
+          "error",
+          "Fejl ved opdatering af to-do"
+        );
+      updateType === "UPDATE" &&
+        updateToasterOnSuccess(response, toastId, "success", "To-do opdateret");
+
+      createToasterOnErrorResponse(
+        response,
+        "Der er sket en fejl. Det betyder at din to'do er ikke opdateret"
+      );
+
+      if (response === "SUCCESS") {
+        return { task };
+      } else {
+        return rejectWithValue("Update failed");
+      }
+    } catch (e) {
+      createToasterOnErrorResponse(
+        "ERROR",
+        "Der er sket en fejl. Det betyder at din to'do er ikke opdateret"
+      );
+
+      console.error("updateTask fejler: " + e);
       return rejectWithValue("Update failed");
     }
-  } catch (e) {
-    console.error("updateTask fejler: " + e);
-    return rejectWithValue("Update failed");
   }
-});
+);
 
 export const loadUserData = createAsyncThunk<
   { tasks: taskObject[] }, // return type
