@@ -163,10 +163,6 @@ export const pushTask = createAsyncThunk<
     const existingTasks = (getState() as RootState).form.tasks;
     const newTaskText = task.taskText;
 
-    if (newTaskText.trim() === "") {
-      return;
-    }
-
     const duplicateDetected = detectDuplicates(
       existingTasks
         // så vi kun tjekker imod ikke-slettede tasks

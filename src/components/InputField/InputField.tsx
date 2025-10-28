@@ -12,10 +12,18 @@ const InputField = () => {
   const [localInput, setLocalInput] = useState<string>("");
   const userState = useSelector((state: RootState) => state.UserState);
   const tasks = useSelector((state: RootState) => state.form.tasks);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    //returnerer hvis input er tomt
+    if (localInput === "") return;
+
+    //sætter loading state til true for at disable knappen mens der oprettes task
+    setIsLoading(true);  
+
+    //disptacher med den nye task
     dispatch(
       pushTask({
         task: {
@@ -37,6 +45,7 @@ const InputField = () => {
   };
   //hvis der er tilføjet en ny task, nulstilles input feltet
   useEffect(() => {
+    setIsLoading(false);
     setLocalInput("");
   }, [tasks]);
 
@@ -57,6 +66,7 @@ const InputField = () => {
             type="submit"
             id="SubmitButton"
             bg="bg.subtle"
+            loading={isLoading}
             rounded={"md"}
             variant="outline"
             backgroundColor="gray.200"
