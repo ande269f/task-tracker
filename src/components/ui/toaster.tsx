@@ -13,15 +13,16 @@ export const toaster = createToaster({
   placement: "bottom-end",
   pauseOnPageIdle: true,
   overlap: false,
-  max: 1,
+  max: 10,
 })
 
 export const Toaster = () => {
   return (
-    <Portal>
-      <ChakraToaster toaster={toaster} >
+    <Portal >
+      <div id="toaster-portal-root">
+      <ChakraToaster toaster={toaster} width={"100%"}>
         {(toast) => (
-          <Toast.Root  className="Toaster" maxWidth="95%" position="relative !important">
+          <Toast.Root  className="Toaster" maxWidth={"90%"} height={"fit-content"} width={"fit-content"}>
             {toast.type === "loading" ? (
               <Spinner size="sm" color="blue.solid" />
             ) : (
@@ -40,6 +41,7 @@ export const Toaster = () => {
           </Toast.Root>
         )}
       </ChakraToaster>
+      </div>
     </Portal>
   )
 }
