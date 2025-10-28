@@ -43,13 +43,14 @@ export const createToasterOnTimeout = (
 };
 
 export const createToasterPending = (toasterContext: string) => {
-  const id = generateRandomString(10)
-  toaster.loading({
-    id,
-    description: toasterContext,
-    type: "info",
-  });
-
+  const id = generateRandomString(10);
+  setTimeout(() => {
+    toaster.loading({
+      id,
+      description: toasterContext,
+      type: "info",
+    });
+  }, 7000);
   return id;
 };
 

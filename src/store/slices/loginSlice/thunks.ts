@@ -121,7 +121,7 @@ export const login = createAsyncThunk(
   ) => {
     const timeoutId = createToasterOnTimeout(
       "Længere ventetid kan skyldes at serveren er gået i dvale. Vent venligt...",
-      7000
+      100
     );
 
     const response = await Login.submit(payload.username, payload.password);

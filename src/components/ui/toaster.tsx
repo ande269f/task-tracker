@@ -12,7 +12,8 @@ import {
 export const toaster = createToaster({
   placement: "bottom-end",
   pauseOnPageIdle: true,
-  overlap: true,
+  overlap: false,
+  max: 1,
 })
 
 export const Toaster = () => {
@@ -20,7 +21,7 @@ export const Toaster = () => {
     <Portal>
       <ChakraToaster toaster={toaster} >
         {(toast) => (
-          <Toast.Root  className="Toaster" width="fit-content" whiteSpace={"nowrap"} >
+          <Toast.Root  className="Toaster" maxWidth="95%" position="relative !important">
             {toast.type === "loading" ? (
               <Spinner size="sm" color="blue.solid" />
             ) : (

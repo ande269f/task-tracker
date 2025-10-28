@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { UUIDTypes } from "uuid";
 import TaskDataHandler from "../../../API/TaskDataHandler";
 import { createToasterOnErrorResponse } from "../../../utils/toasterUtils";
-import { TaskEdits } from "../taskEditsSlice/taskEditsSlice";
+import { TaskEdit } from "../taskEditsSlice/taskEditsSlice";
 
 export const pushTaskEdit = createAsyncThunk<
-  { taskEdit: TaskEdits }, // Return type
-  TaskEdits, // Argument type
+  { taskEdit: TaskEdit }, // Return type
+  TaskEdit, // Argument type
   { rejectValue: string } // error handling
 >("taskEdits/pushTaskEdit/thunk", async (taskEdit, { rejectWithValue }) => {
   try {
@@ -28,7 +28,7 @@ export const pushTaskEdit = createAsyncThunk<
 });
 
 export const fetchTaskEdits = createAsyncThunk<
-  { taskEdits: TaskEdits[] }, // Return type
+  { taskEdits: TaskEdit[] }, // Return type
   // Return type
   UUIDTypes | undefined | null, // Argument type
   { rejectValue: string } // error handling
@@ -47,7 +47,7 @@ export const fetchTaskEdits = createAsyncThunk<
       );
 
       // omforme date fra string til date objekter
-      const taskEdits: TaskEdits[] = rawTaskEdits.map((edit: any) => ({
+      const taskEdits: TaskEdit[] = rawTaskEdits.map((edit: any) => ({
         ...edit,
         dateEdited: new Date(edit.dateEdited),
         taskDeleted: edit.taskDeleted ? new Date(edit.taskDeleted) : null,

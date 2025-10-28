@@ -13,7 +13,7 @@ client.interceptors.request.use(async (config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  //await delay(2000); // simulerer netværksforsinkelse
+  //await delay(20000); // simulerer netværksforsinkelse
   return config;
 });
 
