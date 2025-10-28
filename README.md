@@ -9,6 +9,6 @@ Klassisk to-do web app med:
 
 FRONT END # React/Redux + TypeScript + Vite
 
-BACK END # Java Spring + SQL
+BACK END # Java Spring + SQL 
 
 
