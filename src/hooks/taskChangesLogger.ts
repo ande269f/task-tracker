@@ -17,7 +17,9 @@ export default function useTaskEditsLogger(task: taskObject) {
 
     // Find ændringstype
     const updateType =
-      task.taskDeleted !== prev.taskDeleted && task.taskDeleted
+      task.taskDeleted !== prev.taskDeleted && task.taskDeleted === null
+        ? "RESTORE"
+        : task.taskDeleted !== prev.taskDeleted && task.taskDeleted !== null
         ? "DELETE"
         : task.taskCompleted !== prev.taskCompleted
         ? "COMPLETE"

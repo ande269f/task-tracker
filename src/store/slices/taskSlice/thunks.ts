@@ -64,13 +64,13 @@ export const deleteTasksThunk = createAsyncThunk<
 
 export const updateTask = createAsyncThunk<
   { task: taskObject }, // Return type
-  { task: taskObject; updateType: "DELETE" | "UPDATE" | "COMPLETE" }, // Argument type
+  { task: taskObject; updateType: "DELETE" | "UPDATE" | "COMPLETE" | "RESTORE" }, // Argument type
   { rejectValue: string } // error handling
 >(
   "tasks/updateTask/thunk",
   async ({ task, updateType }, { rejectWithValue }) => {
     var toastId = "none";
-    if (updateType === "UPDATE") {
+    if (updateType === "UPDATE" || updateType === "RESTORE") {
       toastId = createToasterPending("Opdaterer to-do...");
     }
 
@@ -85,14 +85,14 @@ export const updateTask = createAsyncThunk<
 
       const response = await TaskDataHandler.updateTask(taskDto);
 
-      updateType === "UPDATE" &&
+      (updateType === "UPDATE" || updateType === "RESTORE") &&
         updateToasterOnError(
           response,
           toastId,
           "error",
           "Fejl ved opdatering af to-do"
         );
-      updateType === "UPDATE" &&
+      (updateType === "UPDATE" || updateType === "RESTORE") &&
         updateToasterOnSuccess(response, toastId, "success", "To-do opdateret");
 
       createToasterOnErrorResponse(
