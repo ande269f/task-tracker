@@ -36,6 +36,7 @@ export const createTasks = (numberOfTasks: number, taskName: string) => {
 export const deleteUser = () => {
   cy.get(".SettingsButton").click();
   cy.contains("Slet bruger").click();
+  cy.contains("Din bruger er blevet slettet").should("be.visible");
 };
 
 export const logoutUser = () => {

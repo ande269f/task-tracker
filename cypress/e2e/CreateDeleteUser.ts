@@ -52,6 +52,7 @@ describe("create user and log in, then create two tasks and log out, login exist
     cy.get(".CreateNewUserButton").click();
     cy.get(".PasswordForm").type("SecurePassword123!");
     cy.get(".PasswordForm").type("{enter}");
+    cy.contains("Kodeord til din bruger er oprettet").should("be.visible");
     logoutUser();
     loginWithUsername(newUsername);
     cy.get(".PasswordForm").type("SecurePassword123!");
