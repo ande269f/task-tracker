@@ -24,6 +24,7 @@ export const CreateDeleteTaskTest = () => {
         //opens deleted tasks and restores the deleted task
         openDeletedTasksAndMakeAction("Task to delete 1", ".RestoreTaskButton");
         cy.get(".CancelDialogButton").click();
+        cy.contains("To-do opdateret").should("be.visible");
         cy.reload()
         cy.contains("Task to delete 1").should("be.visible");
         cy.contains("Task to delete 2").should("be.visible");
