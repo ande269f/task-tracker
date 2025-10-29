@@ -1,15 +1,12 @@
 "use client"
 
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
-import {
-  ColorModeProvider,
-  type ColorModeProviderProps,
-} from "./color-mode"
-
-export function Provider(props: ColorModeProviderProps) {
+import { ReactNode } from "react"
+//før var det her colorModeProvider var defineret - fjernet da det giver utiltænkte kontrastery
+export function Provider({children}: {children: ReactNode}) {
   return (
     <ChakraProvider value={defaultSystem}>
-      <ColorModeProvider {...props} />
+      {children}
     </ChakraProvider>
   )
 }

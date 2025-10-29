@@ -14,7 +14,7 @@ const TaskCardTextArea = () => {
       id={context.task.taskUuid.toString()}
       size={"xl"}
       className="TaskCardInputField Input"
-      wordBreak={"break-all"}
+      wordBreak={"break-word"}
       whiteSpace={"pre-wrap"}
       focusRing="none"
       pointerEvents={context.isEditOff ? "none" : "all"}
