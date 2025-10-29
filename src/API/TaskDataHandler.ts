@@ -3,36 +3,26 @@ import axios from "../API/client";
 import { TaskEdit } from "../store/slices/taskEditsSlice/taskEditsSlice";
 import { taskDto, taskObject } from "../store/slices/taskSlice/taskSlice";
 import { interactiveTaskOrder } from "../store/slices/taskOrderSlice/taskOrderSlice";
+import { arrayLengthMismatch, makeArray1LenMatchArray2 } from "../store/slices/taskSlice/functions";
 
 export interface UserTaskDataDto {
-    tasks: taskDto[],
-    sortTasks: interactiveTaskOrder[],
-  }
-
-
+  tasks: taskDto[];
+  sortTasks: interactiveTaskOrder[];
+}
 
 export default class TaskDataHandler {
-
-
   static loadUserData = async () => {
     try {
       const response = await axios.get("data/loadUserData/");
 
       const userTaskData = response.data as UserTaskDataDto;
 
-      console.assert(
-      userTaskData.tasks.length === userTaskData.sortTasks.length,
-      "Tasks og sortTasks er ikke samme længde!"
-    );
-
-      return userTaskData
-
+      return userTaskData;
     } catch (e) {
       console.log("load user data failed " + e);
       return "ERROR";
     }
-  }
-
+  };
 
   static unloadTasks = async (task: taskDto, userId: number | null) => {
     try {
@@ -44,7 +34,6 @@ export default class TaskDataHandler {
         return "ERROR";
       }
 
-
       const response = await axios.post("data/unloadTask/" + userId, task);
       return response.data;
     } catch (e) {
@@ -53,29 +42,26 @@ export default class TaskDataHandler {
     }
   };
 
-
   static loadtaskEdits = async (taskUuid: UUIDTypes) => {
     try {
       const response = await axios.get("data/loadTaskEdits/" + taskUuid);
 
-      return response.data
+      return response.data;
     } catch (e) {
       console.log("loadtaskEdits failed " + e);
       return "ERROR";
     }
-  }
-
-
+  };
 
   static unloadtaskEdit = async (taskEdits: TaskEdit) => {
     try {
       const response = await axios.post("data/unloadTaskEdit/", taskEdits);
-      return response.data
+      return response.data;
     } catch (e) {
       console.log("loadtaskEdits failed " + e);
       return "ERROR";
     }
-  }
+  };
 
   static updateTask = async (task: taskDto) => {
     try {
@@ -85,9 +71,8 @@ export default class TaskDataHandler {
       console.log("unload tasks failed " + e);
       return "ERROR";
     }
-  }
+  };
 
-  
   static updateTaskOrder = async (taskOrders: interactiveTaskOrder[]) => {
     try {
       const response = await axios.post("data/updateTaskOrder/", taskOrders);
@@ -96,19 +81,15 @@ export default class TaskDataHandler {
       console.log("unload tasks failed " + e);
       return "ERROR";
     }
-  }
+  };
 
-    static deleteTasks = async (tasks: taskObject[]) => {
+  static deleteTasks = async (tasks: taskObject[]) => {
     try {
-      const response = await axios.delete("data/deleteTasks/", {data: tasks});
+      const response = await axios.delete("data/deleteTasks/", { data: tasks });
       return response.data;
     } catch (e) {
       console.log("delete tasks failed " + e);
       return "ERROR";
     }
-  }
-
-
-
-  
+  };
 }

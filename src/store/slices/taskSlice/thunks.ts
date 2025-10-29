@@ -15,6 +15,7 @@ import {
 import { toaster } from "../../../components/ui/toaster";
 import { detectDuplicates } from "../../../utils/arrayUtils";
 import { determineInteractiveOrderDirection } from "../taskOrderSlice/functions";
+import { arrayLengthMismatch, makeArray1LenMatchArray2 } from "./functions";
 
 export const deleteTaskThunk = createAsyncThunk<
   { uuid: UUIDTypes }, // Return type
@@ -64,7 +65,10 @@ export const deleteTasksThunk = createAsyncThunk<
 
 export const updateTask = createAsyncThunk<
   { task: taskObject }, // Return type
-  { task: taskObject; updateType: "DELETE" | "UPDATE" | "COMPLETE" | "RESTORE" }, // Argument type
+  {
+    task: taskObject;
+    updateType: "DELETE" | "UPDATE" | "COMPLETE" | "RESTORE";
+  }, // Argument type
   { rejectValue: string } // error handling
 >(
   "tasks/updateTask/thunk",
@@ -80,7 +84,8 @@ export const updateTask = createAsyncThunk<
         taskText: task.taskText,
         taskCompleted: task.taskCompleted,
         taskCreated: task.taskCreated.toString(),
-        taskDeleted: task.taskDeleted === null ? null : task.taskDeleted?.toString(),
+        taskDeleted:
+          task.taskDeleted === null ? null : task.taskDeleted?.toString(),
       };
 
       const response = await TaskDataHandler.updateTask(taskDto);
@@ -124,6 +129,22 @@ export const loadUserData = createAsyncThunk<
 >("tasks/loadUserData/thunk", async (_, { dispatch, getState }) => {
   try {
     const userData = (await TaskDataHandler.loadUserData()) as UserTaskDataDto;
+
+    //hvis der er et mismatch mellem tasks og sortTasks;
+    if (
+      arrayLengthMismatch(
+        userData.tasks.length,
+        userData.sortTasks.length,
+        "Tasks og sortTasks er ikke samme længde! Dette vil medføre at interaktiv sortering fejler. Forsøger at fjerne taskSorts, der ikke har en tilhørende task."
+      )
+    ) {
+      userData.sortTasks = makeArray1LenMatchArray2(
+        userData.sortTasks,
+        userData.tasks,
+        (sortTask) => sortTask.uuid,
+        (task) => task.taskUuid
+      );
+    }
 
     createToasterOnErrorResponse(
       userData,
