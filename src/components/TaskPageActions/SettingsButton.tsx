@@ -50,7 +50,7 @@ export const SettingsButton = () => {
         <Menu.Positioner>
           <Menu.Content>
             <Menu.ItemGroup>
-              <Menu.ItemGroupLabel className="SegmentGroup">
+              <Menu.ItemGroupLabel className="SettingsOption">
                 {" "}
                 Sortering{" "}
               </Menu.ItemGroupLabel>
