@@ -24,7 +24,8 @@ export const PasswordProse = () => {
           <Text fontWeight="semibold" textStyle="xl">
             Brug for ekstra sikkerhed?
           </Text>
-          <Text>hvis du vil, kan du også sætte et kodeord.</Text>
+          <Text>hvis du vil, kan du også sætte et kodeord. </Text>
+          <Text>Tryk Enter for at gemme dit kodeord.</Text>
         </Box>
       </Prose>
     </Stack>

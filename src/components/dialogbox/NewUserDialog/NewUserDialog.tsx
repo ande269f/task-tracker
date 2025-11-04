@@ -66,10 +66,10 @@ const NewUserDialog = () => {
               <Dialog.Title></Dialog.Title>
             </Dialog.Header>
             <Dialog.Body className="NewUserDialogBody DialogBody"
-            textAlign={"center"}
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}>
+              textAlign={"center"}
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}>
               {!showPasswordForm && <DialogProse />}
               {!showPasswordForm && (
                 <Flex className="ButtonArea">
@@ -87,12 +87,22 @@ const NewUserDialog = () => {
               {showPasswordForm && (
                 <FormProvider {...methods}>
                   <PasswordProse />
-
                   <form onSubmit={methods.handleSubmit(onSubmitPassword)}>
                     <PasswordForm />
+                    {/* hvis der er tekst i password, vis denne knap */}
+                    {methods.watch("password")?.trim() && (
+                      <Button
+                        className="GoToTaskPageButton"
+                        type="submit"
+                        colorPalette="green"
+                        mt="4"
+                      >
+                        Gem kodeord
+                      </Button>
+                    )}
                   </form>
-
-                  <Button
+                  {/* hvis der ikke er tekst i password, vis denne knap */}
+                  {!methods.watch("password")?.trim() && (<Button
                     variant="subtle"
                     aria-label="continueWithoutPassword"
                     focusRing="none"
@@ -100,7 +110,7 @@ const NewUserDialog = () => {
                     className="GoToTaskPageButton"
                   >
                     Fortsæt uden <IoMdArrowRoundForward />
-                  </Button>
+                  </Button>)}
                 </FormProvider>
               )}
             </Dialog.Body>
