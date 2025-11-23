@@ -43,12 +43,12 @@ jobs:
       #     wait-on-timeout: 60
       #     browser: chrome
 
-      # - name: Upload production-ready files
-      #   if: success()
-      #   uses: actions/upload-pages-artifact@v4
-      #   with:
-      #     name: github-pages
-      #     path: dist/
+      - name: Upload production-ready files
+        if: success()
+        uses: actions/upload-pages-artifact@v4
+        with:
+          name: github-pages
+          path: dist/
 
       # - name: Upload Cypress screenshots
       #   if: always()
