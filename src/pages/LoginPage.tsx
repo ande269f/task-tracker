@@ -1,6 +1,6 @@
 import UsernameForm from "../components/Forms/UsernameForm";
 import PasswordForm from "../components/Forms/PasswordForm";
-import { Box, Button, ButtonProps } from "@chakra-ui/react";
+import { Box, Text, Button, ButtonProps } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { usePasswordFormVisibility } from "../hooks/passwordFormVisibility";
 import { useLoginActions } from "../hooks/loginActions";
@@ -31,6 +31,10 @@ const LoginPage = () => {
     <div className="LoginBackground">
       <div className="LoginPage">
         <Box className="loginBox" bg="gray.200" rounded="2xl">
+          <Text className="loginTitle" textStyle="1xl">
+            Denne side er nede på nuværende tidspunkt. Mange tak for din interresse!
+          </Text>
+          <br></br>
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
               <UsernameForm />
