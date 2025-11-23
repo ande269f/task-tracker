@@ -1,3 +1,7 @@
+DETTE PROJEKT ER MIDLERTIDIGT NEDE
+- det er ikke længere muligt at bruge denne app anno 23-11-2025 da databasen ikke er live.
+- det er altid muligt at køre appen ved at sætte dette projekt, samt task-tracker-API op på lokal computer.
+
 
 Beskrivelse:
 
