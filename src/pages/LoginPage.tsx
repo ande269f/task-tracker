@@ -32,7 +32,7 @@ const LoginPage = () => {
       <div className="LoginPage">
         <Box className="loginBox" bg="gray.200" rounded="2xl">
           <Text className="loginTitle" textStyle="1xl">
-            Denne side er nede på nuværende tidspunkt. Mange tak for din interresse!
+            Denne side er nede på nuværende tidspunkt. Mange tak for din interresse! 
           </Text>
           <br></br>
           <FormProvider {...methods}>
